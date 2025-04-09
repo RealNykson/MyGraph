@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ColorPallete.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Color x:Key="Primary-1">#c4b5fd</Color>
+    <Color x:Key="Primary-2">#7c3aed</Color>
+    <Color x:Key="Primary-3">#5b21b6</Color>
+
+    <Color x:Key="Foreground-1">white</Color>
+    <Color x:Key="Foreground-2">#737373</Color>
+    <Color x:Key="Foreground-3">#404040</Color>
+
+    <Color x:Key="Border-1">#3F3F3F</Color>
+    <Color x:Key="Border-2">#474848</Color>
+    <Color x:Key="Border-3">#6B6B6B</Color>
+
+    <Color x:Key="Background-1">#272727</Color>
+    <Color x:Key="Background-2">#1C1C1C</Color>
+    <Color x:Key="Background-3">#131313</Color>
+
+
+</ResourceDictionary>

@@ -1,0 +1,29 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--  Text  -->
+    <sys:Int32 x:Key="FontSize-1">25</sys:Int32>
+    <sys:Int32 x:Key="FontSize-2">22</sys:Int32>
+    <sys:Int32 x:Key="FontSize-3">18</sys:Int32>
+
+    <!--  Icons  -->
+    <sys:Int32 x:Key="IconSize-1">25</sys:Int32>
+    <sys:Int32 x:Key="IconSize-2">22</sys:Int32>
+    <sys:Int32 x:Key="IconSize-3">18</sys:Int32>
+
+    <!--  Background  -->
+    <sys:Int32 x:Key="DotSize">5</sys:Int32>
+
+    <!--  Node  -->
+    <sys:Int32 x:Key="NodeSize">200</sys:Int32>
+    <sys:Int32 x:Key="LockIconSize">200</sys:Int32>
+    <sys:Int32 x:Key="InputSize">10</sys:Int32>
+    <sys:Int32 x:Key="OutputSize">20</sys:Int32>
+
+    <!--  Link  -->
+    <sys:Int32 x:Key="LinkWeight">3</sys:Int32>
+
+
+</ResourceDictionary>

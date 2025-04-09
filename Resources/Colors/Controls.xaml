@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+
+    <SolidColorBrush x:Key="DebugText" Color="{DynamicResource Foreground-1}" />
+
+    <!--  Background  -->
+    <SolidColorBrush x:Key="ScaleText" Color="{DynamicResource}" />
+    <SolidColorBrush x:Key="GraphBackground" Color="{DynamicResource Background-2}" />
+    <SolidColorBrush x:Key="GraphDots" Color="{DynamicResource Foreground-1}" />
+
+    <!--  Menu  -->
+    <SolidColorBrush x:Key="MenuBackground" Color="{DynamicResource Background-3}" />
+    <SolidColorBrush x:Key="MenuBorder" Color="{DynamicResource Border-3}" />
+    <SolidColorBrush x:Key="MenuButtonHover" Color="{DynamicResource Background-2}" />
+    <SolidColorBrush x:Key="MenuButtonActivated" Color="{DynamicResource Primary-1}" />
+    <SolidColorBrush x:Key="MenuButton" Color="{DynamicResource Background-3}" />
+
+    <!--  Node  -->
+    <SolidColorBrush x:Key="NodeBackground" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="NodeBorder" Color="{DynamicResource Border-1}" />
+    <SolidColorBrush x:Key="NodeBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="NodeBorderHover" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="NodeText" Color="{DynamicResource Foreground-1}" />
+
+    <!--  Sidebar  -->
+    <SolidColorBrush x:Key="SidebarBackground" Color="{DynamicResource}" />
+    <SolidColorBrush x:Key="SidebarBorder" Color="{DynamicResource}" />
+
+    <!--  Input  -->
+    <SolidColorBrush x:Key="OutputBackground" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="OutputBorder" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="OutputBorderHover" Color="{DynamicResource Border-3}" />
+    <SolidColorBrush x:Key="OutputBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="OutputBorderConnected" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="OutputBackgroundConnected" Color="{DynamicResource Background-1}" />
+
+    <!--  Output  -->
+    <SolidColorBrush x:Key="InputBackground" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="InputBorder" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="InputBorderHover" Color="{DynamicResource Border-3}" />
+    <SolidColorBrush x:Key="InputBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="InputBorderConnected" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="InputBackgroundConnected" Color="{DynamicResource Background-1}" />
+
+
+
+
+</ResourceDictionary>
