@@ -21,18 +21,27 @@ namespace MyGraph.Views
       InitializeComponent();
     }
 
-
-
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
       ((MainWindowVM)DataContext).MouseWheelZoom(e.Delta);
     }
 
-    
+
+    private void ZoomCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+      ((MainWindowVM)DataContext).MouseWheelZoom(e.Delta);
+    }
+
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
       ((MainWindowVM)DataContext).MouseDown(e);
     }
+    protected override void OnMouseUp(MouseButtonEventArgs e)
+    {
+      ((MainWindowVM)DataContext).MouseUp(e);
+    }
+
+
 
 
     protected override void OnMouseMove(MouseEventArgs e)

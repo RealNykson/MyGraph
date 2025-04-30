@@ -9,11 +9,58 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <Grid
-            Width="100"
-            Height="100"
-            Background="Red">
+        <Grid Width="{Binding Width}" Height="{Binding Height}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="true">
+                            <Setter Property="Background" Value="Green" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="false">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <TextBlock Text="{Binding name}" />
+            <ItemsControl
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Outputs}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="FrameworkElement.Margin" Value="5" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Ellipse
+                            Width="5"
+                            Height="5"
+                            Fill="Yellow" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Inputs}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="FrameworkElement.Margin" Value="5" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Ellipse
+                            Width="5"
+                            Height="5"
+                            Fill="Blue" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
         </Grid>
     </Grid>
 </UserControl>

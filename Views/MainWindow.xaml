@@ -8,8 +8,8 @@
     xmlns:views="clr-namespace:MyGraph.Views"
     x:Name="window"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="{Binding GridWidth, Mode=TwoWay}"
+    Height="{Binding GridHeight, Mode=TwoWay}"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Colors/Controls.xaml" />
@@ -44,54 +44,46 @@
             </ItemsControl>
         </Grid>
 
-        <ItemsControl ItemsSource="{Binding Nodes}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas>
-                        <Canvas.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
-                        </Canvas.LayoutTransform>
-                    </Canvas>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding Path=XPos}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Path=YPos}" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <TranslateTransform X="{Binding DataContext.OffsetX, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Y="{Binding DataContext.OffsetY, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-            <ItemsControl.ItemTemplate>
-                <ItemContainerTemplate>
-                    <views:Node DataContext="{Binding}" />
-                </ItemContainerTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Canvas
+            Width="5000"
+            Height="5000"
+            Background="Transparent"
+            RenderTransform="{Binding CanvasTransformMatrix}">
+            <ItemsControl ItemsSource="{Binding Connections}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <views:Connection DataContext="{Binding}" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-        <!--<Canvas
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="Red"
-            ClipToBounds="True">
-            <Canvas.LayoutTransform>
-                <TransformGroup>
-                    <ScaleTransform CenterX="{Binding _lastPosition.X}" CenterY="{Binding _lastPosition.Y}" ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" />
-                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}" />
-                </TransformGroup>
-            </Canvas.LayoutTransform>
-            <Button
-                Width="100"
-                Height="50"
-                Background="Green">
-                <Button.RenderTransform>
-                    <TranslateTransform X="{Binding OffsetX}" Y="{Binding OffsetY}" />
-                </Button.RenderTransform>
-            </Button>
-        </Canvas>-->
+
+            <ItemsControl ItemsSource="{Binding Nodes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Path=XPos}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Path=YPos}" />
+                        <Setter Property="Canvas.ZIndex" Value="{Binding Path=ZIndex}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <views:Node DataContext="{Binding}" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Canvas>
+
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -116,12 +108,39 @@
                 FontSize="30"
                 Foreground="{DynamicResource DebugText}"
                 Text="{Binding OffsetY}" />
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding CanvasHeight}" />
+
 
             <Button
                 Width="50"
                 Height="60"
                 Command="{Binding ChangeThemeCommand}" />
         </StackPanel>
+
+        <!--<Canvas>
+            <Path Stroke="Black" StrokeThickness="2">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="{Binding StartPoint}">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <PolyBezierSegment Points="{Binding EndPoints}" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>-->
 
     </Grid>
 </Window>

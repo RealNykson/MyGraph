@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace MyGraph.Utilities
 {
-    class NotifyObject : INotifyPropertyChanged
-    {
+  public class NotifyObject : INotifyPropertyChanged
+  {
     private readonly Dictionary<string, object> _propertyValues;
 
     protected NotifyObject()

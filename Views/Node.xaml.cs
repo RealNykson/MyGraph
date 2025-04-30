@@ -28,16 +28,18 @@ namespace MyGraph.Views
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
       ((NodeVM)DataContext).MouseDown(e);
+      e.Handled = true;
     }
 
     protected override void OnMouseUp(MouseButtonEventArgs e)
     {
-      ((NodeVM)DataContext).MouseReleased(e);
+      ((NodeVM)DataContext).MouseUp(e);
+      e.Handled = true;
     }
-    protected override void OnMouseMove(MouseEventArgs e)
-    {
-     // ((NodeVM)DataContext).MouseMove(e.GetPosition(this));
-    }
+    //protected override void OnMouseMove(MouseEventArgs e)
+    //{
+    //  ((NodeVM)DataContext).MouseMove(e.GetPosition(this));
+    //}
 
 
 
