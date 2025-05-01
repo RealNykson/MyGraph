@@ -1,0 +1,146 @@
+﻿<Window
+    x:Class="MyGraph.Views.Canvas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyGraph"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:MyGraph.Views"
+    x:Name="window"
+    Title="MainWindow"
+    Width="{Binding GridWidth, Mode=TwoWay}"
+    Height="{Binding GridHeight, Mode=TwoWay}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="../Resources/Colors/Controls.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid
+            Width="2000"
+            Height="1000"
+            Background="{DynamicResource GraphBackground}"
+            IsHitTestVisible="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding Dots}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="80" Rows="40" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse
+                            Width="2"
+                            Height="2"
+                            Fill="{DynamicResource GraphDots}"
+                            Opacity="0.3" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <Canvas
+            Width="5000"
+            Height="5000"
+            Background="Transparent"
+            RenderTransform="{Binding CanvasTransformMatrix}">
+            <ItemsControl ItemsSource="{Binding Connections}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <views:Connection DataContext="{Binding}" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
+            <ItemsControl ItemsSource="{Binding Nodes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Path=XPos}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Path=YPos}" />
+                        <Setter Property="Canvas.ZIndex" Value="{Binding Path=ZIndex}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <views:Node DataContext="{Binding}" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Canvas>
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Vertical">
+
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding Scale}" />
+
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding OffsetX}" />
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding OffsetY}" />
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding CanvasHeight}" />
+
+
+            <Button
+                Width="50"
+                Height="60"
+                Command="{Binding ChangeThemeCommand}" />
+        </StackPanel>
+
+        <!--<Canvas>
+            <Path Stroke="Black" StrokeThickness="2">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="{Binding StartPoint}">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <PolyBezierSegment Points="{Binding EndPoints}" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>-->
+
+    </Grid>
+</Window>

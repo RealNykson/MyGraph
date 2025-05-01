@@ -41,7 +41,8 @@ namespace MyGraph.ViewModels
     public double MinWidth
     {
       get => Get<double>();
-      set {
+      set
+      {
         Set(value);
         if (value > Width)
           Width = value;
@@ -77,7 +78,7 @@ namespace MyGraph.ViewModels
       set
       {
         if (value)
-          ZIndex = MainWindowVM.g_Nodes.Max(n => n.ZIndex) + 1;
+          ZIndex = CanvasVM.g_Nodes.Max(n => n.ZIndex) + 1;
         Set(value);
 
       }
@@ -116,24 +117,9 @@ namespace MyGraph.ViewModels
       Debug.Assert(node != this);
       Debug.Assert(Outputs.Where(n => n.Input == node).FirstOrDefault() == null);
       Debug.Assert(node.Inputs.Where(n => n.Output == this).FirstOrDefault() == null);
-      Debug.Assert(MainWindowVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 0);
+      Debug.Assert(CanvasVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 0);
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
-
-      node.Inputs.Add(connectionVM);
-      Outputs.Add(connectionVM);
-
-      foreach (ConnectionVM connection in Outputs)
-      {
-        connection.updateNew(this, Outputs);
-      }
-      foreach (ConnectionVM connection in node.Inputs)
-      {
-        connection.updateNew(node, node.Inputs);
-      }
-
-
-      MainWindowVM.g_Connections.Add(connectionVM);
 
     }
     public void disconnectNode(NodeVM node)
@@ -142,28 +128,23 @@ namespace MyGraph.ViewModels
       Debug.Assert(node != this);
       Debug.Assert(Outputs.Where(n => n.Input == node).Count() == 1);
       Debug.Assert(node.Inputs.Where(n => n.Output == this).Count() == 1);
-      Debug.Assert(MainWindowVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 1);
+      Debug.Assert(CanvasVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 1);
 
-      node.Inputs.Remove(node.Inputs.Where(n => n.Output == this).FirstOrDefault());
-      Outputs.Remove(Outputs.Where(n => n.Input == node).FirstOrDefault());
-
-      foreach (ConnectionVM connection in Outputs)
-      {
-        connection.updateNew(this, Outputs);
-      }
-      foreach (ConnectionVM connection in node.Inputs)
-      {
-        connection.updateNew(node, node.Inputs);
-      }
-
-      MainWindowVM.g_Connections.Remove(MainWindowVM.g_Connections.Where(c => c.Input == node && c.Output == this).FirstOrDefault());
+      node.Inputs.Where(n => n.Output == this).FirstOrDefault().Delete();
 
     }
 
-    public IRelayCommand SelectChange { get; private set; }
+
+    public IRelayCommand AddGhostOutputCommand { get; private set; }
 
     public void createCommands()
     {
+      AddGhostOutputCommand = new RelayCommand(addGhostOutput);
+    }
+    public void addGhostOutput()
+    {
+      CanvasVM.g_currentAction = CanvasVM.Action.ConnectingOutput;
+      CanvasVM.g_GhostConnection = new ConnectionVM(this, null);
 
     }
 
@@ -180,23 +161,29 @@ namespace MyGraph.ViewModels
       if (ev.LeftButton != MouseButtonState.Pressed)
         return;
 
+      if(CanvasVM.g_currentAction == CanvasVM.Action.ConnectingOutput 
+        && CanvasVM.g_GhostConnection.Output != this)
+      {
+        CanvasVM.g_GhostConnection.Output.connectNode(this);
+        CanvasVM.g_GhostConnection.Delete();
+      }
 
       if (!Keyboard.IsKeyDown(Key.LeftShift) && !IsSelected)
       {
-        foreach (NodeVM node in MainWindowVM.g_Nodes)
+        foreach (NodeVM node in CanvasVM.g_Nodes)
         {
           node.IsSelected = false;
         }
       }
       IsSelected = true;
-      MainWindowVM.g_currentAction = MainWindowVM.Action.Dragging;
+      CanvasVM.g_currentAction = CanvasVM.Action.Dragging;
     }
 
     public void MouseUp(MouseButtonEventArgs ev)
     {
       if (ev.LeftButton != MouseButtonState.Released)
         return;
-      MainWindowVM.g_currentAction = MainWindowVM.Action.None;
+      CanvasVM.g_currentAction = CanvasVM.Action.None;
     }
 
     public NodeVM()
@@ -205,7 +192,10 @@ namespace MyGraph.ViewModels
       MinHeight = 100;
       Outputs = new ObservableCollection<ConnectionVM>();
       Inputs = new ObservableCollection<ConnectionVM>();
-      MainWindowVM.g_Nodes.Add(this);
+      createCommands();
+
+      CanvasVM.g_Nodes.Add(this);
+
     }
 
   }

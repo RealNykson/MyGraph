@@ -5,62 +5,119 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyGraph.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:MyGraph.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <vm:CanvasVM x:Key="MainWindowVM" />
+    </UserControl.Resources>
     <Grid>
-        <Grid Width="{Binding Width}" Height="{Binding Height}">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSelected}" Value="true">
-                            <Setter Property="Background" Value="Green" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsSelected}" Value="false">
-                            <Setter Property="Background" Value="Red" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <TextBlock Text="{Binding name}" />
-            <ItemsControl
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                ItemsSource="{Binding Outputs}">
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="FrameworkElement.Margin" Value="5" />
+        <StackPanel x:Name="NodeBody" Orientation="Horizontal">
+            <Grid
+                Width="{Binding Width}"
+                Height="{Binding Height}"
+                MouseDown="Grid_MouseDown">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="true">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="false">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Ellipse
-                            Width="5"
-                            Height="5"
-                            Fill="Yellow" />
-                    </ItemContainerTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <ItemsControl
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                ItemsSource="{Binding Inputs}">
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="FrameworkElement.Margin" Value="5" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Ellipse
-                            Width="5"
-                            Height="5"
-                            Fill="Blue" />
-                    </ItemContainerTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </Grid.Style>
+                <TextBlock Text="{Binding name}" />
+                <ItemsControl
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding Outputs}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Margin" Value="5" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <Ellipse
+                                Width="5"
+                                Height="5"
+                                Fill="Yellow" />
+                        </ItemContainerTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding Inputs}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Margin" Value="5" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <Ellipse
+                                Width="5"
+                                Height="5"
+                                Fill="Blue" />
+                        </ItemContainerTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
 
-        </Grid>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                <Button
+                    x:Name="AddNodeButton"
+                    Width="30"
+                    Height="30"
+                    Margin="10,0,10,0"
+                    Padding="0"
+                    BorderThickness="0"
+                    Command="{Binding AddGhostOutputCommand}"
+                    Cursor="Hand"
+                    IsEnabled="True">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=NodeBody}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Content>
+                        <Path
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            Data="M10,7 A1,1 0 1,1 8,7 A1,1 0 1,1 10,7              M4,20 A1,1 0 1,1 2,20 A1,1 0 1,1 4,20             M4.7,19.3 L19,5              M21,3 L18,4 L20,6 Z             M9.26,7.68 L5,12 L7,17             M10,14 L15,16 L18.5,12.5             M18,12 L19,11 L20,12 L19,13 Z"
+                            Stroke="White"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2">
+
+                            <Path.LayoutTransform>
+                                <RotateTransform Angle="45" />
+                            </Path.LayoutTransform>
+                            <Path.Style>
+                                <Style TargetType="Path">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=AddNodeButton}" Value="True">
+                                            <Setter Property="Stroke" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Path.Style>
+                        </Path>
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+        </StackPanel>
     </Grid>
 </UserControl>

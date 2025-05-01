@@ -8,13 +8,23 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+
     <Grid>
         <Path
             x:Name="HitTestPath"
             Data="{Binding ElementName=VisiblePath, Path=Data}"
             Stroke="Transparent"
             StrokeThickness="7">
-
+            <Path.Style>
+                <Style TargetType="Path">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Input, TargetNullValue=null}" Value="null">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Path.Style>
         </Path>
 
         <Path
