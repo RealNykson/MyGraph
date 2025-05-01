@@ -48,6 +48,17 @@
                     </PathGeometry.Figures>
                 </PathGeometry>
             </Path.Data>
+            <Path.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeDashOffset">
+                                <LinearDoubleKeyFrame KeyTime="0:0:1" Value="-16" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Path.Triggers>
             <Path.Style>
                 <Style TargetType="Path">
                     <Style.Triggers>
@@ -56,14 +67,13 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding End, TargetNullValue=null}" Value="null">
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
+                            <Setter Property="StrokeDashArray" Value="4,0" />
                         </DataTrigger>
-
                     </Style.Triggers>
+                    <Setter Property="StrokeDashArray" Value="4,1" />
                     <Setter Property="Stroke" Value="{DynamicResource ConnectionBackground}" />
                 </Style>
             </Path.Style>
-
         </Path>
-
     </Grid>
 </UserControl>
