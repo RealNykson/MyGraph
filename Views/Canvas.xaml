@@ -47,8 +47,20 @@
         <Canvas
             Width="5000"
             Height="5000"
-            Background="Transparent"
+            Background="{DynamicResource CanvasBackground}"
+            MouseMove="Canvas_MouseMove"
             RenderTransform="{Binding CanvasTransformMatrix}">
+            <Rectangle
+                Canvas.Left="{Binding StartSelectRangePosition.X}"
+                Canvas.Top="{Binding StartSelectRangePosition.Y}"
+                Width="{Binding SelectRangeWidth}"
+                Height="{Binding SelectRangeHeight}"
+                Fill="{DynamicResource SelectorBackground}"
+                Opacity="0.2"
+                Stroke="{DynamicResource SelectorBorder}"
+                StrokeThickness="2" />
+
+
             <ItemsControl ItemsSource="{Binding Connections}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

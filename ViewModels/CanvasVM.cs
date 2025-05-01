@@ -22,7 +22,8 @@ namespace MyGraph.ViewModels
     None,
     Dragging,
     Panning,
-    ConnectingOutput
+    ConnectingOutput,
+    DrawingSelect
   }
 
   class CanvasVM : NotifyObject
@@ -46,9 +47,21 @@ namespace MyGraph.ViewModels
       set
       {
 
-        if (CurrentAction == Action.ConnectingOutput && value != Action.ConnectingOutput && GhostConnection != null)
+        if (CurrentAction == Action.ConnectingOutput
+          && value != Action.ConnectingOutput
+          && GhostConnection != null)
         {
           GhostConnection.Delete();
+        }
+        if (CurrentAction == Action.DrawingSelect && value != Action.DrawingSelect)
+        {
+          SelectRangeHeight = 0;
+          SelectRangeWidth = 0;
+          foreach (NodeVM node in SelectorSelectedNodes)
+          {
+            node.IsSelected = true;
+          }
+          SelectorSelectedNodes.Clear();
         }
 
         switch (value)
@@ -64,6 +77,9 @@ namespace MyGraph.ViewModels
             break;
           case Action.ConnectingOutput:
             Mouse.OverrideCursor = Cursors.Cross;
+            break;
+          case Action.DrawingSelect:
+            Mouse.OverrideCursor = Cursors.Arrow;
             break;
           default:
             Mouse.OverrideCursor = Cursors.Arrow;
@@ -109,10 +125,37 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
-    public ConnectionVM GhostConnection
+    public PreviewConnectionVM GhostConnection
     {
-      get => Get<ConnectionVM>();
+      get => Get<PreviewConnectionVM>();
       set => Set(value);
+    }
+
+    public Point StartSelectRangePosition
+    {
+      get => Get<Point>();
+      set => Set(value);
+    }
+
+
+
+    public double SelectRangeWidth
+    {
+      get => Get<double>();
+      set => Set(value);
+    }
+
+    public double SelectRangeHeight
+    {
+      get => Get<double>();
+      set => Set(value);
+    }
+
+    public Point MousePositionOnCanvas
+    {
+      get => Get<Point>();
+      set => Set(value);
+
     }
 
     #endregion
@@ -130,6 +173,13 @@ namespace MyGraph.ViewModels
       get { return Get<ObservableCollection<NodeVM>>(); }
       set { Set(value); }
     }
+
+    public ObservableCollection<NodeVM> SelectedNodes
+    {
+      get { return Get<ObservableCollection<NodeVM>>(); }
+      set { Set(value); }
+    }
+
     public ObservableCollection<int> Dots
     {
       get { return Get<ObservableCollection<int>>(); }
@@ -137,7 +187,6 @@ namespace MyGraph.ViewModels
     }
 
     #endregion
-
 
     #endregion
 
@@ -156,19 +205,22 @@ namespace MyGraph.ViewModels
     }
 
     #endregion
+
     #region Constructor 
     public CanvasVM()
     {
       currentCanvas = this;
-      GridHeight = 450;
-      GridWidth = 800;
+      GridHeight = 650;
+      GridWidth = 1000;
       CanvasHeight = 5000;
       CanvasWidth = 5000;
+      Scale = 1;
       ResourceDictionary Theme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
       App.Current.Resources.MergedDictionaries.Add(Theme);
 
       ChangeThemeCommand = new RelayCommand(ChangeTheme);
       Nodes = new ObservableCollection<NodeVM>();
+      SelectedNodes = new ObservableCollection<NodeVM>();
       Dots = new ObservableCollection<int>();
       Connections = new ObservableCollection<ConnectionVM>();
       CanvasTransformMatrix = new MatrixTransform();
@@ -178,14 +230,18 @@ namespace MyGraph.ViewModels
         Dots.Add(i);
       }
 
-      NodeVM test123 = new NodeVM() { name = "new" };
-      NodeVM newNode = new NodeVM() { name = "new2" };
-      NodeVM test = new NodeVM() { name = "test" };
+      NodeVM test123 = new NodeVM() { name = "Node" };
+      NodeVM newNode = new NodeVM() { name = "Node2" };
+      NodeVM test = new NodeVM() { name = "ThisIsAReallyLongNameCuzItIs" };
 
       test123.move(500, 200);
 
       test123.connectNode(newNode);
-      Scale = 1;
+      var mat = CanvasTransformMatrix.Matrix;
+      mat.OffsetX += -2500;
+      mat.OffsetY += -2500;
+      CanvasTransformMatrix.Matrix = mat;
+
     }
 
     #endregion
@@ -198,7 +254,7 @@ namespace MyGraph.ViewModels
         CurrentAction = Action.None;
         return;
       }
-      foreach (NodeVM node in Nodes.Where(n => n.IsSelected == true))
+      foreach (NodeVM node in SelectedNodes)
       {
         node.move(delta.X / Scale, delta.Y / Scale);
       }
@@ -218,14 +274,73 @@ namespace MyGraph.ViewModels
       CanvasTransformMatrix.Matrix = mat;
     }
 
+
+    public List<NodeVM> SelectorSelectedNodes = new List<NodeVM>();
+
+    public void addSelectorSelectedNodes()
+    {
+      foreach (NodeVM node in Nodes)
+      {
+        if (node.Position.X >= StartSelectRangePosition.X
+          && node.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
+          && node.Position.Y >= StartSelectRangePosition.Y
+          && node.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
+        {
+          SelectorSelectedNodes.Add(node);
+          continue;
+        }
+        SelectorSelectedNodes.Remove(node);
+      }
+
+    }
+
+
+
     public void updateGhostConnection(Point delta)
     {
-      if (GhostConnection == null)
+      if (GhostConnection == null || GhostConnection.End != null)
       {
         return;
       }
-      GhostConnection.moveEnd(delta.X / Scale, delta.Y / Scale);
+      GhostConnection.moveEndToMouse();
     }
+    public void updateDrawSelect(Point delta)
+    {
+      if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)
+      {
+        CurrentAction = Action.None;
+        return;
+      }
+
+      if (MousePositionOnCanvas.X < StartSelectRangePosition.X
+          || (MousePositionOnCanvas.X < (StartSelectRangePosition.X + SelectRangeWidth)
+          && delta.X > 0))
+      {
+
+        SelectRangeWidth += (-1 * delta.X) / Scale;
+        StartSelectRangePosition = new Point(StartSelectRangePosition.X + delta.X / Scale, StartSelectRangePosition.Y);
+      }
+      else
+      {
+        SelectRangeWidth += delta.X / Scale;
+      }
+
+      if (MousePositionOnCanvas.Y < StartSelectRangePosition.Y
+          || (MousePositionOnCanvas.Y < StartSelectRangePosition.Y + SelectRangeHeight && delta.Y > 0))
+      {
+        SelectRangeHeight += (-delta.Y) / Scale;
+        StartSelectRangePosition = new Point(StartSelectRangePosition.X, StartSelectRangePosition.Y + delta.Y / Scale);
+        addSelectorSelectedNodes();
+        return;
+      }
+
+      SelectRangeHeight += delta.Y / Scale;
+      addSelectorSelectedNodes();
+
+
+
+    }
+
 
     public void MouseMove(Point currentPosition)
     {
@@ -241,7 +356,11 @@ namespace MyGraph.ViewModels
         case Action.ConnectingOutput:
           updateGhostConnection((Point)delta);
           break;
-        default: break;
+        case Action.DrawingSelect:
+          updateDrawSelect((Point)delta);
+          break;
+        default:
+          break;
       }
 
       LastMousePosition = currentPosition;
@@ -254,12 +373,21 @@ namespace MyGraph.ViewModels
     public void MouseDown(MouseButtonEventArgs ev)
     {
 
-      if (CurrentAction == Action.ConnectingOutput)
+      if (Keyboard.IsKeyDown(Key.LeftCtrl))
       {
-        GhostConnection.Delete();
+        CurrentAction = Action.Panning;
+        return;
       }
+      if (!Keyboard.IsKeyDown(Key.LeftShift))
+      {
+        foreach (NodeVM node in Nodes)
+        {
+          node.IsSelected = false;
+        }
+      }
+      StartSelectRangePosition = MousePositionOnCanvas;
+      CurrentAction = Action.DrawingSelect;
 
-      CurrentAction = Action.Panning;
     }
 
     public void MouseUp(MouseButtonEventArgs ev)
@@ -276,10 +404,13 @@ namespace MyGraph.ViewModels
           break;
         case Action.ConnectingOutput:
           break;
+        case Action.DrawingSelect:
+          CurrentAction = Action.None;
+          break;
         default:
           CurrentAction = Action.None;
           break;
-        
+
       }
 
     }
@@ -290,7 +421,6 @@ namespace MyGraph.ViewModels
     public void MouseWheelZoom(double delta)
     {
       Point pos1 = LastMousePosition;
-
 
       double deltaScale = delta > 0 ? 1.1 : 1 / 1.1;
       Matrix mat = CanvasTransformMatrix.Matrix;

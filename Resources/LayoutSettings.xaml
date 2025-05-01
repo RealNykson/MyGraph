@@ -18,12 +18,16 @@
 
     <!--  Node  -->
     <sys:Int32 x:Key="NodeSize">200</sys:Int32>
+    <sys:Double x:Key="NodeBorderThickness">1</sys:Double>
+    <sys:Double x:Key="NodeCornerRadius">5</sys:Double>
     <sys:Int32 x:Key="LockIconSize">200</sys:Int32>
     <sys:Int32 x:Key="InputSize">10</sys:Int32>
     <sys:Int32 x:Key="OutputSize">20</sys:Int32>
 
     <!--  Link  -->
     <sys:Int32 x:Key="LinkWeight">3</sys:Int32>
+
+
 
 
 </ResourceDictionary>

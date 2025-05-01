@@ -18,62 +18,89 @@
             MouseEnter="NodeBody_MouseEnter"
             MouseLeave="NodeBody_MouseLeave"
             Orientation="Horizontal">
-            <Grid
+            <Border
                 Width="{Binding Width}"
                 Height="{Binding Height}"
+                Background="{DynamicResource NodeBackground}"
+                BorderThickness="1.5"
+                CornerRadius="4"
                 MouseDown="Grid_MouseDown">
-                <Grid.Style>
-                    <Style TargetType="Grid">
+                <Border.Style>
+                    <Style TargetType="Border">
                         <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderHover}" />
+                            </Trigger>
                             <DataTrigger Binding="{Binding IsSelected}" Value="true">
-                                <Setter Property="Background" Value="Green" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSelected}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="false">
-                                <Setter Property="Background" Value="Red" />
-                            </DataTrigger>
+
                         </Style.Triggers>
+                        <Setter Property="BorderBrush" Value="{DynamicResource NodeBorder}" />
                     </Style>
-                </Grid.Style>
-                <TextBlock Text="{Binding name}" />
-                <ItemsControl
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    ItemsSource="{Binding Outputs}">
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="FrameworkElement.Margin" Value="5" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Ellipse
-                                Width="5"
-                                Height="5"
-                                Fill="Yellow" />
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    ItemsSource="{Binding Inputs}">
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="FrameworkElement.Margin" Value="5" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Ellipse
-                                Width="5"
-                                Height="5"
-                                Fill="Blue" />
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </Border.Style>
+                <Grid>
+                    <TextBlock
+                        Padding="15,15,15,15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="Inter"
+                        FontSize="18"
+                        Foreground="{DynamicResource NodeText}"
+                        Text="{Binding name}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                    <ItemsControl
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        ItemsSource="{Binding Outputs}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="FrameworkElement.Margin" Value="6" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Ellipse
+                                    Width="10"
+                                    Height="10"
+                                    Margin="0,0,-14,0"
+                                    Fill="{DynamicResource OutputBackground}"
+                                    Stroke="{DynamicResource OutputBorder}" />
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        ItemsSource="{Binding Inputs}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="FrameworkElement.Margin" Value="5" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
 
+                            <ItemContainerTemplate>
+                                <Rectangle
+                                    x:Name="ConnectorShape1"
+                                    Width="7"
+                                    Height="14"
+                                    Margin="-12,0,0,0"
+                                    Fill="{DynamicResource InputBackground}"
+                                    IsHitTestVisible="False"
+                                    RadiusX="2"
+                                    RadiusY="2"
+                                    Stroke="{DynamicResource InputBorder}"
+                                    StrokeThickness="1" />
 
-            </Grid>
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </Grid>
+
+            </Border>
             <Grid HorizontalAlignment="Stretch" Background="Transparent">
                 <Button
                     x:Name="AddNodeButton"
@@ -104,10 +131,8 @@
                         <Path
                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             Data="M10,7 A1,1 0 1,1 8,7 A1,1 0 1,1 10,7              M4,20 A1,1 0 1,1 2,20 A1,1 0 1,1 4,20             M4.7,19.3 L19,5              M21,3 L18,4 L20,6 Z             M9.26,7.68 L5,12 L7,17             M10,14 L15,16 L18.5,12.5             M18,12 L19,11 L20,12 L19,13 Z"
-                            Stroke="White"
                             StrokeLineJoin="Round"
                             StrokeThickness="2">
-
                             <Path.LayoutTransform>
                                 <RotateTransform Angle="45" />
                             </Path.LayoutTransform>
@@ -115,9 +140,11 @@
                                 <Style TargetType="Path">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=AddNodeButton}" Value="True">
-                                            <Setter Property="Stroke" Value="Red" />
+                                            <Setter Property="Stroke" Value="{DynamicResource NodeAddOutputHover}" />
                                         </DataTrigger>
                                     </Style.Triggers>
+
+                                    <Setter Property="Stroke" Value="{DynamicResource NodeAddOutput}" />
                                 </Style>
                             </Path.Style>
                         </Path>

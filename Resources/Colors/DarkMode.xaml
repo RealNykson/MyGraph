@@ -5,7 +5,7 @@
 
 
     <Color x:Key="Primary-1">#c4b5fd</Color>
-    <Color x:Key="Primary-2">#7c3aed</Color>
+    <Color x:Key="Primary-2">#706ADB</Color>
     <Color x:Key="Primary-3">#5b21b6</Color>
 
     <Color x:Key="Foreground-1">white</Color>
@@ -13,7 +13,7 @@
     <Color x:Key="Foreground-3">#404040</Color>
 
     <Color x:Key="Border-1">#3F3F3F</Color>
-    <Color x:Key="Border-2">#474848</Color>
+    <Color x:Key="Border-2">#727184</Color>
     <Color x:Key="Border-3">#6B6B6B</Color>
 
     <Color x:Key="Background-1">#272727</Color>

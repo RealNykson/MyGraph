@@ -49,5 +49,10 @@ namespace MyGraph.Views
       ((ViewModels.CanvasVM)DataContext).MouseMove(e.GetPosition(this));
     }
 
+    private void Canvas_MouseMove(object sender, MouseEventArgs e)
+    {
+
+      ((ViewModels.CanvasVM)DataContext).MousePositionOnCanvas = e.GetPosition((IInputElement)sender);
+    }
   }
 }

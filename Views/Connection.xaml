@@ -50,12 +50,16 @@
             </Path.Data>
             <Path.Style>
                 <Style TargetType="Path">
-                    <Setter Property="Stroke" Value="White" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ElementName=HitTestPath, Path=IsMouseOver}" Value="True">
-                            <Setter Property="Stroke" Value="Red" />
+                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundHover}" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding End, TargetNullValue=null}" Value="null">
+                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
+                        </DataTrigger>
+
                     </Style.Triggers>
+                    <Setter Property="Stroke" Value="{DynamicResource ConnectionBackground}" />
                 </Style>
             </Path.Style>
 
