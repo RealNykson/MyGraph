@@ -1,4 +1,5 @@
-﻿using MyGraph.Utilities;
+﻿using MyGraph.Models;
+using MyGraph.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,29 +13,11 @@ using System.Windows.Input;
 
 namespace MyGraph.ViewModels
 {
-  class NodeVM : NotifyObject
+  class NodeVM : CanvasItem
   {
     public string name
     {
       get => Get<string>();
-      set => Set(value);
-    }
-
-    public double XPos
-    {
-      get => Get<double>();
-      private set => Set(value);
-    }
-    public double YPos
-    {
-      get => Get<double>();
-      private set => Set(value);
-    }
-
-
-    public int ZIndex
-    {
-      get => Get<int>();
       set => Set(value);
     }
 
@@ -78,7 +61,7 @@ namespace MyGraph.ViewModels
       set
       {
         if (value)
-          ZIndex = CanvasVM.g_Nodes.Max(n => n.ZIndex) + 1;
+          ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
         Set(value);
 
       }
@@ -97,17 +80,16 @@ namespace MyGraph.ViewModels
     }
     public void move(double deltaX, double deltaY)
     {
-      XPos += deltaX;
-      YPos += deltaY;
+      Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
       foreach (ConnectionVM connection in Inputs)
       {
-        connection.updateEnd(deltaX, deltaY);
+        connection.moveEnd(deltaX, deltaY);
       }
 
       foreach (ConnectionVM connection in Outputs)
       {
-        connection.updateStart(deltaX, deltaY);
+        connection.moveStart(deltaX, deltaY);
       }
     }
 
@@ -115,9 +97,9 @@ namespace MyGraph.ViewModels
     {
       Debug.Assert(node != null);
       Debug.Assert(node != this);
-      Debug.Assert(Outputs.Where(n => n.Input == node).FirstOrDefault() == null);
-      Debug.Assert(node.Inputs.Where(n => n.Output == this).FirstOrDefault() == null);
-      Debug.Assert(CanvasVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 0);
+      Debug.Assert(Outputs.Where(n => n.End == node).FirstOrDefault() == null);
+      Debug.Assert(node.Inputs.Where(n => n.Start == this).FirstOrDefault() == null);
+      Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
 
@@ -126,11 +108,11 @@ namespace MyGraph.ViewModels
     {
       Debug.Assert(node != null);
       Debug.Assert(node != this);
-      Debug.Assert(Outputs.Where(n => n.Input == node).Count() == 1);
-      Debug.Assert(node.Inputs.Where(n => n.Output == this).Count() == 1);
-      Debug.Assert(CanvasVM.g_Connections.Where(c => c.Input == node && c.Output == this).Count() == 1);
+      Debug.Assert(Outputs.Where(n => n.End == node).Count() == 1);
+      Debug.Assert(node.Inputs.Where(n => n.Start == this).Count() == 1);
+      Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 1);
 
-      node.Inputs.Where(n => n.Output == this).FirstOrDefault().Delete();
+      node.Inputs.Where(n => n.Start == this).FirstOrDefault().Delete();
 
     }
 
@@ -143,9 +125,8 @@ namespace MyGraph.ViewModels
     }
     public void addGhostOutput()
     {
-      CanvasVM.g_currentAction = CanvasVM.Action.ConnectingOutput;
-      CanvasVM.g_GhostConnection = new ConnectionVM(this, null);
-
+      Canvas.CurrentAction = Action.ConnectingOutput;
+      new ConnectionVM(this, null);
     }
 
     public bool IsDragging
@@ -154,6 +135,10 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
+    public bool isAllreadyConnectedTo(NodeVM input)
+    {
+      return Canvas.Connections.Where(c => c.Start == this && c.End == input).Count() != 0;
+    }
 
     public void MouseDown(MouseButtonEventArgs ev)
     {
@@ -161,30 +146,53 @@ namespace MyGraph.ViewModels
       if (ev.LeftButton != MouseButtonState.Pressed)
         return;
 
-      if(CanvasVM.g_currentAction == CanvasVM.Action.ConnectingOutput 
-        && CanvasVM.g_GhostConnection.Output != this)
+      if (Canvas.CurrentAction == Action.ConnectingOutput
+        && Canvas.GhostConnection.Start != this
+        && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
       {
-        CanvasVM.g_GhostConnection.Output.connectNode(this);
-        CanvasVM.g_GhostConnection.Delete();
+        Canvas.GhostConnection.Start.connectNode(this);
+        Canvas.CurrentAction = Action.None;
+        return;
       }
 
       if (!Keyboard.IsKeyDown(Key.LeftShift) && !IsSelected)
       {
-        foreach (NodeVM node in CanvasVM.g_Nodes)
+        foreach (NodeVM node in Canvas.Nodes)
         {
           node.IsSelected = false;
         }
       }
-      IsSelected = true;
-      CanvasVM.g_currentAction = CanvasVM.Action.Dragging;
+      IsSelected = !IsSelected;
+      Canvas.CurrentAction = Action.Dragging;
     }
 
     public void MouseUp(MouseButtonEventArgs ev)
     {
       if (ev.LeftButton != MouseButtonState.Released)
         return;
-      CanvasVM.g_currentAction = CanvasVM.Action.None;
+      Canvas.CurrentAction = Action.None;
     }
+    public void MouseEnter()
+    {
+      if (Canvas.CurrentAction == Action.ConnectingOutput)
+      {
+        Canvas.GhostConnection.End = this;
+        Inputs.Add(Canvas.GhostConnection);
+        Canvas.GhostConnection.updateInput();
+      }
+
+    }
+    public void MouseLeave()
+    {
+
+      if (Canvas.CurrentAction == Action.ConnectingOutput)
+      {
+        Inputs.Remove(Canvas.GhostConnection);
+        Canvas.GhostConnection.End = null;
+      }
+
+    }
+
 
     public NodeVM()
     {
@@ -194,7 +202,7 @@ namespace MyGraph.ViewModels
       Inputs = new ObservableCollection<ConnectionVM>();
       createCommands();
 
-      CanvasVM.g_Nodes.Add(this);
+      Canvas.Nodes.Add(this);
 
     }
 

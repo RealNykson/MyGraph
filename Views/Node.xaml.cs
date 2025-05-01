@@ -25,9 +25,6 @@ namespace MyGraph.Views
     {
       InitializeComponent();
     }
-    public void OnMouseDown(MouseButtonEventArgs e)
-    {
-    }
 
     protected override void OnMouseUp(MouseButtonEventArgs e)
     {
@@ -41,6 +38,24 @@ namespace MyGraph.Views
       ((NodeVM)DataContext).MouseDown(e);
       e.Handled = true;
     }
+
+    private void NodeBody_MouseEnter(object sender, MouseEventArgs e)
+    {
+      ((NodeVM)DataContext).MouseEnter();
+      e.Handled = true;
+    }
+
+    private void NodeBody_MouseLeave(object sender, MouseEventArgs e)
+    {
+
+      ((NodeVM)DataContext).MouseLeave();
+      e.Handled = true;
+
+    }
+
+
+
+
     //protected override void OnMouseMove(MouseEventArgs e)
     //{
     //  ((NodeVM)DataContext).MouseMove(e.GetPosition(this));

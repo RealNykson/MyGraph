@@ -2,18 +2,24 @@
 using MyGraph.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyGraph.Models
 {
-  abstract class CanvasItem : NotifyObject 
+  abstract class CanvasItem : NotifyObject
   {
     public Point Position
     {
       get => Get<Point>();
+      set => Set(value);
+    }
+    public int ZIndex
+    {
+      get => Get<int>();
       set => Set(value);
     }
 
@@ -24,7 +30,8 @@ namespace MyGraph.Models
     }
     public CanvasItem()
     {
-      //Canvas = MainWindowVM.Canvas;
+      Debug.Assert(CanvasVM.currentCanvas != null);
+      Canvas = CanvasVM.currentCanvas;
     }
 
 

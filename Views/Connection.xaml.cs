@@ -31,11 +31,5 @@ namespace MyGraph.Views
       e.Handled = true;
     }
 
-    protected override void OnMouseUp(MouseButtonEventArgs e)
-    {
-      ((ConnectionVM)DataContext).MouseUp();
-      e.Handled = true;
-    }
-
   }
 }

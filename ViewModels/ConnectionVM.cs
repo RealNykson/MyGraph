@@ -1,4 +1,5 @@
-﻿using MyGraph.Utilities;
+﻿using MyGraph.Models;
+using MyGraph.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,13 +16,15 @@ using System.Windows.Media;
 
 namespace MyGraph.ViewModels
 {
-  class ConnectionVM : NotifyObject
+  class ConnectionVM : CanvasItem
   {
 
     public double MarginStrength = 150;
     public double OffsetInner = 0;
-    public NodeVM Output { get; private set; }
-    public NodeVM Input { get; private set; }
+    double spacing = 15;
+
+    public NodeVM Start { get; private set; }
+    public NodeVM End { get; set; }
 
     public Point startPos
     {
@@ -36,15 +39,14 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
-    public void updateStart(double deltaX, double deltaY)
+    public void moveStart(double deltaX, double deltaY)
     {
       Debug.Assert(CurvePoints.Count == 3);
       startPos = new Point(startPos.X + deltaX, startPos.Y + deltaY);
       CurvePoints[0] = new Point(CurvePoints[0].X + deltaX, CurvePoints[0].Y + deltaY);
     }
 
-
-    public void updateEnd(double deltaX, double deltaY)
+    public void moveEnd(double deltaX, double deltaY)
     {
 
       Debug.Assert(CurvePoints.Count == 3);
@@ -58,18 +60,17 @@ namespace MyGraph.ViewModels
     }
     private void updateAllConnection()
     {
-      foreach (ConnectionVM connection in Input.Inputs)
+      foreach (ConnectionVM connection in End.Inputs)
       {
         connection.updateInput();
       }
 
-      foreach (ConnectionVM connection in Output.Outputs)
+      foreach (ConnectionVM connection in Start.Outputs)
       {
         connection.updateOutput();
       }
 
     }
-    double spacing = 15;
 
     /// <summary>
     /// Updates the position of the connection when a new input/output is added
@@ -94,14 +95,14 @@ namespace MyGraph.ViewModels
         updateAllConnection();
       }
 
-      return newPosition + node.YPos + (double)(node.Height / 2);
+      return newPosition + node.Position.Y + (double)(node.Height / 2);
 
     }
 
     public void updateInput()
     {
-      double PositionX = Input.XPos;
-      double PositionY = getNewYPosition(Input, Input.Inputs);
+      double PositionX = End.Position.X;
+      double PositionY = getNewYPosition(End, End.Inputs);
       CurvePoints[1] = new Point(PositionX - MarginStrength, PositionY);
       CurvePoints[2] = new Point(PositionX, PositionY);
 
@@ -112,87 +113,86 @@ namespace MyGraph.ViewModels
     }
     public void updateOutput()
     {
-      double PositionOutputX = Output.XPos + Output.Width;
-      double PositionOutputY = getNewYPosition(Output, Output.Outputs);
+      double PositionOutputX = Start.Position.X + Start.Width;
+      double PositionOutputY = getNewYPosition(Start, Start.Outputs);
 
       startPos = new Point(PositionOutputX, PositionOutputY);
       CurvePoints[0] = new Point(PositionOutputX + MarginStrength, PositionOutputY);
     }
 
-
     public ConnectionVM(NodeVM output, NodeVM input)
     {
       Debug.Assert(output != null);
-
 
       CurvePoints = new PointCollection();
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
 
+      Start = output;
+      End = input;
 
-      Output = output;
-      Input = input;
+      Start.Outputs.Add(this);
 
-      Output.Outputs.Add(this);
-      CanvasVM.g_Connections.Add(this);
-
-      if (Input == null)
+      if (End == null)
       {
-        CurvePoints[1] = CanvasVM.g_lastMousePosition;
-        CurvePoints[2] = CanvasVM.g_lastMousePosition;
-
-        foreach (ConnectionVM connection in Output.Outputs)
+        foreach (ConnectionVM connection in Start.Outputs)
         {
           connection.updateOutput();
         }
+        CurvePoints[1] = new Point(Canvas.LastMousePosition.X, Canvas.LastMousePosition.Y);
+        CurvePoints[2] = new Point(Canvas.LastMousePosition.X, Canvas.LastMousePosition.Y);
 
+        Canvas.GhostConnection = this;
+        ZIndex = Canvas.Nodes.Max(c => c.ZIndex) + 1;
         return;
       }
 
-      //Not yet connected thus drawing to mouse position until connected
-      Input = input;
+      Canvas.Connections.Add(this);
 
-      Input.Inputs.Add(this);
+      //Not yet connected thus drawing to mouse position until connected
+      End = input;
+
+      End.Inputs.Add(this);
       updateAllConnection();
 
 
     }
+
     public void Delete()
     {
-      Output.Outputs.Remove(this);
-      CanvasVM.g_Connections.Remove(this);
+      Start.Outputs.Remove(this);
+      Canvas.Connections.Remove(this);
 
-      if (Output.Height > Output.MinHeight)
-        Output.Height -= spacing;
+      if (Start.Height > Start.MinHeight)
+        Start.Height -= spacing;
 
-      if (Input != null)
+      if (End != null)
       {
-        Input.Inputs.Remove(this);
-        if (Input.Height > Input.MinHeight)
-          Input.Height -= spacing;
+        End.Inputs.Remove(this);
+        if (End.Height > End.MinHeight)
+          End.Height -= spacing;
         updateAllConnection();
         return;
       }
-      else
-      {
-        CanvasVM.g_GhostConnection = null;
-      }
-      foreach (ConnectionVM connection in Output.Outputs)
+
+      Canvas.GhostConnection = null;
+      foreach (ConnectionVM connection in Start.Outputs)
       {
         connection.updateOutput();
       }
 
-
     }
 
-    public void MouseUp()
-    {
-    }
     public void MouseDown()
     {
-      if (Input != null)
-        Output.disconnectNode(Input);
+      if (End != null)
+      {
+        Start.disconnectNode(End);
+        new ConnectionVM(Start, null);
+        Canvas.CurrentAction = Action.ConnectingOutput;
+      }
+
     }
   }
 }

@@ -13,7 +13,11 @@
         <vm:CanvasVM x:Key="MainWindowVM" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="NodeBody" Orientation="Horizontal">
+        <StackPanel
+            x:Name="NodeBody"
+            MouseEnter="NodeBody_MouseEnter"
+            MouseLeave="NodeBody_MouseLeave"
+            Orientation="Horizontal">
             <Grid
                 Width="{Binding Width}"
                 Height="{Binding Height}"
@@ -84,10 +88,13 @@
                     <Button.Style>
                         <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=NodeBody}" Value="True">
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=NodeBody}" Value="True" />
+                                        <Condition Binding="{Binding Canvas.GhostConnection, TargetNullValue=null}" Value="null" />
+                                    </MultiDataTrigger.Conditions>
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-
+                                </MultiDataTrigger>
                             </Style.Triggers>
                             <Setter Property="Visibility" Value="Collapsed" />
                         </Style>

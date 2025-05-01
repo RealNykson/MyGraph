@@ -61,8 +61,6 @@
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
-
             <ItemsControl ItemsSource="{Binding Nodes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -71,8 +69,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="Canvas.Left" Value="{Binding Path=XPos}" />
-                        <Setter Property="Canvas.Top" Value="{Binding Path=YPos}" />
+                        <Setter Property="Canvas.Left" Value="{Binding Path=Position.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Path=Position.Y}" />
                         <Setter Property="Canvas.ZIndex" Value="{Binding Path=ZIndex}" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
@@ -82,6 +80,7 @@
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <views:Connection DataContext="{Binding GhostConnection}" />
         </Canvas>
 
         <StackPanel
@@ -101,20 +100,14 @@
                 Height="30"
                 FontSize="30"
                 Foreground="{DynamicResource DebugText}"
-                Text="{Binding OffsetX}" />
-            <TextBlock
-                Width="auto"
-                Height="30"
-                FontSize="30"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding OffsetY}" />
-            <TextBlock
-                Width="auto"
-                Height="30"
-                FontSize="30"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding CanvasHeight}" />
+                Text="{Binding LastMousePosition.X}" />
 
+            <TextBlock
+                Width="auto"
+                Height="30"
+                FontSize="30"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding LastMousePosition.Y}" />
 
             <Button
                 Width="50"

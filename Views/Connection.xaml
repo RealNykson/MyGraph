@@ -15,14 +15,16 @@
             x:Name="HitTestPath"
             Data="{Binding ElementName=VisiblePath, Path=Data}"
             Stroke="Transparent"
-            StrokeThickness="7">
+            StrokeThickness="20">
             <Path.Style>
                 <Style TargetType="Path">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Input, TargetNullValue=null}" Value="null">
-                            <Setter Property="Visibility" Value="Collapsed" />
+                        <DataTrigger Binding="{Binding Canvas.GhostConnection, TargetNullValue=null}" Value="null">
+                            <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
+
                     </Style.Triggers>
+                    <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
             </Path.Style>
         </Path>
