@@ -234,13 +234,67 @@ namespace MyGraph.ViewModels
         Dots.Add(i);
       }
 
-      NodeVM test123 = new NodeVM() { name = "Node" };
-      NodeVM newNode = new NodeVM() { name = "Node2" };
-      NodeVM test = new NodeVM() { name = "ThisIsAReallyLongNameCuzItIs" };
+      // Gruppe A (Cluster 1)
+      NodeVM a1 = new NodeVM() { name = "Alpha" };
+      NodeVM a2 = new NodeVM() { name = "Beta" };
+      NodeVM a3 = new NodeVM() { name = "Gamma" };
+      NodeVM a4 = new NodeVM() { name = "Delta" };
+      NodeVM a5 = new NodeVM() { name = "Epsilon" };
 
-      test123.move(500, 200);
+      a1.move(100, 100);
+      a2.move(300, 100);
+      a3.move(500, 100);
+      a4.move(200, 250);
+      a5.move(400, 250);
 
-      test123.connectNode(newNode);
+      a1.connectNode(a2);
+      a2.connectNode(a3);
+      a2.connectNode(a4);
+      a4.connectNode(a5);
+      a3.connectNode(a5);
+
+      // Gruppe B (Cluster 2)
+      NodeVM b1 = new NodeVM() { name = "Zeta" };
+      NodeVM b2 = new NodeVM() { name = "Eta" };
+      NodeVM b3 = new NodeVM() { name = "Theta" };
+      NodeVM b4 = new NodeVM() { name = "Iota" };
+
+      b1.move(800, 100);
+      b2.move(1000, 100);
+      b3.move(900, 250);
+      b4.move(1100, 250);
+
+      b1.connectNode(b2);
+      b2.connectNode(b3);
+      b3.connectNode(b1);
+      b3.connectNode(b4);
+
+      // Gruppe C (Tree-Struktur)
+      NodeVM c1 = new NodeVM() { name = "Root" };
+      NodeVM c2 = new NodeVM() { name = "Leaf1" };
+      NodeVM c3 = new NodeVM() { name = "Leaf2" };
+      NodeVM c4 = new NodeVM() { name = "Leaf3" };
+      NodeVM c5 = new NodeVM() { name = "Leaf4" };
+
+      c1.move(250, 500);
+      c2.move(50, 650);
+      c3.move(200, 650);
+      c4.move(400, 650);
+      c5.move(200, 800);
+
+      c1.connectNode(c2);
+      c1.connectNode(c3);
+      c1.connectNode(c4);
+      c3.connectNode(c5);
+
+
+      //NodeVM test123 = new NodeVM() { name = "Node" };
+      //NodeVM newNode = new NodeVM() { name = "Node2" };
+      //NodeVM test = new NodeVM() { name = "ThisIsAReallyLongNameCuzItIs" };
+
+      //test123.move(500, 200);
+
+      //test123.connectNode(newNode);
       var mat = CanvasTransformMatrix.Matrix;
       mat.OffsetX += -2500;
       mat.OffsetY += -2500;
