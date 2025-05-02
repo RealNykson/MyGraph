@@ -91,27 +91,6 @@
             <views:Connection DataContext="{Binding GhostConnection}" />
         </Canvas>
 
-
-
-        <!--<Canvas>
-            <Path Stroke="Black" StrokeThickness="2">
-                <Path.Data>
-                    <PathGeometry>
-                        <PathGeometry.Figures>
-                            <PathFigureCollection>
-                                <PathFigure StartPoint="{Binding StartPoint}">
-                                    <PathFigure.Segments>
-                                        <PathSegmentCollection>
-                                            <PolyBezierSegment Points="{Binding EndPoints}" />
-                                        </PathSegmentCollection>
-                                    </PathFigure.Segments>
-                                </PathFigure>
-                            </PathFigureCollection>
-                        </PathGeometry.Figures>
-                    </PathGeometry>
-                </Path.Data>
-            </Path>
-        </Canvas>-->
-
+ 
     </Grid>
 </UserControl>

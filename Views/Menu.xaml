@@ -10,13 +10,17 @@
     mc:Ignorable="d">
     <Grid>
         <StackPanel
+            Margin="30"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Orientation="Vertical">
-            <TextBlock
-                FontSize="20"
-                Foreground="White"
-                Text="{Binding Canvas.Scale}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    FontSize="20"
+                    Foreground="White"
+                    Text="{Binding Canvas.CleanScale}" />
+                <TextBlock FontSize="20" Foreground="White">%</TextBlock>
+            </StackPanel>
         </StackPanel>
 
 

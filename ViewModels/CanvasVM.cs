@@ -41,6 +41,12 @@ namespace MyGraph.ViewModels
       set { Set(value); }
     }
 
+    public int CleanScale
+    {
+      get => Get<int>();
+      set => Set(value);
+    }
+
     public Action CurrentAction
     {
       get { return Get<Action>(); }
@@ -120,6 +126,7 @@ namespace MyGraph.ViewModels
       get => Get<Point>();
       set => Set(value);
     }
+
 
     public PreviewConnectionVM GhostConnection
     {
@@ -206,6 +213,7 @@ namespace MyGraph.ViewModels
     public CanvasVM()
     {
       currentCanvas = this;
+      CleanScale = 100;
       GridHeight = 650;
       GridWidth = 1000;
       CanvasHeight = 5000;
@@ -425,12 +433,22 @@ namespace MyGraph.ViewModels
     public void MouseWheelZoom(double delta)
     {
       Point pos1 = LastMousePosition;
-
       double deltaScale = delta > 0 ? 1.1 : 1 / 1.1;
+      if (delta > 0 && CleanScale >= 150)
+      {
+        return;
+      }
+      if (delta < 0 && CleanScale <= 20)
+      {
+        return;
+      }
       Matrix mat = CanvasTransformMatrix.Matrix;
       mat.ScaleAt(deltaScale, deltaScale, pos1.X, pos1.Y);
       CanvasTransformMatrix.Matrix = mat;
       Scale *= deltaScale;
+      CleanScale += delta < 0 ? -5 : +5;
+
+
 
     }
 

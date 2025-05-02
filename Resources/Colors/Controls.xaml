@@ -34,6 +34,7 @@
     <SolidColorBrush x:Key="NodeText" Color="{DynamicResource Foreground-1}" />
     <SolidColorBrush x:Key="NodeAddOutput" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="NodeAddOutputHover" Color="{DynamicResource Foreground-1}" />
+    <SolidColorBrush x:Key="NodeLock" Color="{DynamicResource Border-2}" />
 
     <!--  Sidebar  -->
     <SolidColorBrush x:Key="SidebarBackground" Color="{DynamicResource}" />

@@ -52,9 +52,17 @@
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard>
                         <Storyboard RepeatBehavior="Forever">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeDashOffset">
-                                <LinearDoubleKeyFrame KeyTime="0:0:1" Value="-16" />
-                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimation
+                                AutoReverse="False"
+                                FillBehavior="Stop"
+                                IsCumulative="True"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="StrokeDashOffset"
+                                From="0"
+                                To="15"
+                                Duration="0:0:1" />
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>

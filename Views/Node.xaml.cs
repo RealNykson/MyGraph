@@ -53,6 +53,13 @@ namespace MyGraph.Views
 
     }
 
+    private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+
+      ((NodeVM)DataContext).MouseRightDown(e);
+
+    }
+
 
 
 

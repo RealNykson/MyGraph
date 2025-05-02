@@ -92,6 +92,8 @@ namespace MyGraph.ViewModels
 
     public void move(double deltaX, double deltaY)
     {
+      if (IsLocked)
+        return;
       Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
       foreach (Connection connection in Inputs)
@@ -139,6 +141,12 @@ namespace MyGraph.ViewModels
       Canvas.CurrentAction = Action.ConnectingOutput;
       new PreviewConnectionVM(this);
     }
+    public bool IsLocked
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
 
     public bool IsDragging
     {
@@ -199,6 +207,11 @@ namespace MyGraph.ViewModels
       startDragPosition = Canvas.LastMousePosition;
       Canvas.CurrentAction = Action.Dragging;
     }
+    public void MouseRightDown(MouseButtonEventArgs ev)
+    {
+      IsLocked = !IsLocked;
+    }
+
 
     private Point startDragPosition;
     public void MouseUp(MouseButtonEventArgs ev)
