@@ -201,12 +201,17 @@ namespace MyGraph.ViewModels
         }
       }
       if (!IsSelected)
+      {
         justSet = true;
+      }
       IsSelected = true;
 
 
-      startDragPosition = Canvas.LastMousePosition;
-      Canvas.CurrentAction = Action.Dragging;
+      if (!IsLocked)
+      {
+        startDragPosition = Canvas.LastMousePosition;
+        Canvas.CurrentAction = Action.Dragging;
+      }
     }
     public void MouseRightDown(MouseButtonEventArgs ev)
     {
@@ -264,7 +269,7 @@ namespace MyGraph.ViewModels
       {
         Inputs.ElementAt(i).Delete();
       }
-    
+
       Canvas.SelectedNodes.Remove(this);
       Canvas.Nodes.Remove(this);
 
