@@ -127,6 +127,9 @@
 
             </StackPanel>
         </Border>
-        <views:Canvas Grid.Row="2" />
+        <Grid Grid.Row="2">
+            <views:Canvas />
+            <views:Menu />
+        </Grid>
     </Grid>
 </Window>

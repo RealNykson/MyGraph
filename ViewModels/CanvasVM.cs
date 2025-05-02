@@ -346,7 +346,6 @@ namespace MyGraph.ViewModels
 
     }
 
-
     public void MouseMove(Point currentPosition)
     {
       Vector delta = currentPosition - LastMousePosition;

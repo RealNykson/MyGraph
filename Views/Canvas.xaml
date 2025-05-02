@@ -10,7 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-     <Grid>
+    <Grid>
         <Grid
             Width="2000"
             Height="1000"
@@ -91,37 +91,7 @@
             <views:Connection DataContext="{Binding GhostConnection}" />
         </Canvas>
 
-        <StackPanel
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Orientation="Vertical">
 
-            <TextBlock
-                Width="auto"
-                Height="30"
-                FontSize="30"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding Scale}" />
-
-            <TextBlock
-                Width="auto"
-                Height="30"
-                FontSize="30"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding LastMousePosition.X}" />
-
-            <TextBlock
-                Width="auto"
-                Height="30"
-                FontSize="30"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding LastMousePosition.Y}" />
-
-            <Button
-                Width="50"
-                Height="60"
-                Command="{Binding ChangeThemeCommand}" />
-        </StackPanel>
 
         <!--<Canvas>
             <Path Stroke="Black" StrokeThickness="2">
