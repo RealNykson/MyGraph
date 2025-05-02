@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,7 +14,7 @@ namespace MyGraph.Views
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class Canvas: Window
+  public partial class Canvas : UserControl
   {
     public Canvas()
     {

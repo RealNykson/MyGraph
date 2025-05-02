@@ -9,9 +9,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <vm:CanvasVM x:Key="MainWindowVM" />
-    </UserControl.Resources>
     <Grid>
         <StackPanel
             x:Name="NodeBody"

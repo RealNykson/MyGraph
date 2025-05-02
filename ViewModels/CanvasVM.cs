@@ -57,10 +57,6 @@ namespace MyGraph.ViewModels
         {
           SelectRangeHeight = 0;
           SelectRangeWidth = 0;
-          foreach (NodeVM node in SelectorSelectedNodes)
-          {
-            node.IsSelected = true;
-          }
           SelectorSelectedNodes.Clear();
         }
 
@@ -286,10 +282,19 @@ namespace MyGraph.ViewModels
           && node.Position.Y >= StartSelectRangePosition.Y
           && node.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
         {
-          SelectorSelectedNodes.Add(node);
+          if (!node.IsSelected)
+          {
+            SelectorSelectedNodes.Add(node);
+            node.IsSelected = true;
+          }
           continue;
         }
-        SelectorSelectedNodes.Remove(node);
+        else if (SelectorSelectedNodes.Contains(node))
+        {
+          node.IsSelected = false;
+          SelectorSelectedNodes.Remove(node);
+        }
+
       }
 
     }
