@@ -60,7 +60,7 @@
                                 RepeatBehavior="Forever"
                                 Storyboard.TargetProperty="StrokeDashOffset"
                                 From="0"
-                                To="15"
+                                To="-15"
                                 Duration="0:0:1" />
 
                         </Storyboard>
