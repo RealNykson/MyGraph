@@ -17,11 +17,172 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock
                     FontSize="20"
-                    Foreground="White"
+                    Foreground="{DynamicResource MenuInfoText}"
                     Text="{Binding Canvas.CleanScale}" />
-                <TextBlock FontSize="20" Foreground="White">%</TextBlock>
+                <TextBlock FontSize="20" Foreground="{DynamicResource MenuInfoText}">%</TextBlock>
             </StackPanel>
         </StackPanel>
+
+        <Border
+            Margin="30"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Background="{DynamicResource MenuBackground}"
+            BorderBrush="{DynamicResource MenuBorder}"
+            BorderThickness="1.5"
+            CornerRadius="4">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Canvas.SelectedNodes.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Style.Setters>
+                        <Setter Property="Visibility" Value="Visible" />
+                    </Style.Setters>
+                </Style>
+
+            </Border.Style>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+
+                    <Style BasedOn="{StaticResource MenuButton}" TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundHover}" />
+                            </Trigger>
+
+                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="Width" Value="50" />
+                            <Setter Property="Height" Value="50" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style.Setters>
+                    </Style>
+                    <Style TargetType="Path">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" Value="True" />
+
+                        </Style.Triggers>
+
+                        <Style.Setters>
+
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Fill" Value="Transparent" />
+                            <Setter Property="Stroke" Value="{DynamicResource MenuButtonForeground}" />
+                            <Setter Property="StrokeThickness" Value="1.5" />
+
+                        </Style.Setters>
+                    </Style>
+
+
+
+                </StackPanel.Resources>
+
+                <Button Command="{Binding LockNodesCommand}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path
+                            Data="M3,11 A2,2 0 0 1 5,9 H19 A2,2 0 0 1 21,11 V20 A2,2 0 0 1 19,22 H5 A2,2 0 0 1 3,20 Z"
+                            Fill="Transparent"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="1.5" />
+                        <Path
+                            Data="         M7,9 V5 A5,5 0 0 1 17,5 V9  "
+                            Fill="Transparent"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="1.5" />
+                    </Grid>
+
+                </Button>
+
+                <Button Command="{Binding ConnectNodesCommand}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--  Plug (Right Side, Bottom)  -->
+                        <Path
+                            Data="M17,21 V19 A1,1 0 0 1 16,18 V17 A2,2 0 0 1 18,15 H20 A2,2 0 0 1 22,17 V18 A1,1 0 0 1 21,19"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Main Cable Curve  -->
+                        <Path
+                            Data="M19,15 V6.5 A1,1 0 0 0 12,6.5 V17.5 A1,1 0 0 1 5,17.5 V9"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Horizontal Cable End (Right Plug Line)  -->
+                        <Path
+                            Data="M21,21 V19 H17"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Horizontal Cable Start (Left Top Plug Line)  -->
+                        <Path
+                            Data="M3,5 H7 V3"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Plug (Left Side, Top)  -->
+                        <Path
+                            Data="M7,5 A1,1 0 0 1 8,6 V7 A2,2 0 0 1 6,9 H4 A2,2 0 0 1 2,7 V6 A1,1 0 0 1 3,5 V3"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeThickness="2" />
+                    </Grid>
+
+                </Button>
+
+                <Button Command="{Binding DeleteNodesCommand}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Path
+                            Data="M3,6 H21"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Trash Can Body  -->
+                        <Path
+                            Data="M19,6 V20 C19,21 18,22 17,22 H7 C6,22 5,21 5,20 V6"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="2" />
+
+                        <!--  Trash Can Handle  -->
+                        <Path
+                            Data="M8,6 V4 C8,3 9,2 10,2 H14 C15,2 16,3 16,4 V6"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="2" />
+                    </Grid>
+
+                </Button>
+
+
+
+
+            </StackPanel>
+        </Border>
 
 
 

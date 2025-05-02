@@ -74,7 +74,6 @@
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundHover}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding End, TargetNullValue=null}" Value="null">
-                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
                             <Setter Property="StrokeDashArray" Value="4,0" />
                         </DataTrigger>
                     </Style.Triggers>

@@ -3,6 +3,7 @@ using MyGraph.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -250,6 +251,22 @@ namespace MyGraph.ViewModels
 
       }
 
+
+    }
+    public void Delete()
+    {
+      for (int i = Outputs.Count - 1; i >= 0; i--)
+      {
+        Outputs.ElementAt(i).Delete();
+      }
+
+      for (int i = Inputs.Count - 1; i >= 0; i--)
+      {
+        Inputs.ElementAt(i).Delete();
+      }
+    
+      Canvas.SelectedNodes.Remove(this);
+      Canvas.Nodes.Remove(this);
 
     }
 
