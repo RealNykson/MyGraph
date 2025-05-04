@@ -82,7 +82,7 @@
                             FontFamily="Inter"
                             FontSize="18"
                             Foreground="{DynamicResource NodeText}"
-                            Text="{Binding name}"
+                            Text="{Binding Name}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>

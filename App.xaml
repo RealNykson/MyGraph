@@ -8,6 +8,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\Styles\Buttons.xaml" />
+                <ResourceDictionary Source="Resources\Styles\TextBlock.xaml" />
+                <ResourceDictionary Source="Resources\Styles\ScrollBar.xaml" />
                 <ResourceDictionary Source="Resources\LayoutSettings.xaml" />
                 <ResourceDictionary Source="Resources\Colors\Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>

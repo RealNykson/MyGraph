@@ -16,7 +16,7 @@ namespace MyGraph.ViewModels
 {
   class NodeVM : CanvasItem
   {
-    public string name
+    public string Name
     {
       get => Get<string>();
       set => Set(value);
@@ -278,16 +278,34 @@ namespace MyGraph.ViewModels
 
     public NodeVM()
     {
+
       MinWidth = 150;
       MinHeight = 60;
       Position = new Point(2500, 2500);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
+      Inputs.CollectionChanged += Inputs_CollectionChanged;
+      Outputs.CollectionChanged += Outputs_CollectionChanged;
       createCommands();
 
       Canvas.Nodes.Add(this);
 
     }
 
+    private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      foreach (Connection c in sender as ObservableCollection<Connection>)
+      {
+        c.updateInput();
+      }
+    }
+
+    private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      foreach (Connection c in sender as ObservableCollection<Connection>)
+      {
+        c.updateOutput();
+      }
+    }
   }
 }

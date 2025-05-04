@@ -235,11 +235,11 @@ namespace MyGraph.ViewModels
       }
 
       // Gruppe A (Cluster 1)
-      NodeVM a1 = new NodeVM() { name = "Alpha" };
-      NodeVM a2 = new NodeVM() { name = "Beta" };
-      NodeVM a3 = new NodeVM() { name = "Gamma" };
-      NodeVM a4 = new NodeVM() { name = "Delta" };
-      NodeVM a5 = new NodeVM() { name = "Epsilon" };
+      NodeVM a1 = new NodeVM() { Name = "Alpha" };
+      NodeVM a2 = new NodeVM() { Name = "Beta" };
+      NodeVM a3 = new NodeVM() { Name = "Gamma" };
+      NodeVM a4 = new NodeVM() { Name = "Delta" };
+      NodeVM a5 = new NodeVM() { Name = "Epsilon" };
 
       a1.move(100, 100);
       a2.move(300, 100);
@@ -254,10 +254,10 @@ namespace MyGraph.ViewModels
       a3.connectNode(a5);
 
       // Gruppe B (Cluster 2)
-      NodeVM b1 = new NodeVM() { name = "Zeta" };
-      NodeVM b2 = new NodeVM() { name = "Eta" };
-      NodeVM b3 = new NodeVM() { name = "Theta" };
-      NodeVM b4 = new NodeVM() { name = "Iota" };
+      NodeVM b1 = new NodeVM() { Name = "Zeta" };
+      NodeVM b2 = new NodeVM() { Name = "Eta" };
+      NodeVM b3 = new NodeVM() { Name = "Theta" };
+      NodeVM b4 = new NodeVM() { Name = "Iota" };
 
       b1.move(800, 100);
       b2.move(1000, 100);
@@ -270,11 +270,11 @@ namespace MyGraph.ViewModels
       b3.connectNode(b4);
 
       // Gruppe C (Tree-Struktur)
-      NodeVM c1 = new NodeVM() { name = "Root" };
-      NodeVM c2 = new NodeVM() { name = "Leaf1" };
-      NodeVM c3 = new NodeVM() { name = "Leaf2" };
-      NodeVM c4 = new NodeVM() { name = "Leaf3" };
-      NodeVM c5 = new NodeVM() { name = "Leaf4" };
+      NodeVM c1 = new NodeVM() { Name = "Root" };
+      NodeVM c2 = new NodeVM() { Name = "Leaf1" };
+      NodeVM c3 = new NodeVM() { Name = "Leaf2" };
+      NodeVM c4 = new NodeVM() { Name = "Leaf3" };
+      NodeVM c5 = new NodeVM() { Name = "Leaf4" };
 
       c1.move(250, 500);
       c2.move(50, 650);
@@ -305,6 +305,17 @@ namespace MyGraph.ViewModels
     #endregion
 
     #region Methods
+    public void panToNode(NodeVM node)
+    {
+
+      var mat = CanvasTransformMatrix.Matrix;
+      mat.OffsetX = -node.Position.X;
+      mat.OffsetY = -node.Position.Y;
+      CanvasTransformMatrix.Matrix = mat;
+
+
+
+    }
     public void updateDraggingNode(Point delta)
     {
       if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)
@@ -492,7 +503,7 @@ namespace MyGraph.ViewModels
       {
         return;
       }
-      if (delta < 0 && CleanScale <= 20)
+      if (delta < 0 && CleanScale <= 10)
       {
         return;
       }

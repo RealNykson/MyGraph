@@ -32,14 +32,12 @@ namespace MyGraph.Models
         if (_Start != null)
         {
           _Start.Outputs.Remove(this);
-          _Start.updateOutputs();
         }
 
         _Start = value;
         if (value != null)
         {
           value.Outputs.Add(this);
-          value.updateOutputs();
         }
 
       }
@@ -58,16 +56,12 @@ namespace MyGraph.Models
         if (_End != null)
         {
           _End.Inputs.Remove(this);
-          _End.updateInputs();
-
         }
 
         _End = value;
         if (value != null)
         {
-
           value.Inputs.Add(this);
-          value.updateInputs();
           return;
         }
 

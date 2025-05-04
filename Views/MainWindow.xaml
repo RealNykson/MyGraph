@@ -9,35 +9,40 @@
     Title="NodeGraph - prototype"
     Width="1000"
     Height="600"
+    MinWidth="600"
+    MinHeight="600"
     AllowsTransparency="False"
     ResizeMode="CanResize"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
-  <WindowChrome.WindowChrome>
-    <WindowChrome
+    <WindowChrome.WindowChrome>
+        <WindowChrome
             CornerRadius="{x:Static SystemParameters.WindowCornerRadius}"
             GlassFrameThickness="1,0,1,1"
             NonClientFrameEdges="Left,Right,Bottom"
             ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
             UseAeroCaptionButtons="False" />
-  </WindowChrome.WindowChrome>
+    </WindowChrome.WindowChrome>
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="35" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <Grid Grid.Row="2">
-      <views:Canvas />
-      <views:Menu />
-    </Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="2">
+            <views:Canvas />
+            <views:Menu />
+        </Grid>
 
-    <Border Background="#3F3F3F">
-      <StackPanel
+        <Border
+            Background="{DynamicResource MenuBackground}"
+            BorderBrush="{DynamicResource MenuBorder}"
+            BorderThickness="0,0,0,1">
+            <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-        <Button
+                <Button
                     Width="35"
                     Height="35"
                     HorizontalAlignment="Center"
@@ -47,7 +52,7 @@
                     Command="{Binding MinimizeWindowCommand}"
                     Foreground="White"
                     WindowChrome.IsHitTestVisibleInChrome="True">
-          <Path
+                    <Path
                         Width="10"
                         Height="1"
                         HorizontalAlignment="Center"
@@ -56,8 +61,8 @@
                         Stretch="Uniform"
                         Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                         StrokeThickness="1" />
-        </Button>
-        <Button
+                </Button>
+                <Button
                     Width="35"
                     Height="35"
                     Margin="0"
@@ -68,13 +73,13 @@
                     Command="{Binding MaximizeWindowCommand}"
                     Foreground="White"
                     WindowChrome.IsHitTestVisibleInChrome="True">
-          <Button.Style>
-            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
-                  <Setter Property="Content">
-                    <Setter.Value>
-                      <Path
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Path
                                                 Width="10"
                                                 Height="10"
                                                 HorizontalAlignment="Center"
@@ -84,13 +89,13 @@
                                                 Stretch="Uniform"
                                                 Stroke="White"
                                                 StrokeThickness="1" />
-                    </Setter.Value>
-                  </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
-                  <Setter Property="Content">
-                    <Setter.Value>
-                      <Path
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Normal">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Path
                                                 Width="10"
                                                 Height="10"
                                                 HorizontalAlignment="Center"
@@ -100,16 +105,16 @@
                                                 Stretch="Uniform"
                                                 Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                                 StrokeThickness="1" />
-                    </Setter.Value>
-                  </Setter>
-                </DataTrigger>
-              </Style.Triggers>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
 
-            </Style>
+                        </Style>
 
-          </Button.Style>
-        </Button>
-        <Button
+                    </Button.Style>
+                </Button>
+                <Button
                     Width="40"
                     Height="35"
                     HorizontalAlignment="Center"
@@ -119,7 +124,7 @@
                     Command="{Binding CloseWindowCommand}"
                     Foreground="White"
                     WindowChrome.IsHitTestVisibleInChrome="True">
-          <Path
+                    <Path
                         Width="10"
                         Height="10"
                         HorizontalAlignment="Center"
@@ -128,9 +133,9 @@
                         Stretch="Uniform"
                         Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                         StrokeThickness="1" />
-        </Button>
+                </Button>
 
-      </StackPanel>
-    </Border>
-  </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
 </Window>

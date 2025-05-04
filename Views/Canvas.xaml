@@ -56,7 +56,6 @@
                 Stroke="{DynamicResource SelectorBorder}"
                 StrokeThickness="2" />
 
-
             <ItemsControl ItemsSource="{Binding Connections}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -91,6 +90,6 @@
             <views:Connection DataContext="{Binding GhostConnection}" />
         </Canvas>
 
- 
+
     </Grid>
 </UserControl>
