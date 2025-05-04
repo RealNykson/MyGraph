@@ -15,6 +15,10 @@ namespace MyGraph.ViewModels
   class MenuVM : NotifyObject
   {
     #region Properties
+    private static ResourceDictionary lightTheme;
+    private static ResourceDictionary darkTheme;
+    private ResourceDictionary currentTheme;
+
     public CanvasVM Canvas
     {
       get => Get<CanvasVM>();
@@ -82,20 +86,23 @@ namespace MyGraph.ViewModels
       ChangeThemeCommand = new RelayCommand(changeTheme);
     }
 
-    ResourceDictionary currentTheme;
     public void changeTheme()
     {
-        // Remove only the current theme dictionary
+        // Initialize themes if not already done
+        if (lightTheme == null)
+        {
+            lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+            darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+        }
+
+        // Remove current theme
         if (currentTheme != null)
         {
             App.Current.Resources.MergedDictionaries.Remove(currentTheme);
         }
 
-        // Create new theme dictionary
-        Uri uri = new Uri(DarkMode ? "/Resources/Colors/LightMode.xaml" : "/Resources/Colors/DarkMode.xaml", UriKind.Relative);
-        currentTheme = new ResourceDictionary() { Source = uri };
-        
-        // Add the new theme
+        // Add new theme
+        currentTheme = DarkMode ? lightTheme : darkTheme;
         App.Current.Resources.MergedDictionaries.Add(currentTheme);
         
         // Toggle the mode
@@ -132,6 +139,7 @@ namespace MyGraph.ViewModels
     }
     private void deleteNodes()
     {
+      Canvas.CurrentAction = Action.None;
 
       for (int i = Canvas.SelectedNodes.Count - 1; i >= 0; i--)
       {
@@ -145,16 +153,22 @@ namespace MyGraph.ViewModels
     #region Constructor
     public MenuVM()
     {
-      currentTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
-      App.Current.Resources.MergedDictionaries.Add(currentTheme);
-      DarkMode = false;
+        // Initialize themes if not already done
+        if (lightTheme == null)
+        {
+            lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+            darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+        }
 
-      createCommands();
-      Canvas = CanvasVM.currentCanvas;
-      SearchedNodes = new ObservableCollection<NodeVM>();
-      SearchText = "";
-      IsSearching = false;
+        currentTheme = lightTheme;
+        App.Current.Resources.MergedDictionaries.Add(currentTheme);
+        DarkMode = false;
 
+        createCommands();
+        Canvas = CanvasVM.currentCanvas;
+        SearchedNodes = new ObservableCollection<NodeVM>();
+        SearchText = "";
+        IsSearching = false;
     }
     #endregion
 

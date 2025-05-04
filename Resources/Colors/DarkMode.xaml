@@ -15,11 +15,11 @@
 
     <Color x:Key="Border-1">#3F3F3F</Color>
     <Color x:Key="Border-2">#727184</Color>
-    <Color x:Key="Border-3">#6B6B6B</Color>
+    <Color x:Key="Border-3">white</Color>
 
     <Color x:Key="Background-1">#272727</Color>
     <Color x:Key="Background-2">#1C1C1C</Color>
-    <Color x:Key="Background-3">#131313</Color>
+    <Color x:Key="Background-3">#151515</Color>
 
 
 </ResourceDictionary>

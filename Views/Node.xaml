@@ -20,7 +20,6 @@
                 Width="{Binding Width}"
                 Height="{Binding Height}"
                 Background="{DynamicResource NodeBackground}"
-                BorderThickness="1.5"
                 CornerRadius="4"
                 MouseDown="Grid_MouseDown"
                 MouseRightButtonDown="Border_MouseRightButtonDown">
@@ -32,9 +31,11 @@
                             </Trigger>
                             <DataTrigger Binding="{Binding IsSelected}" Value="true">
                                 <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSelected}" />
+                                <Setter Property="BorderThickness" Value="2.5" />
                             </DataTrigger>
 
                         </Style.Triggers>
+                        <Setter Property="BorderThickness" Value="1.5" />
                         <Setter Property="BorderBrush" Value="{DynamicResource NodeBorder}" />
                     </Style>
                 </Border.Style>
