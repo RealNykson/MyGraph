@@ -5,7 +5,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Navigation;
 
 namespace MyGraph.ViewModels
@@ -23,6 +25,18 @@ namespace MyGraph.ViewModels
       get => Get<bool>();
       set => Set(value);
     }
+    public bool SettingsOpen
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+    public bool DarkMode 
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
+
     public string SearchText
     {
       get => Get<string>();
@@ -53,7 +67,9 @@ namespace MyGraph.ViewModels
     public IRelayCommand LockNodesCommand { get; private set; }
     public IRelayCommand ConnectNodesCommand { get; private set; }
     public IRelayCommand OpenSearchCommand { get; private set; }
+    public IRelayCommand OpenSettingsCommand { get; private set; }
     public IRelayCommand SearchNodeCommand { get; private set; }
+    public IRelayCommand ChangeThemeCommand { get; private set; }
 
     private void createCommands()
     {
@@ -62,8 +78,23 @@ namespace MyGraph.ViewModels
       ConnectNodesCommand = new RelayCommand(connectNodes);
       OpenSearchCommand = new RelayCommand(openSearch);
       SearchNodeCommand = new RelayCommand<NodeVM>(searchNode);
+      OpenSettingsCommand = new RelayCommand(openSettings);
+      ChangeThemeCommand = new RelayCommand(changeTheme);
     }
 
+    ResourceDictionary currentTheme;
+    public void changeTheme() {
+
+      App.Current.Resources.Clear();
+      currentTheme = new ResourceDictionary() { Source = new Uri(DarkMode ? "/Resources/Colors/LightMode.xaml" : "/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+
+
+
+      DarkMode = !DarkMode;
+
+
+    }
     public void searchNode(NodeVM node)
     {
       Debug.Assert(node != null);
@@ -75,6 +106,11 @@ namespace MyGraph.ViewModels
     {
       IsSearching = !IsSearching;
     }
+    public void openSettings()
+    {
+      SettingsOpen = !SettingsOpen;
+    }
+
 
     private void lockNodes()
     {
@@ -103,6 +139,10 @@ namespace MyGraph.ViewModels
     #region Constructor
     public MenuVM()
     {
+      currentTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = false;
+
       createCommands();
       Canvas = CanvasVM.currentCanvas;
       SearchedNodes = new ObservableCollection<NodeVM>();

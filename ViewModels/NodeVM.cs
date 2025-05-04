@@ -294,18 +294,63 @@ namespace MyGraph.ViewModels
 
     private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-      foreach (Connection c in sender as ObservableCollection<Connection>)
+
+      ObservableCollection<Connection> newInputs = (ObservableCollection<Connection>)sender;
+      switch (e.Action)
       {
-        c.updateInput();
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+          if (newInputs.Count() > Outputs.Count())
+          {
+            Height += 15;
+            updateOutputs();
+          }
+          break;
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+          if (newInputs.Count() >= Outputs.Count())
+          {
+            Height -= 15;
+            updateOutputs();
+          }
+          break;
+        default:
+          return;
       }
+
+      updateInputs();
+
     }
+
 
     private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-      foreach (Connection c in sender as ObservableCollection<Connection>)
+
+      ObservableCollection<Connection> newOutputs = (ObservableCollection<Connection>)sender;
+      switch (e.Action)
       {
-        c.updateOutput();
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+          if (newOutputs.Count() > Inputs.Count())
+          {
+            Height += 23;
+            updateInputs();
+          }
+          break;
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+          if (newOutputs.Count() >= Inputs.Count())
+          {
+            Height -= 23;
+            updateInputs();
+          }
+          break;
+        default:
+          return;
       }
+
+      updateOutputs();
+    
+
     }
+
   }
 }

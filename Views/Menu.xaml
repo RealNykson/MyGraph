@@ -289,7 +289,7 @@
             <Border
                 Width="200"
                 Height="300"
-                Margin="5,0,0,0"
+                Margin="10,0,0,0"
                 Padding="20,20,20,20"
                 VerticalAlignment="Top"
                 Background="{DynamicResource MenuBackground}"
@@ -363,7 +363,10 @@
 
                     </Grid>
 
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding SearchedNodes}">
+                    <ItemsControl
+                        Grid.Row="1"
+                        Margin="0,5,0,0"
+                        ItemsSource="{Binding SearchedNodes}">
                         <ItemsControl.Template>
                             <ControlTemplate>
                                 <ScrollViewer x:Name="ScrollViewer" CanContentScroll="False">
@@ -375,8 +378,8 @@
                             <DataTemplate>
                                 <Border
                                     Margin="0,10,0,0"
-                                    Background="{DynamicResource MenuBackground}"
-                                    BorderBrush="{DynamicResource MenuBorder}"
+                                    Background="{DynamicResource NodeBackground}"
+                                    BorderBrush="{DynamicResource NodeBorder}"
                                     BorderThickness="1"
                                     CornerRadius="2">
                                     <Button
@@ -401,13 +404,68 @@
             </Border>
         </StackPanel>
         <StackPanel
+            Margin="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Border
+                Width="45"
+                Height="45"
+                HorizontalAlignment="Left"
+                Background="{DynamicResource MenuBackground}"
+                BorderBrush="{DynamicResource MenuBorder}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <Button Command="{Binding OpenSettingsCommand}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="2">
+                            <Path.Data>
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="4,12" EndPoint="20,12" />
+                                    <LineGeometry StartPoint="4,18" EndPoint="20,18" />
+                                    <LineGeometry StartPoint="4,6" EndPoint="20,6" />
+                                </GeometryGroup>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+                </Button>
+            </Border>
+            <Border
+                Width="200"
+                Height="100"
+                Margin="0,5,0,0"
+                Background="{DynamicResource MenuBackground}"
+                BorderBrush="{DynamicResource MenuBorder}"
+                BorderThickness="1"
+                CornerRadius="3">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SettingsOpen}" Value="true">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Border.Style>
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding ChangeThemeCommand}" />
+                </StackPanel>
+
+            </Border>
+
+        </StackPanel>
+        <StackPanel
             Margin="50,100,50,50"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
-            <TextBlock FontSize="20" Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
+            <!--<TextBlock FontSize="20" Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
             <TextBlock FontSize="20" Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetY}" />
             <TextBlock FontSize="20" Text="{Binding Canvas.MousePositionOnCanvas.X}" />
-            <TextBlock FontSize="20" Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
+            <TextBlock FontSize="20" Text="{Binding Canvas.MousePositionOnCanvas.Y}" />-->
 
         </StackPanel>
 

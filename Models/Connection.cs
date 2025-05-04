@@ -118,12 +118,12 @@ namespace MyGraph.Models
       double newPosition = (double)(spacing * modifier) * stepCount;
       double maxPositionInsideNode = (double)(node.Height / 2) - spacing;
 
-      if (newPosition > maxPositionInsideNode)
-      {
-        node.Height += spacing;
-        node.updateInputs();
-        node.updateOutputs();
-      }
+      //if (newPosition > maxPositionInsideNode)
+      //{
+      //  node.Height += spacing;
+      //  node.updateInputs();
+      //  node.updateOutputs();
+      //}
 
       return newPosition + node.Position.Y + (double)(node.Height / 2);
 

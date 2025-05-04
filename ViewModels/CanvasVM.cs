@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Data;
 using System.Windows.Controls;
 using System.Dynamic;
+using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace MyGraph.ViewModels
 {
@@ -219,8 +221,6 @@ namespace MyGraph.ViewModels
       CanvasHeight = 5000;
       CanvasWidth = 5000;
       Scale = 1;
-      ResourceDictionary Theme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-      App.Current.Resources.MergedDictionaries.Add(Theme);
 
       ChangeThemeCommand = new RelayCommand(ChangeTheme);
       Nodes = new ObservableCollection<NodeVM>();
@@ -307,13 +307,54 @@ namespace MyGraph.ViewModels
     #region Methods
     public void panToNode(NodeVM node)
     {
+      // Target position based on the node's position and current scale
+      double targetPanX = -node.Position.X * Scale;
+      double targetPanY = -node.Position.Y * Scale;
 
-      var mat = CanvasTransformMatrix.Matrix;
-      mat.OffsetX = -node.Position.X;
-      mat.OffsetY = -node.Position.Y;
-      CanvasTransformMatrix.Matrix = mat;
+      // Get current position (OffsetX, OffsetY) from the matrix
+      double currentPanX = CanvasTransformMatrix.Matrix.OffsetX;
+      double currentPanY = CanvasTransformMatrix.Matrix.OffsetY;
 
+      // Create DoubleAnimations for both X and Y offsets
+      DoubleAnimation panXAnimation = new DoubleAnimation
+      {
+        From = currentPanX,
+        To = targetPanX,
+        Duration = TimeSpan.FromSeconds(1),  // Adjust duration for smoothness
+        EasingFunction = new QuadraticEase()  // Easing for smooth animation
+      };
 
+      DoubleAnimation panYAnimation = new DoubleAnimation
+      {
+        From = currentPanY,
+        To = targetPanY,
+        Duration = TimeSpan.FromSeconds(1),  // Same duration for both axes
+        EasingFunction = new QuadraticEase()  // Easing for smooth animation
+      };
+
+      // Apply animations to the OffsetX and OffsetY properties of the MatrixTransform
+      Storyboard storyboard = new Storyboard();
+      storyboard.Children.Add(panXAnimation);
+      storyboard.Children.Add(panYAnimation);
+
+      // Bind animations to the MatrixTransform properties
+      Storyboard.SetTarget(panXAnimation, CanvasTransformMatrix);
+      Storyboard.SetTarget(panYAnimation, CanvasTransformMatrix);
+      Storyboard.SetTargetProperty(panXAnimation, new PropertyPath("Matrix.OffsetX"));
+      Storyboard.SetTargetProperty(panYAnimation, new PropertyPath(MatrixTransform.MatrixProperty + ".OffsetY"));
+
+      // Start the storyboard
+      storyboard.Begin();
+
+      // When the animation is complete, manually update the Matrix with the final position
+      panXAnimation.Completed += (s, e) =>
+      {
+        // After animation finishes, update the MatrixTransform to the final target position
+        CanvasTransformMatrix.Matrix = new Matrix(
+          CanvasTransformMatrix.Matrix.M11, CanvasTransformMatrix.Matrix.M12,
+          CanvasTransformMatrix.Matrix.M21, CanvasTransformMatrix.Matrix.M22,
+          targetPanX, targetPanY);
+      };
 
     }
     public void updateDraggingNode(Point delta)

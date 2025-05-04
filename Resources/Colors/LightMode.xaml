@@ -5,19 +5,21 @@
 
 
     <Color x:Key="Primary-1">#c4b5fd</Color>
-    <Color x:Key="Primary-2">#7c3aed</Color>
+    <Color x:Key="Primary-2">#706ADB</Color>
     <Color x:Key="Primary-3">#5b21b6</Color>
 
     <Color x:Key="Foreground-1">white</Color>
     <Color x:Key="Foreground-2">#737373</Color>
-    <Color x:Key="Foreground-3">black</Color>
+    <Color x:Key="Foreground-3">#404040</Color>
 
-    <Color x:Key="Background-1">#3f3f46</Color>
-    <Color x:Key="Background-2">#27272a</Color>
-    <Color x:Key="Background-3">#18181b</Color>
+    <Color x:Key="Border-1">#3F3F3F</Color>
+    <Color x:Key="Border-2">#727184</Color>
+    <Color x:Key="Border-3">#6B6B6B</Color>
 
-    <Color x:Key="Border-1">#a1a1aa</Color>
-    <Color x:Key="Border-2">#71717a</Color>
-    <Color x:Key="Border-3">#52525b</Color>
+    <Color x:Key="Background-1">#272727</Color>
+    <Color x:Key="Background-2">Red</Color>
+    <Color x:Key="Background-3">Green</Color>
+
+
 
 </ResourceDictionary>
