@@ -30,7 +30,7 @@ namespace MyGraph.ViewModels
       get => Get<bool>();
       set => Set(value);
     }
-    public bool DarkMode 
+    public bool DarkMode
     {
       get => Get<bool>();
       set => Set(value);
@@ -83,17 +83,23 @@ namespace MyGraph.ViewModels
     }
 
     ResourceDictionary currentTheme;
-    public void changeTheme() {
+    public void changeTheme()
+    {
+        // Remove only the current theme dictionary
+        if (currentTheme != null)
+        {
+            App.Current.Resources.MergedDictionaries.Remove(currentTheme);
+        }
 
-      App.Current.Resources.Clear();
-      currentTheme = new ResourceDictionary() { Source = new Uri(DarkMode ? "/Resources/Colors/LightMode.xaml" : "/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-      App.Current.Resources.MergedDictionaries.Add(currentTheme);
-
-
-
-      DarkMode = !DarkMode;
-
-
+        // Create new theme dictionary
+        Uri uri = new Uri(DarkMode ? "/Resources/Colors/LightMode.xaml" : "/Resources/Colors/DarkMode.xaml", UriKind.Relative);
+        currentTheme = new ResourceDictionary() { Source = uri };
+        
+        // Add the new theme
+        App.Current.Resources.MergedDictionaries.Add(currentTheme);
+        
+        // Toggle the mode
+        DarkMode = !DarkMode;
     }
     public void searchNode(NodeVM node)
     {

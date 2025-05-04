@@ -1,25 +1,22 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ColorPallete.xaml" />
+        <ResourceDictionary Source="../Colors/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
 
     <Color x:Key="Primary-1">#c4b5fd</Color>
     <Color x:Key="Primary-2">#706ADB</Color>
     <Color x:Key="Primary-3">#5b21b6</Color>
 
-    <Color x:Key="Foreground-1">white</Color>
-    <Color x:Key="Foreground-2">#737373</Color>
-    <Color x:Key="Foreground-3">#404040</Color>
+    <Color x:Key="Foreground-1">#18181b</Color>
+    <Color x:Key="Foreground-2">#71717a</Color>
+    <Color x:Key="Foreground-3">#52525b</Color>
 
-    <Color x:Key="Border-1">#3F3F3F</Color>
-    <Color x:Key="Border-2">#727184</Color>
-    <Color x:Key="Border-3">#6B6B6B</Color>
+    <Color x:Key="Border-1">#e4e4e7</Color>
+    <Color x:Key="Border-2">#d4d4d8</Color>
+    <Color x:Key="Border-3">#a1a1aa</Color>
 
-    <Color x:Key="Background-1">#272727</Color>
-    <Color x:Key="Background-2">Red</Color>
-    <Color x:Key="Background-3">Green</Color>
-
-
-
+    <Color x:Key="Background-1">#f4f4f5</Color>
+    <Color x:Key="Background-2">#ffffff</Color>
+    <Color x:Key="Background-3">#fafafa</Color>
 </ResourceDictionary>

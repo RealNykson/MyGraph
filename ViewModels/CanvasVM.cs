@@ -198,16 +198,6 @@ namespace MyGraph.ViewModels
     #region Commands
 
     private bool darkMode = true;
-    public IRelayCommand ChangeThemeCommand { get; private set; }
-    public void ChangeTheme()
-    {
-      NodeVM testNode = new NodeVM();
-
-      ResourceDictionary Theme = new ResourceDictionary() { Source = new Uri(darkMode ? "/Resources/Colors/LightMode.xaml" : "/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-      App.Current.Resources.Clear();
-      App.Current.Resources.MergedDictionaries.Add(Theme);
-      darkMode = !darkMode;
-    }
 
     #endregion
 
@@ -222,7 +212,6 @@ namespace MyGraph.ViewModels
       CanvasWidth = 5000;
       Scale = 1;
 
-      ChangeThemeCommand = new RelayCommand(ChangeTheme);
       Nodes = new ObservableCollection<NodeVM>();
       SelectedNodes = new ObservableCollection<NodeVM>();
       Dots = new ObservableCollection<int>();
