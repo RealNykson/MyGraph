@@ -45,6 +45,7 @@
                 <Style.Setters>
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Background" Value="{DynamicResource MenuBackground}" />
                 </Style.Setters>
             </Style>
 
@@ -314,7 +315,6 @@
                     </Grid.RowDefinitions>
 
 
-
                     <Grid Grid.Row="0">
                         <Grid.Style>
                             <Style>
@@ -340,7 +340,11 @@
                                 Background="{DynamicResource MenuBackground}"
                                 BorderThickness="0"
                                 Foreground="{DynamicResource MenuButtonForeground}"
-                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter" Command="{Binding SearchEnterCommand}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <TextBlock
                                 Margin="2,0,0,0"
                                 HorizontalAlignment="Left"
@@ -408,13 +412,14 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Border
-                Width="45"
-                Height="45"
+                Width="50"
+                Height="50"
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MenuBackground}"
                 BorderBrush="{DynamicResource MenuBorder}"
                 BorderThickness="1"
-                CornerRadius="4">
+                CornerRadius="4"
+                SnapsToDevicePixels="True">
                 <Button Command="{Binding OpenSettingsCommand}">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Path

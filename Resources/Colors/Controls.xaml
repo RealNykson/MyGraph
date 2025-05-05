@@ -25,12 +25,12 @@
     <!--  Menu  -->
     <SolidColorBrush x:Key="MenuInfoText" Color="{DynamicResource Foreground-1}" />
     <SolidColorBrush x:Key="MenuBackground" Color="{DynamicResource Background-3}" />
-    <SolidColorBrush x:Key="MenuBorder" Color="{DynamicResource Border-1}" />
+    <SolidColorBrush x:Key="MenuBorder" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="MenuButtonBackground" Color="{DynamicResource Background-3}" />
     <SolidColorBrush x:Key="MenuButtonForeground" Color="{DynamicResource Foreground-1}" />
     <SolidColorBrush x:Key="MenuButtonBackgroundActivated" Color="{DynamicResource Background-3}" />
     <SolidColorBrush x:Key="MenuButtonForegroundActivated" Color="{DynamicResource Primary-1}" />
-    <SolidColorBrush x:Key="MenuButtonBackgroundHover" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="MenuButtonBackgroundHover" Color="{DynamicResource Background-2}" />
     <SolidColorBrush x:Key="MenuButtonForegroundHover" Color="{DynamicResource Primary-1}" />
 
     <!--  Node  -->
@@ -69,12 +69,12 @@
     <SolidColorBrush x:Key="InputBorderConnected" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="InputBackgroundConnected" Color="{DynamicResource Background-1}" />
 
-    <SolidColorBrush x:Key="ConnectionBackground" Color="{DynamicResource Border-1}" />
-    <SolidColorBrush x:Key="ConnectionBackgroundHover" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="ConnectionBackground" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="ConnectionBackgroundHover" Color="{DynamicResource Border-1}" />
     <SolidColorBrush
         x:Key="ConnectionBackgroundGhost"
         Opacity="0.5"
-        Color="{DynamicResource Border-1}" />
+        Color="{DynamicResource Border-2}" />
 
 
 

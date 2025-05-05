@@ -12,11 +12,11 @@
     <Color x:Key="Foreground-2">#71717a</Color>
     <Color x:Key="Foreground-3">#52525b</Color>
 
-    <Color x:Key="Border-1">#a1a1aa</Color>
-    <Color x:Key="Border-2">#262626</Color>
+    <Color x:Key="Border-1">#929292</Color>
+    <Color x:Key="Border-2">#686868</Color>
     <Color x:Key="Border-3">black</Color>
 
-    <Color x:Key="Background-1">#e5e3d9</Color>
-    <Color x:Key="Background-2">#eae8e0</Color>
-    <Color x:Key="Background-3">#FFFFFF</Color>
+    <Color x:Key="Background-1">#e4e5f1</Color>
+    <Color x:Key="Background-2">#d2d3db</Color>
+    <Color x:Key="Background-3">#fafafa</Color>
 </ResourceDictionary>

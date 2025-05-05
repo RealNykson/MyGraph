@@ -10,7 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid>
+    <Grid SizeChanged="Grid_SizeChanged">
         <Grid
             Width="2000"
             Height="1000"

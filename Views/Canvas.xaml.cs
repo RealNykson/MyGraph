@@ -55,5 +55,14 @@ namespace MyGraph.Views
 
       ((ViewModels.CanvasVM)DataContext).MousePositionOnCanvas = e.GetPosition((IInputElement)sender);
     }
+
+    private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+
+      Grid grid = (Grid)sender;
+      ((ViewModels.CanvasVM)DataContext).GridWidth = grid.ActualWidth;
+      ((ViewModels.CanvasVM)DataContext).GridHeight = grid.ActualHeight;
+
+    }
   }
 }

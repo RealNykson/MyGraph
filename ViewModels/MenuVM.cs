@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace MyGraph.ViewModels
@@ -27,7 +28,12 @@ namespace MyGraph.ViewModels
     public bool IsSearching
     {
       get => Get<bool>();
-      set => Set(value);
+      set
+      {
+        Set(value);
+        //if (!value && lastSearch != null)
+        //  backToSearchStart();
+      }
     }
     public bool SettingsOpen
     {
@@ -46,15 +52,34 @@ namespace MyGraph.ViewModels
       get => Get<string>();
       set
       {
+
+        if (SearchText == "" && value != "")
+        {
+          positionBeforeSearch = new Point(Canvas.CanvasTransformMatrix.Matrix.OffsetX, Canvas.CanvasTransformMatrix.Matrix.OffsetY);
+        }
+
+        Set(value);
+
         if (value == "")
         {
+          if (lastSearch != null)
+          {
+            backToSearchStart();
+          }
           SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.OrderBy(n => n.Name));
+          return;
         }
-        else
+
+
+
+        SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.Where(m => m.Name.ToLower().Contains(value.ToLower())).ToList().OrderBy(n => n.Name));
+        if (SearchedNodes.Count() == 0)
         {
-          SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.Where(m => m.Name.ToLower().Contains(value.ToLower())).ToList().OrderBy(n => n.Name));
+          backToSearchStart();
         }
-        Set(value);
+        if (SearchedNodes.Count() != 0 && SearchedNodes[0] != lastSearch)
+          searchNode(SearchedNodes[0]);
+
       }
     }
 
@@ -74,6 +99,7 @@ namespace MyGraph.ViewModels
     public IRelayCommand OpenSettingsCommand { get; private set; }
     public IRelayCommand SearchNodeCommand { get; private set; }
     public IRelayCommand ChangeThemeCommand { get; private set; }
+    public IRelayCommand SearchEnterCommand { get; private set; }
 
     private void createCommands()
     {
@@ -84,35 +110,71 @@ namespace MyGraph.ViewModels
       SearchNodeCommand = new RelayCommand<NodeVM>(searchNode);
       OpenSettingsCommand = new RelayCommand(openSettings);
       ChangeThemeCommand = new RelayCommand(changeTheme);
+      SearchEnterCommand = new RelayCommand(searchEnter);
     }
 
+    private Point positionBeforeSearch;
+    private void backToSearchStart()
+    {
+      if (positionBeforeSearch != null && lastSearch != null)
+      {
+        lastSearch.IsSelected = false;
+        Matrix matrix = Canvas.CanvasTransformMatrix.Matrix;
+        matrix.OffsetX = positionBeforeSearch.X;
+        matrix.OffsetY = positionBeforeSearch.Y;
+        Canvas.CanvasTransformMatrix.Matrix = matrix;
+      }
+      lastSearch = null;
+
+    }
+
+    public void searchEnter()
+    {
+      //IsSearching = false;
+
+    }
+    public void change()
+    {
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+    }
     public void changeTheme()
     {
-        // Initialize themes if not already done
-        if (lightTheme == null)
-        {
-            lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
-            darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-        }
+      // Initialize themes if not already done
+      if (lightTheme == null)
+      {
+        lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+        darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+      }
 
-        // Remove current theme
-        if (currentTheme != null)
-        {
-            App.Current.Resources.MergedDictionaries.Remove(currentTheme);
-        }
+      // Remove current theme
+      if (currentTheme != null)
+      {
+        App.Current.Resources.MergedDictionaries.Remove(currentTheme);
+      }
 
-        // Add new theme
-        currentTheme = DarkMode ? lightTheme : darkTheme;
-        App.Current.Resources.MergedDictionaries.Add(currentTheme);
-        
-        // Toggle the mode
-        DarkMode = !DarkMode;
+      currentTheme = DarkMode ? lightTheme : darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+
+
+      // Toggle the mode
+      DarkMode = !DarkMode;
     }
+
+    private NodeVM lastSearch = null;
     public void searchNode(NodeVM node)
     {
       Debug.Assert(node != null);
+      if (lastSearch != null)
+        lastSearch.IsSelected = false;
 
       Canvas.panToNode(node);
+      //We only need lastSearch when node is not selected
+      //because lastSearch is only used to revert back highlight (.isSelected)
+      //when new node is searched
+      if (!node.IsSelected)
+        lastSearch = node;
+
+      node.IsSelected = true;
 
     }
     public void openSearch()
@@ -153,22 +215,22 @@ namespace MyGraph.ViewModels
     #region Constructor
     public MenuVM()
     {
-        // Initialize themes if not already done
-        if (lightTheme == null)
-        {
-            lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
-            darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-        }
+      // Initialize themes if not already done
+      if (lightTheme == null)
+      {
+        lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+        darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+      }
 
-        currentTheme = lightTheme;
-        App.Current.Resources.MergedDictionaries.Add(currentTheme);
-        DarkMode = false;
+      currentTheme = lightTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = false;
 
-        createCommands();
-        Canvas = CanvasVM.currentCanvas;
-        SearchedNodes = new ObservableCollection<NodeVM>();
-        SearchText = "";
-        IsSearching = false;
+      createCommands();
+      Canvas = CanvasVM.currentCanvas;
+      SearchedNodes = new ObservableCollection<NodeVM>();
+      SearchText = "";
+      IsSearching = false;
     }
     #endregion
 

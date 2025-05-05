@@ -75,6 +75,7 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding End, TargetNullValue=null}" Value="null">
                             <Setter Property="StrokeDashArray" Value="4,0" />
+                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
                         </DataTrigger>
                     </Style.Triggers>
                     <Setter Property="StrokeDashArray" Value="4,1" />
