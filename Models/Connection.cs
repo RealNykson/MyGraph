@@ -15,7 +15,7 @@ namespace MyGraph.Models
 {
   abstract class Connection : CanvasItem
   {
-    public double MarginStrength = 100;
+    public double MarginStrength = 125;
     public double OffsetInput = 2.5;
     public double OffsetOutput = 3;
     public double spacing = 23;

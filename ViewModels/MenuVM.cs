@@ -31,8 +31,12 @@ namespace MyGraph.ViewModels
       set
       {
         Set(value);
-        //if (!value && lastSearch != null)
-        //  backToSearchStart();
+        if (!value)
+        {
+          Canvas.SearchedNode = null;
+          SearchText = "";
+          
+        }
       }
     }
     public bool SettingsOpen
@@ -55,14 +59,15 @@ namespace MyGraph.ViewModels
 
         if (SearchText == "" && value != "")
         {
-          positionBeforeSearch = new Point(Canvas.CanvasTransformMatrix.Matrix.OffsetX, Canvas.CanvasTransformMatrix.Matrix.OffsetY);
+          scaleBeforeSearch = Canvas.Scale;
+          positionBeforeSearch = new Point(Canvas.CanvasTransformMatrix.Matrix.OffsetX / Canvas.Scale, Canvas.CanvasTransformMatrix.Matrix.OffsetY / Canvas.Scale);
         }
 
         Set(value);
 
         if (value == "")
         {
-          if (lastSearch != null)
+          if (Canvas.SearchedNode != null)
           {
             backToSearchStart();
           }
@@ -77,7 +82,7 @@ namespace MyGraph.ViewModels
         {
           backToSearchStart();
         }
-        if (SearchedNodes.Count() != 0 && SearchedNodes[0] != lastSearch)
+        if (SearchedNodes.Count() != 0 && SearchedNodes[0] != Canvas.SearchedNode)
           searchNode(SearchedNodes[0]);
 
       }
@@ -99,7 +104,6 @@ namespace MyGraph.ViewModels
     public IRelayCommand OpenSettingsCommand { get; private set; }
     public IRelayCommand SearchNodeCommand { get; private set; }
     public IRelayCommand ChangeThemeCommand { get; private set; }
-    public IRelayCommand SearchEnterCommand { get; private set; }
     public IRelayCommand SortNodesCommand { get; private set; }
 
     private void createCommands()
@@ -111,7 +115,6 @@ namespace MyGraph.ViewModels
       SearchNodeCommand = new RelayCommand<NodeVM>(searchNode);
       OpenSettingsCommand = new RelayCommand(openSettings);
       ChangeThemeCommand = new RelayCommand(changeTheme);
-      SearchEnterCommand = new RelayCommand(searchEnter);
       SortNodesCommand = new RelayCommand(sortNodes);
     }
     private void sortNodes()
@@ -121,39 +124,33 @@ namespace MyGraph.ViewModels
     }
 
     private Point positionBeforeSearch;
+    private double scaleBeforeSearch;
     private void backToSearchStart()
     {
-      if (positionBeforeSearch != null && lastSearch != null)
+      if (positionBeforeSearch != null)
       {
-        lastSearch.IsSelected = false;
         Matrix matrix = Canvas.CanvasTransformMatrix.Matrix;
-        matrix.OffsetX = positionBeforeSearch.X;
-        matrix.OffsetY = positionBeforeSearch.Y;
+        matrix.OffsetX = positionBeforeSearch.X * Canvas.Scale;
+        matrix.OffsetY = positionBeforeSearch.Y * Canvas.Scale;
         Canvas.CanvasTransformMatrix.Matrix = matrix;
+        Canvas.SearchedNode = null;
       }
-      lastSearch = null;
 
     }
 
-    public void searchEnter()
-    {
-      //IsSearching = false;
-
-    }
     public void change()
     {
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
     }
     public void changeTheme()
     {
-      // Initialize themes if not already done
+
       if (lightTheme == null)
       {
         lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
         darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
       }
 
-      // Remove current theme
       if (currentTheme != null)
       {
         App.Current.Resources.MergedDictionaries.Remove(currentTheme);
@@ -162,26 +159,12 @@ namespace MyGraph.ViewModels
       currentTheme = DarkMode ? lightTheme : darkTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
 
-
-      // Toggle the mode
       DarkMode = !DarkMode;
     }
 
-    private NodeVM lastSearch = null;
     public void searchNode(NodeVM node)
     {
-      Debug.Assert(node != null);
-      if (lastSearch != null)
-        lastSearch.IsSelected = false;
-
-      Canvas.panToNode(node);
-      //We only need lastSearch when node is not selected
-      //because lastSearch is only used to revert back highlight (.isSelected)
-      //when new node is searched
-      if (!node.IsSelected)
-        lastSearch = node;
-
-      node.IsSelected = true;
+      Canvas.SearchedNode = node;
 
     }
     public void openSearch()

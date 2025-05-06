@@ -138,6 +138,16 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
+    public NodeVM SearchedNode
+    {
+      get => Get<NodeVM>();
+      set
+      {
+        Set(value);
+          panToNode(value);
+      }
+    }
+
     public Point StartSelectRangePosition
     {
       get => Get<Point>();
@@ -299,6 +309,9 @@ namespace MyGraph.ViewModels
 
     public void panToNode(NodeVM node)
     {
+      if (node == null)
+        return;
+
       // Target position based on the node's position and current scale
       double targetPanX = -node.Position.X * Scale;
       double targetPanY = -node.Position.Y * Scale;
@@ -310,8 +323,6 @@ namespace MyGraph.ViewModels
       mat.OffsetX = targetPanX + offsetX;
       mat.OffsetY = targetPanY + offsetY;
       CanvasTransformMatrix.Matrix = mat;
-
-
 
       //// Get current position (OffsetX, OffsetY) from the matrix
       //double currentPanX = CanvasTransformMatrix.Matrix.OffsetX;
@@ -551,7 +562,7 @@ namespace MyGraph.ViewModels
 
       return result;
     }
-   
+
     public void sortNodes()
     {
 

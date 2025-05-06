@@ -5,9 +5,9 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <Color x:Key="Primary-1">#c4b5fd</Color>
-    <Color x:Key="Primary-2">#706ADB</Color>
-    <Color x:Key="Primary-3">#5b21b6</Color>
+    <Color x:Key="Primary-1">#706ADB</Color>
+    <Color x:Key="Primary-2">#372F57</Color>
+    <Color x:Key="Primary-3">#282636</Color>
 
     <Color x:Key="Foreground-1">white</Color>
     <Color x:Key="Foreground-2">#737373</Color>

@@ -4,9 +4,9 @@
         <ResourceDictionary Source="../Colors/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Color x:Key="Primary-1">#5b21b6</Color>
-    <Color x:Key="Primary-2">#706ADB</Color>
-    <Color x:Key="Primary-3">#706ADB</Color>
+    <Color x:Key="Primary-1">#706ADB</Color>
+    <Color x:Key="Primary-2">#B6B3F2</Color>
+    <Color x:Key="Primary-3">#D7D5F5</Color>
 
     <Color x:Key="Foreground-1">black</Color>
     <Color x:Key="Foreground-2">#71717a</Color>

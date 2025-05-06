@@ -28,16 +28,19 @@
     <SolidColorBrush x:Key="MenuBorder" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="MenuButtonBackground" Color="{DynamicResource Background-3}" />
     <SolidColorBrush x:Key="MenuButtonForeground" Color="{DynamicResource Foreground-1}" />
-    <SolidColorBrush x:Key="MenuButtonBackgroundActivated" Color="{DynamicResource Background-3}" />
+    <SolidColorBrush x:Key="MenuButtonBackgroundActivated" Color="{DynamicResource Primary-2}" />
     <SolidColorBrush x:Key="MenuButtonForegroundActivated" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="MenuButtonBackgroundHover" Color="{DynamicResource Background-2}" />
     <SolidColorBrush x:Key="MenuButtonForegroundHover" Color="{DynamicResource Primary-1}" />
 
     <!--  Node  -->
     <SolidColorBrush x:Key="NodeBackground" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="NodeBackgroundHover" Color="{DynamicResource Primary-3}" />
+    <SolidColorBrush x:Key="NodeBackgroundSearched" Color="{DynamicResource Primary-2}" />
     <SolidColorBrush x:Key="NodeBorder" Color="{DynamicResource Border-1}" />
-    <SolidColorBrush x:Key="NodeBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="NodeBorderSelected" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="NodeBorderHover" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="NodeBorderSearched" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="NodeText" Color="{DynamicResource Foreground-1}" />
     <SolidColorBrush x:Key="NodeAddOutput" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="NodeAddOutputHover" Color="{DynamicResource Border-3}" />
@@ -57,7 +60,7 @@
     <SolidColorBrush x:Key="OutputBackground" Color="{DynamicResource Background-1}" />
     <SolidColorBrush x:Key="OutputBorder" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="OutputBorderHover" Color="{DynamicResource Border-3}" />
-    <SolidColorBrush x:Key="OutputBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="OutputBorderSelected" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="OutputBorderConnected" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="OutputBackgroundConnected" Color="{DynamicResource Background-1}" />
 
@@ -65,7 +68,7 @@
     <SolidColorBrush x:Key="InputBackground" Color="{DynamicResource Background-1}" />
     <SolidColorBrush x:Key="InputBorder" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="InputBorderHover" Color="{DynamicResource Border-3}" />
-    <SolidColorBrush x:Key="InputBorderSelected" Color="{DynamicResource Primary-2}" />
+    <SolidColorBrush x:Key="InputBorderSelected" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="InputBorderConnected" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="InputBackgroundConnected" Color="{DynamicResource Background-1}" />
 

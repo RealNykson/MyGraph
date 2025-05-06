@@ -194,7 +194,7 @@ namespace MyGraph.ViewModels
       }
 
     }
-    double spacingHorizontal = 100;
+    double spacingHorizontal = 125;
     double spacingVertical = 50;
     public void orderAllChildrenRelativeToSelf()
     {

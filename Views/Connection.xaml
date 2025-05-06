@@ -32,7 +32,7 @@
         <Path
             x:Name="VisiblePath"
             IsHitTestVisible="False"
-            StrokeThickness="2">
+            StrokeThickness="3">
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
