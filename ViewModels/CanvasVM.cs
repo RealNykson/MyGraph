@@ -551,77 +551,18 @@ namespace MyGraph.ViewModels
 
       return result;
     }
-
-
+   
     public void sortNodes()
     {
 
-      List<List<NodeVM>> groups = new List<List<NodeVM>>();
+      List<NodeVM> startNodes = new List<NodeVM>();
 
-      foreach (NodeVM node in Nodes.Where(n => n.Inputs.Count() == 0).ToList())
+      startNodes = Nodes.Where(n => n.Inputs.Count() == 0).ToList();
+
+      foreach (NodeVM node in startNodes)
       {
-        groups.Add(node.getAllConnectedNodes());
+        node.orderAllChildrenRelativeToSelf();
       }
-
-      double startX = -CanvasTransformMatrix.Matrix.OffsetX / Scale + GridWidth / 5;
-      double startY = -CanvasTransformMatrix.Matrix.OffsetY / Scale + GridHeight / 5;
-
-
-      double lastHeight = 0;
-      foreach (List<NodeVM> currentGroup in groups)
-      {
-
-        startY += lastHeight;
-        double currentX = startX;
-        double currentY = startY;
-
-        int V = currentGroup.Count;
-
-        List<Connection> connections = new List<Connection>();
-
-        foreach (NodeVM node in currentGroup)
-        {
-          connections.AddRange(node.Outputs.Where(n => n.End != null));
-        }
-
-        int[,] edges = new int[connections.Count(), 2];
-        for (int i = 0; i < connections.Count(); i++)
-        {
-          ConnectionVM currentConnection = (ConnectionVM)connections[i];
-          if (currentConnection.End == null)
-            continue;
-          edges[i, 0] = currentGroup.IndexOf(currentConnection.Start);
-          edges[i, 1] = currentGroup.IndexOf(currentConnection.End);
-        }
-
-        int[] result = TopologicalSort(V, edges);
-        if (result.Length > 0)
-        {
-          for (int i = 0; i < result.Length; i++)
-          {
-            NodeVM currentNode = currentGroup[result[i]];
-            if (i > 0)
-            {
-              NodeVM previewsNode = currentGroup[result[i - 1]];
-              if (previewsNode.Outputs.Where(c => c.End != null && c.End == currentNode).Count() == 0)
-              {
-                currentY += previewsNode.Height + 50;
-                lastHeight += previewsNode.Height + 50;
-              }
-              else
-              {
-                currentX += previewsNode.Width + 50;
-                currentY = startY;
-              }
-            }
-
-            currentNode.moveAbsolute(currentX, currentY);
-
-          }
-        }
-
-      }
-
 
     }
 

@@ -97,7 +97,7 @@ namespace MyGraph.ViewModels
         return;
       Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
-      
+
       foreach (Connection connection in Inputs)
       {
         connection.Start.orderConnections();
@@ -106,7 +106,6 @@ namespace MyGraph.ViewModels
 
       foreach (Connection connection in Outputs)
       {
-
         connection.End.orderConnections();
         connection.moveStart(deltaX, deltaY);
       }
@@ -117,12 +116,15 @@ namespace MyGraph.ViewModels
 
       foreach (Connection connection in Inputs)
       {
+
+        connection.End.orderConnections();
         connection.updateInput();
       }
 
       foreach (Connection connection in Outputs)
       {
 
+        connection.Start.orderConnections();
         connection.updateOutput();
       }
     }
@@ -178,22 +180,47 @@ namespace MyGraph.ViewModels
     public void orderConnections()
     {
       List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
-      if(!Outputs.SequenceEqual(orderedOutputs))
+      if (!Outputs.SequenceEqual(orderedOutputs))
       {
         Outputs = new ObservableCollection<Connection>(orderedOutputs);
         updateOutputs();
       }
 
       List<Connection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
-      if(!Outputs.SequenceEqual(orderedInputs))
+      if (!Outputs.SequenceEqual(orderedInputs))
       {
         Inputs = new ObservableCollection<Connection>(orderedInputs);
         updateInputs();
       }
 
+    }
+    double spacingHorizontal = 100;
+    double spacingVertical = 50;
+    public void orderAllChildrenRelativeToSelf()
+    {
+      double startX = Position.X;
+      double startY = Position.Y;
+      double currentX = startX;
+      double currentY = startY;
+
+      List<Connection> connections = new List<Connection>();
+
+      foreach (Connection con in Outputs)
+      {
+        con.End.moveAbsolute(currentX + Width + spacingHorizontal, startY);
+        startY += con.End.Height + spacingVertical;
+      }
+
+      foreach (Connection con in Outputs)
+      {
+        con.End.orderAllChildrenRelativeToSelf();
+      }
+
 
 
     }
+
+
 
 
     public void updateOutputs()

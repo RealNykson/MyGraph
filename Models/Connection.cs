@@ -80,38 +80,8 @@ namespace MyGraph.Models
       get => Get<PointCollection>();
       set => Set(value);
     }
-    public void orderConnections()
-    {
-      if (End == null)
-        return;
-
-      List<Connection> orderList = End.Inputs.Where(c => c.End != null).OrderBy(c => c.Start.Position.Y).ToList();
-      if (!orderList.SequenceEqual(End.Inputs))
-      {
-        End.Inputs.Clear();
-        End.Height = Start.MinHeight;
-        foreach (Connection con in orderList)
-        {
-          End.Inputs.Add(con);
-        }
-      }
-
-      /*
-      orderList = Start.Outputs.Where(c => c.End != null).OrderBy(c => c.End.Position.Y).ToList();
-      if (!orderList.SequenceEqual(Start.Outputs))
-      {
-        Start.Outputs.Clear();
-        Start.Height = Start.MinHeight;
-        foreach (Connection con in orderList)
-        {
-          Start.Outputs.Add(con);
-        }
-      } */
-
-
-
-    }
-
+ 
+   
     public void moveStart(double deltaX, double deltaY)
     {
 
@@ -197,7 +167,6 @@ namespace MyGraph.Models
     public void updateOutput()
     {
 
-      orderConnections();
       double PositionOutputX = Start.Position.X + Start.Width + OffsetOutput;
       double PositionOutputY = getNewYPosition(Start, Start.Outputs);
 

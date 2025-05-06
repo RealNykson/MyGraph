@@ -1,5 +1,5 @@
+using MyGraph.Models;
 using MyGraph.Utilities;
-using MyGraph.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,219 +9,425 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Documents;
+using System.Windows.Input;
 
-namespace MyGraph.Models
+namespace MyGraph.ViewModels
 {
-  abstract class Connection : CanvasItem
+  class NodeVM : CanvasItem
   {
-    public double MarginStrength = 100;
-    public double OffsetInput = 2.5;
-    public double OffsetOutput = 3;
-    public double spacing = 23;
-
-    private NodeVM _Start;
-    public NodeVM Start
+    public string Name
     {
-      get
-      {
-        return _Start;
-      }
-      set
-      {
-        if (_Start != null)
-        {
-          _Start.Outputs.Remove(this);
-        }
-
-        _Start = value;
-        if (value != null)
-        {
-          value.Outputs.Add(this);
-        }
-
-      }
-    }
-
-
-    private NodeVM _End;
-    public NodeVM End
-    {
-      get
-      {
-        return _End;
-      }
-      set
-      {
-        if (_End != null)
-        {
-          _End.Inputs.Remove(this);
-        }
-
-        _End = value;
-        if (value != null)
-        {
-          value.Inputs.Add(this);
-          return;
-        }
-
-      }
-    }
-
-    public Point startPos
-    {
-      get => Get<Point>();
+      get => Get<string>();
       set => Set(value);
     }
 
-    public PointCollection CurvePoints
+    public double MinWidth
     {
+      get => Get<double>();
+      set
+      {
+        Set(value);
+        if (value > Width)
+          Width = value;
+      }
+    }
+    public double MinHeight
+    {
+      get => Get<double>();
+      set
+      {
+        Set(value);
+        if (value > Height)
+          Height = value;
+      }
+    }
 
-      get => Get<PointCollection>();
+
+    public double Width
+    {
+      get => Get<double>();
       set => Set(value);
     }
+    public double Height
+    {
+      get => Get<double>();
+      set => Set(value);
+    }
+
+
+    public bool IsSelected
+    {
+      get => Get<bool>();
+      set
+      {
+        if (value)
+        {
+          if (Canvas.SelectedNodes.IndexOf(this) == -1)
+          {
+            Canvas.SelectedNodes.Add(this);
+          }
+          ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
+        }
+        else
+        {
+          Canvas.SelectedNodes.Remove(this);
+        }
+
+        Set(value);
+
+      }
+    }
+
+
+    public ObservableCollection<Connection> Inputs
+    {
+      get => Get<ObservableCollection<Connection>>();
+      set => Set(value);
+    }
+    public ObservableCollection<Connection> Outputs
+    {
+      get => Get<ObservableCollection<Connection>>();
+      set => Set(value);
+    }
+
+    public void move(double deltaX, double deltaY)
+    {
+      if (IsLocked)
+        return;
+      Position = new Point(Position.X + deltaX, Position.Y + deltaY);
+
+
+      foreach (Connection connection in Inputs)
+      {
+        connection.Start.orderConnections();
+        connection.moveEnd(deltaX, deltaY);
+      }
+
+      foreach (Connection connection in Outputs)
+      {
+
+        connection.End.orderConnections();
+        connection.moveStart(deltaX, deltaY);
+      }
+    }
+    public void moveAbsolute(double newPosX, double newPosY)
+    {
+      Position = new Point(newPosX, newPosY);
+
+      foreach (Connection connection in Inputs)
+      {
+        connection.updateInput();
+      }
+
+      foreach (Connection connection in Outputs)
+      {
+
+        connection.updateOutput();
+      }
+    }
+
+
+    public void connectNode(NodeVM node)
+    {
+      Debug.Assert(node != null);
+      Debug.Assert(node != this);
+      Debug.Assert(Outputs.Where(n => n.End == node).FirstOrDefault() == null);
+      Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
+
+      ConnectionVM connectionVM = new ConnectionVM(this, node);
+
+    }
+    public void disconnectNode(NodeVM node)
+    {
+      Debug.Assert(node != null);
+      Debug.Assert(node != this);
+      Debug.Assert(Outputs.Where(n => n.End == node).Count() == 1);
+      Debug.Assert(node.Inputs.Where(n => n.Start == this).Count() == 1);
+      Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 1);
+
+      node.Inputs.Where(n => n.Start == this).FirstOrDefault().Delete();
+
+    }
+
+
+    public IRelayCommand AddGhostOutputCommand { get; private set; }
+
+    public void createCommands()
+    {
+      AddGhostOutputCommand = new RelayCommand(addGhostOutput);
+    }
+    public void addGhostOutput()
+    {
+      Canvas.CurrentAction = Action.ConnectingOutput;
+      new PreviewConnectionVM(this);
+    }
+    public bool IsLocked
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
+
+    public bool IsDragging
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
     public void orderConnections()
     {
-      List<Connection> orderList = End.Inputs.OrderBy(c => c.Start.Position.Y).ToList();
-      if (!orderList.SequenceEqual(End.Inputs))
+      List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
+      if (!Outputs.SequenceEqual(orderedOutputs))
       {
-        End.Inputs.Clear();
-        End.Height = Start.MinHeight;
-        foreach (Connection con in orderList)
-        {
-          End.Inputs.Add(con);
-        }
-      }
-       orderList = Start.Outputs.OrderBy(c => c.End.Position.Y).ToList();
-      if (!orderList.SequenceEqual(Start.Outputs))
-      {
-        Start.Outputs.Clear();
-        Start.Height = Start.MinHeight;
-        foreach (Connection con in orderList)
-        {
-          Start.Outputs.Add(con);
-        }
+        Outputs = new ObservableCollection<Connection>(orderedOutputs);
+        updateOutputs();
       }
 
+      List<Connection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
+      if (!Outputs.SequenceEqual(orderedInputs))
+      {
+        Inputs = new ObservableCollection<Connection>(orderedInputs);
+        updateInputs();
+      }
+
+    }
+    double spacing = 50;
+    public void orderAllChildrenRelativeToSelf()
+    {
+      double startX = Position.X;
+      double startY = Position.Y;
+      double currentX = startX;
+      double currentY = startY;
+
+      List<Connection> connections = new List<Connection>();
+
+      foreach (Connection con in Outputs)
+      {
+        con.End.moveAbsolute(currentX + Width + spacing, startY);
+        startY += con.End.Height + spacing;
+
+      }
+
+      orderAllChildrenRelativeToSelf();
 
 
     }
 
-    public void moveStart(double deltaX, double deltaY)
+
+
+
+    public void updateOutputs()
+    {
+      foreach (Connection connection in Outputs)
+      {
+        connection.updateOutput();
+      }
+    }
+
+    public void updateInputs()
     {
 
-      Debug.Assert(CurvePoints.Count == 3);
-      startPos = new Point(startPos.X + deltaX, startPos.Y + deltaY);
-      CurvePoints[0] = new Point(CurvePoints[0].X + deltaX, CurvePoints[0].Y + deltaY);
+      foreach (Connection connection in Inputs)
+      {
+        connection.updateInput();
+      }
+    }
+    public bool isAllreadyConnectedTo(NodeVM input)
+    {
+      return Canvas.Connections.Where(c => c.Start == this && c.End == input).Count() != 0;
     }
 
-    public void moveEnd(double deltaX, double deltaY)
+    bool justSet = false;
+    public void MouseDown(MouseButtonEventArgs ev)
     {
 
+      if (ev.LeftButton != MouseButtonState.Pressed)
+        return;
+
+      if (Canvas.CurrentAction == Action.ConnectingOutput
+        && Canvas.GhostConnection.Start != this
+        && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
+      {
+        NodeVM start = Canvas.GhostConnection.Start;
+        Canvas.GhostConnection.Delete();
+        start.connectNode(this);
+        Canvas.CurrentAction = Action.None;
+        return;
+      }
+
+      if (!Keyboard.IsKeyDown(Key.LeftShift) && !IsSelected)
+      {
+        foreach (NodeVM node in Canvas.Nodes)
+        {
+          node.IsSelected = false;
+        }
+      }
+      if (!IsSelected)
+      {
+        justSet = true;
+      }
+      IsSelected = true;
 
 
-      Debug.Assert(CurvePoints.Count == 3);
-      CurvePoints[1] = new Point(CurvePoints[1].X + deltaX, CurvePoints[1].Y + deltaY);
-      CurvePoints[2] = new Point(CurvePoints[2].X + deltaX, CurvePoints[2].Y + deltaY);
-
-      //Easy way to trigger WPF render refresh because PointCollection dont recognize change
-      Point _startPos = startPos;
-      startPos = new Point();
-      startPos = _startPos;
+      if (!IsLocked)
+      {
+        startDragPosition = Canvas.LastMousePosition;
+        Canvas.CurrentAction = Action.Dragging;
+      }
     }
-    public void moveStartAbsolute(double newPosX, double newPosY)
+    public void MouseRightDown(MouseButtonEventArgs ev)
     {
-      Debug.Assert(CurvePoints.Count == 3);
-      startPos = new Point(newPosX, newPosY);
-      CurvePoints[0] = new Point(newPosX + MarginStrength, newPosY);
+      IsLocked = !IsLocked;
     }
 
-    public void moveEndAbsolute(double newPosX, double newPosY)
+
+    private Point startDragPosition;
+    public void MouseUp(MouseButtonEventArgs ev)
+    {
+      if (!justSet && Canvas.LastMousePosition == startDragPosition)
+      {
+        IsSelected = false;
+      }
+      justSet = false;
+
+      Canvas.CurrentAction = Action.None;
+    }
+    public void MouseEnter()
+    {
+      if (Canvas.CurrentAction == Action.ConnectingOutput
+               && Canvas.GhostConnection.Start != this
+               && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
+      {
+        Canvas.GhostConnection.End = this;
+        Canvas.GhostConnection.updateInput();
+        ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
+
+      }
+
+    }
+    public void MouseLeave()
+    {
+      if (Canvas.CurrentAction == Action.ConnectingOutput
+        && Canvas.GhostConnection.End == this)
+      {
+        Canvas.GhostConnection.End = null;
+
+        Inputs.Remove(Canvas.GhostConnection);
+
+        Canvas.GhostConnection.moveEndToMouse();
+
+      }
+
+
+    }
+    public void Delete()
+    {
+      for (int i = Outputs.Count - 1; i >= 0; i--)
+      {
+        Outputs.ElementAt(i).Delete();
+      }
+
+      for (int i = Inputs.Count - 1; i >= 0; i--)
+      {
+        Inputs.ElementAt(i).Delete();
+      }
+
+      Canvas.SelectedNodes.Remove(this);
+      Canvas.Nodes.Remove(this);
+
+    }
+
+
+    public NodeVM()
     {
 
-      Debug.Assert(CurvePoints.Count == 3);
-      CurvePoints[1] = new Point(newPosX - MarginStrength, newPosY);
-      CurvePoints[2] = new Point(newPosX, newPosY);
+      MinWidth = 150;
+      MinHeight = 60;
+      Position = new Point(2500, 2500);
+      Outputs = new ObservableCollection<Connection>();
+      Inputs = new ObservableCollection<Connection>();
+      Inputs.CollectionChanged += Inputs_CollectionChanged;
+      Outputs.CollectionChanged += Outputs_CollectionChanged;
+      createCommands();
 
-      //Easy way to trigger WPF render refresh because PointCollection dont recognize change
-      Point _startPos = startPos;
-      startPos = new Point();
-      startPos = _startPos;
+      Canvas.Nodes.Add(this);
+
     }
-
-
     /// <summary>
-    /// Updates the position of the connection when a new input/output is added
+    /// Gets all nodes connected after this node including itself
     /// </summary>
-    /// <param name="node">The node that needs to be updated</param>
-    /// <param name="connectionList">Either Inputs or Outputs of the given node</param>
-    public double getNewYPosition(NodeVM node, ObservableCollection<Connection> connectionList)
+    /// <returns></returns>
+    public List<NodeVM> getAllConnectedNodes()
     {
-      int index = connectionList.IndexOf(this) + 1;
-      Debug.Assert(CurvePoints.Count == 3);
+      List<NodeVM> connected = new List<NodeVM>();
+      connected.Add(this);
+      foreach (ConnectionVM node in Outputs)
+      {
+        connected.AddRange(node.End.getAllConnectedNodes());
+      }
+      return connected;
+    }
 
-      double middlePoint = (double)(connectionList.Count() + 1) / 2;
-      int modifier = middlePoint > index ? -1 : +1;
-      double stepCount = Math.Abs(middlePoint - index);
+    private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
 
-      double newPosition = (double)(spacing * modifier) * stepCount;
-      double maxPositionInsideNode = (double)(node.Height / 2) - spacing;
+      ObservableCollection<Connection> newInputs = (ObservableCollection<Connection>)sender;
+      switch (e.Action)
+      {
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+          if (newInputs.Count() > Outputs.Count())
+          {
+            Height += 15;
+            updateOutputs();
+          }
+          break;
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+          if (newInputs.Count() >= Outputs.Count())
+          {
+            Height -= 15;
+            updateOutputs();
+          }
+          break;
+        default:
+          return;
+      }
 
-      //if (newPosition > maxPositionInsideNode)
-      //{
-      //  node.Height += spacing;
-      //  node.updateInputs();
-      //  node.updateOutputs();
-      //}
-
-      return newPosition + node.Position.Y + (double)(node.Height / 2);
+      updateInputs();
 
     }
 
-    public void updateInput()
-    {
-      double PositionX = End.Position.X - OffsetInput;
-      double PositionY = getNewYPosition(End, End.Inputs);
-      CurvePoints[1] = new Point(PositionX - MarginStrength, PositionY);
-      CurvePoints[2] = new Point(PositionX, PositionY);
 
-      Point _startPos = startPos;
-      startPos = new Point();
-      startPos = _startPos;
-
-    }
-    public void updateOutput()
-    {
-      double PositionOutputX = Start.Position.X + Start.Width + OffsetOutput;
-      double PositionOutputY = getNewYPosition(Start, Start.Outputs);
-
-      startPos = new Point(PositionOutputX, PositionOutputY);
-      CurvePoints[0] = new Point(PositionOutputX + MarginStrength, PositionOutputY);
-    }
-
-    public Connection(NodeVM output, NodeVM input)
-    {
-      Debug.Assert(output != null);
-
-      CurvePoints = new PointCollection();
-      CurvePoints.Add(new Point());
-      CurvePoints.Add(new Point());
-      CurvePoints.Add(new Point());
-      CurvePoints.Changed += CurvePoints_Changed;
-
-      Start = output;
-      End = input;
-
-    }
-
-    private void CurvePoints_Changed(object sender, EventArgs e)
+    private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
 
+      ObservableCollection<Connection> newOutputs = (ObservableCollection<Connection>)sender;
+      switch (e.Action)
+      {
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+          if (newOutputs.Count() > Inputs.Count())
+          {
+            Height += 23;
+            updateInputs();
+          }
+          break;
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+          if (newOutputs.Count() >= Inputs.Count())
+          {
+            Height -= 23;
+            updateInputs();
+          }
+          break;
+        default:
+          return;
+      }
+
+      updateOutputs();
+
+
     }
-
-    public abstract void Delete();
-
-
 
   }
 }
