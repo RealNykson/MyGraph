@@ -97,16 +97,36 @@ namespace MyGraph.ViewModels
         return;
       Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
+      
       foreach (Connection connection in Inputs)
       {
+        connection.Start.orderConnections();
         connection.moveEnd(deltaX, deltaY);
       }
 
       foreach (Connection connection in Outputs)
       {
+
+        connection.End.orderConnections();
         connection.moveStart(deltaX, deltaY);
       }
     }
+    public void moveAbsolute(double newPosX, double newPosY)
+    {
+      Position = new Point(newPosX, newPosY);
+
+      foreach (Connection connection in Inputs)
+      {
+        connection.updateInput();
+      }
+
+      foreach (Connection connection in Outputs)
+      {
+
+        connection.updateOutput();
+      }
+    }
+
 
     public void connectNode(NodeVM node)
     {
@@ -155,6 +175,27 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
+    public void orderConnections()
+    {
+      List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
+      if(!Outputs.SequenceEqual(orderedOutputs))
+      {
+        Outputs = new ObservableCollection<Connection>(orderedOutputs);
+        updateOutputs();
+      }
+
+      List<Connection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
+      if(!Outputs.SequenceEqual(orderedInputs))
+      {
+        Inputs = new ObservableCollection<Connection>(orderedInputs);
+        updateInputs();
+      }
+
+
+
+    }
+
+
     public void updateOutputs()
     {
       foreach (Connection connection in Outputs)
@@ -165,6 +206,7 @@ namespace MyGraph.ViewModels
 
     public void updateInputs()
     {
+
       foreach (Connection connection in Inputs)
       {
         connection.updateInput();
@@ -291,6 +333,20 @@ namespace MyGraph.ViewModels
       Canvas.Nodes.Add(this);
 
     }
+    /// <summary>
+    /// Gets all nodes connected after this node including itself
+    /// </summary>
+    /// <returns></returns>
+    public List<NodeVM> getAllConnectedNodes()
+    {
+      List<NodeVM> connected = new List<NodeVM>();
+      connected.Add(this);
+      foreach (ConnectionVM node in Outputs)
+      {
+        connected.AddRange(node.End.getAllConnectedNodes());
+      }
+      return connected;
+    }
 
     private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
@@ -348,7 +404,7 @@ namespace MyGraph.ViewModels
       }
 
       updateOutputs();
-    
+
 
     }
 

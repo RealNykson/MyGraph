@@ -100,6 +100,7 @@ namespace MyGraph.ViewModels
     public IRelayCommand SearchNodeCommand { get; private set; }
     public IRelayCommand ChangeThemeCommand { get; private set; }
     public IRelayCommand SearchEnterCommand { get; private set; }
+    public IRelayCommand SortNodesCommand { get; private set; }
 
     private void createCommands()
     {
@@ -111,6 +112,12 @@ namespace MyGraph.ViewModels
       OpenSettingsCommand = new RelayCommand(openSettings);
       ChangeThemeCommand = new RelayCommand(changeTheme);
       SearchEnterCommand = new RelayCommand(searchEnter);
+      SortNodesCommand = new RelayCommand(sortNodes);
+    }
+    private void sortNodes()
+    {
+      Canvas.sortNodes();
+
     }
 
     private Point positionBeforeSearch;

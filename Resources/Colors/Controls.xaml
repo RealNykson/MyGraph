@@ -16,7 +16,7 @@
     <!--  RangeSelector  -->
     <SolidColorBrush
         x:Key="SelectorBackground"
-        Opacity="0.2"
+        Opacity="0.8"
         Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="SelectorBorder" Color="{DynamicResource Primary-1}" />
 

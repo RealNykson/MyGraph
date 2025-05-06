@@ -16,6 +16,8 @@ using System.Windows.Controls;
 using System.Dynamic;
 using System.Threading;
 using System.Windows.Media.Animation;
+using System.Diagnostics.Eventing.Reader;
+using MyGraph.Models;
 
 namespace MyGraph.ViewModels
 {
@@ -108,7 +110,7 @@ namespace MyGraph.ViewModels
     public double GridWidth
     {
       get { return Get<double>(); }
-      set { Set(value);  }
+      set { Set(value); }
     }
 
     public double CanvasHeight
@@ -294,7 +296,7 @@ namespace MyGraph.ViewModels
     #endregion
 
     #region Methods
-    
+
     public void panToNode(NodeVM node)
     {
       // Target position based on the node's position and current scale
@@ -309,7 +311,7 @@ namespace MyGraph.ViewModels
       mat.OffsetY = targetPanY + offsetY;
       CanvasTransformMatrix.Matrix = mat;
 
-      
+
 
       //// Get current position (OffsetX, OffsetY) from the matrix
       //double currentPanX = CanvasTransformMatrix.Matrix.OffsetX;
@@ -482,6 +484,145 @@ namespace MyGraph.ViewModels
       }
 
       LastMousePosition = currentPosition;
+    }
+    public List<int>[] ConstructAdj(int V, int[,] edges)
+    {
+      List<int>[] adj = new List<int>[V];
+
+      for (int i = 0; i < V; i++)
+      {
+        adj[i] = new List<int>();
+      }
+
+      for (int i = 0; i < edges.GetLength(0); i++)
+      {
+        adj[edges[i, 0]].Add(edges[i, 1]);
+      }
+
+      return adj;
+    }
+
+    public int[] TopologicalSort(int V, int[,] edges)
+    {
+      List<int>[] adj = ConstructAdj(V, edges);
+      int[] indegree = new int[V];
+
+      for (int i = 0; i < V; i++)
+      {
+        foreach (var neighbor in adj[i])
+        {
+          indegree[neighbor]++;
+        }
+      }
+
+      Queue<int> q = new Queue<int>();
+      for (int i = 0; i < V; i++)
+      {
+        if (indegree[i] == 0)
+        {
+          q.Enqueue(i);
+        }
+      }
+
+      int[] result = new int[V];
+      int index = 0;
+
+      while (q.Count > 0)
+      {
+        int node = q.Dequeue();
+        result[index++] = node;
+
+        foreach (var neighbor in adj[node])
+        {
+          indegree[neighbor]--;
+          if (indegree[neighbor] == 0)
+          {
+            q.Enqueue(neighbor);
+          }
+        }
+      }
+
+      // Check for cycle
+      if (index != V)
+      {
+        Console.WriteLine("Graph contains a cycle!");
+        return new int[0];
+      }
+
+      return result;
+    }
+
+
+    public void sortNodes()
+    {
+
+      List<List<NodeVM>> groups = new List<List<NodeVM>>();
+
+      foreach (NodeVM node in Nodes.Where(n => n.Inputs.Count() == 0).ToList())
+      {
+        groups.Add(node.getAllConnectedNodes());
+      }
+
+      double startX = -CanvasTransformMatrix.Matrix.OffsetX / Scale + GridWidth / 5;
+      double startY = -CanvasTransformMatrix.Matrix.OffsetY / Scale + GridHeight / 5;
+
+
+      double lastHeight = 0;
+      foreach (List<NodeVM> currentGroup in groups)
+      {
+
+        startY += lastHeight;
+        double currentX = startX;
+        double currentY = startY;
+
+        int V = currentGroup.Count;
+
+        List<Connection> connections = new List<Connection>();
+
+        foreach (NodeVM node in currentGroup)
+        {
+          connections.AddRange(node.Outputs.Where(n => n.End != null));
+        }
+
+        int[,] edges = new int[connections.Count(), 2];
+        for (int i = 0; i < connections.Count(); i++)
+        {
+          ConnectionVM currentConnection = (ConnectionVM)connections[i];
+          if (currentConnection.End == null)
+            continue;
+          edges[i, 0] = currentGroup.IndexOf(currentConnection.Start);
+          edges[i, 1] = currentGroup.IndexOf(currentConnection.End);
+        }
+
+        int[] result = TopologicalSort(V, edges);
+        if (result.Length > 0)
+        {
+          for (int i = 0; i < result.Length; i++)
+          {
+            NodeVM currentNode = currentGroup[result[i]];
+            if (i > 0)
+            {
+              NodeVM previewsNode = currentGroup[result[i - 1]];
+              if (previewsNode.Outputs.Where(c => c.End != null && c.End == currentNode).Count() == 0)
+              {
+                currentY += previewsNode.Height + 50;
+                lastHeight += previewsNode.Height + 50;
+              }
+              else
+              {
+                currentX += previewsNode.Width + 50;
+                currentY = startY;
+              }
+            }
+
+            currentNode.moveAbsolute(currentX, currentY);
+
+          }
+        }
+
+      }
+
+
     }
 
     #endregion Methods

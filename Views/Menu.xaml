@@ -258,7 +258,7 @@
                             </Grid>
                         </Button>
 
-                        <Button Command="{Binding RearangeNodesCommand}" ToolTip="Rearange all Nodes">
+                        <Button Command="{Binding SortNodesCommand}" ToolTip="Rearange all Nodes">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <!--  Center Rounded Rectangle  -->
                                 <Path
@@ -411,21 +411,22 @@
             Margin="30"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
+
             <Border
-                Width="50"
-                Height="50"
-                HorizontalAlignment="Left"
+                Margin="0,5,0,0"
                 Background="{DynamicResource MenuBackground}"
                 BorderBrush="{DynamicResource MenuBorder}"
-                BorderThickness="1"
-                CornerRadius="4"
-                SnapsToDevicePixels="True">
+                BorderThickness="1.5"
+                CornerRadius="4">
+                <Border.Style>
+                    <Style TargetType="Border" />
+                </Border.Style>
+
                 <Button Command="{Binding OpenSettingsCommand}">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Path
                             StrokeEndLineCap="Round"
                             StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round"
                             StrokeThickness="2">
                             <Path.Data>
                                 <GeometryGroup>
@@ -435,6 +436,7 @@
                                 </GeometryGroup>
                             </Path.Data>
                         </Path>
+
                     </Grid>
                 </Button>
             </Border>
@@ -467,10 +469,22 @@
             Margin="50,100,50,50"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
-            <!--<TextBlock FontSize="20" Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
-            <TextBlock FontSize="20" Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetY}" />
-            <TextBlock FontSize="20" Text="{Binding Canvas.MousePositionOnCanvas.X}" />
-            <TextBlock FontSize="20" Text="{Binding Canvas.MousePositionOnCanvas.Y}" />-->
+            <TextBlock
+                FontSize="20"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
+            <TextBlock
+                FontSize="20"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetY}" />
+            <TextBlock
+                FontSize="20"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding Canvas.MousePositionOnCanvas.X}" />
+            <TextBlock
+                FontSize="20"
+                Foreground="{DynamicResource DebugText}"
+                Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
 
         </StackPanel>
 

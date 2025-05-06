@@ -1,4 +1,4 @@
-﻿using MyGraph.Utilities;
+using MyGraph.Utilities;
 using MyGraph.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -71,7 +71,7 @@ namespace MyGraph.Models
     public Point startPos
     {
       get => Get<Point>();
-      set { Set(value); }
+      set => Set(value);
     }
 
     public PointCollection CurvePoints
@@ -82,10 +82,7 @@ namespace MyGraph.Models
     }
     public void orderConnections()
     {
-      if (End == null)
-        return;
-
-      List<Connection> orderList = End.Inputs.Where(c => c.End != null).OrderBy(c => c.Start.Position.Y).ToList();
+      List<Connection> orderList = End.Inputs.OrderBy(c => c.Start.Position.Y).ToList();
       if (!orderList.SequenceEqual(End.Inputs))
       {
         End.Inputs.Clear();
@@ -95,9 +92,7 @@ namespace MyGraph.Models
           End.Inputs.Add(con);
         }
       }
-
-      /*
-      orderList = Start.Outputs.Where(c => c.End != null).OrderBy(c => c.End.Position.Y).ToList();
+       orderList = Start.Outputs.OrderBy(c => c.End.Position.Y).ToList();
       if (!orderList.SequenceEqual(Start.Outputs))
       {
         Start.Outputs.Clear();
@@ -106,7 +101,7 @@ namespace MyGraph.Models
         {
           Start.Outputs.Add(con);
         }
-      } */
+      }
 
 
 
@@ -122,6 +117,8 @@ namespace MyGraph.Models
 
     public void moveEnd(double deltaX, double deltaY)
     {
+
+
 
       Debug.Assert(CurvePoints.Count == 3);
       CurvePoints[1] = new Point(CurvePoints[1].X + deltaX, CurvePoints[1].Y + deltaY);
@@ -183,7 +180,6 @@ namespace MyGraph.Models
 
     public void updateInput()
     {
-
       double PositionX = End.Position.X - OffsetInput;
       double PositionY = getNewYPosition(End, End.Inputs);
       CurvePoints[1] = new Point(PositionX - MarginStrength, PositionY);
@@ -196,8 +192,6 @@ namespace MyGraph.Models
     }
     public void updateOutput()
     {
-
-      orderConnections();
       double PositionOutputX = Start.Position.X + Start.Width + OffsetOutput;
       double PositionOutputY = getNewYPosition(Start, Start.Outputs);
 
@@ -213,9 +207,15 @@ namespace MyGraph.Models
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
+      CurvePoints.Changed += CurvePoints_Changed;
 
       Start = output;
       End = input;
+
+    }
+
+    private void CurvePoints_Changed(object sender, EventArgs e)
+    {
 
     }
 
