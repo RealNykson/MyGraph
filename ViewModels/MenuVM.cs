@@ -31,11 +31,11 @@ namespace MyGraph.ViewModels
       set
       {
         Set(value);
+        SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.OrderBy(n => n.Name));
         if (!value)
         {
           Canvas.SearchedNode = null;
           SearchText = "";
-          
         }
       }
     }
@@ -50,6 +50,22 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
+    public bool EditMode
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
+    public bool AreSelectedNodesLocked
+    {
+      get
+      {
+        if (Canvas?.SelectedNodes == null || !Canvas.SelectedNodes.Any())
+          return false;
+
+        return Canvas.SelectedNodes.Where(n => n.IsLocked).FirstOrDefault() != null;
+      }
+    }
 
     public string SearchText
     {
@@ -105,6 +121,7 @@ namespace MyGraph.ViewModels
     public IRelayCommand SearchNodeCommand { get; private set; }
     public IRelayCommand ChangeThemeCommand { get; private set; }
     public IRelayCommand SortNodesCommand { get; private set; }
+    public IRelayCommand SwitchModeCommand { get; private set; }
 
     private void createCommands()
     {
@@ -116,6 +133,7 @@ namespace MyGraph.ViewModels
       OpenSettingsCommand = new RelayCommand(openSettings);
       ChangeThemeCommand = new RelayCommand(changeTheme);
       SortNodesCommand = new RelayCommand(sortNodes);
+      SwitchModeCommand = new RelayCommand(switchMode);
     }
     private void sortNodes()
     {
@@ -179,11 +197,14 @@ namespace MyGraph.ViewModels
 
     private void lockNodes()
     {
-      for (int i = Canvas.SelectedNodes.Count - 1; i >= 0; i--)
+      bool select = AreSelectedNodesLocked;
+
+      foreach (var node in Canvas.SelectedNodes)
       {
-        Canvas.SelectedNodes.ElementAt(i).IsLocked = !Canvas.SelectedNodes.ElementAt(i).IsLocked;
+        node.IsLocked = !select;
       }
 
+      OnPropertyChanged(nameof(AreSelectedNodesLocked));
     }
     private void connectNodes()
     {
@@ -198,6 +219,12 @@ namespace MyGraph.ViewModels
         Canvas.SelectedNodes.ElementAt(i).Delete();
       }
 
+    }
+
+    public void switchMode()
+    {
+      EditMode = !EditMode;
+      // Add any additional logic needed when switching modes
     }
 
     #endregion Commands
@@ -215,6 +242,7 @@ namespace MyGraph.ViewModels
       currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
       DarkMode = false;
+      EditMode = true;
 
       createCommands();
       Canvas = CanvasVM.currentCanvas;

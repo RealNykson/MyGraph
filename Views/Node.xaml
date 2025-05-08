@@ -23,7 +23,7 @@
             <Border
                 Width="{Binding Width}"
                 Height="{Binding Height}"
-                CornerRadius="4"
+                CornerRadius="3"
                 MouseDown="Grid_MouseDown"
                 MouseRightButtonDown="Border_MouseRightButtonDown">
                 <Border.Style>

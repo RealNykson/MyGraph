@@ -136,6 +136,7 @@ namespace MyGraph.ViewModels
       Debug.Assert(node != this);
       Debug.Assert(Outputs.Where(n => n.End == node).FirstOrDefault() == null);
       Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
+     
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
 
@@ -350,6 +351,7 @@ namespace MyGraph.ViewModels
 
       MinWidth = 150;
       MinHeight = 60;
+      Name = "";
       Position = new Point(2500, 2500);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();

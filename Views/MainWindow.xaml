@@ -13,8 +13,10 @@
     MinHeight="600"
     AllowsTransparency="False"
     ResizeMode="CanResize"
+    SizeChanged="Window_SizeChanged"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
+
     <WindowChrome.WindowChrome>
         <WindowChrome
             CornerRadius="{x:Static SystemParameters.WindowCornerRadius}"
@@ -50,7 +52,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Command="{Binding MinimizeWindowCommand}"
-                    Foreground="White"
+                    Foreground="{DynamicResource MenuButtonForeground}"
                     WindowChrome.IsHitTestVisibleInChrome="True">
                     <Path
                         Width="10"
@@ -71,7 +73,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Command="{Binding MaximizeWindowCommand}"
-                    Foreground="White"
+                    Foreground="{DynamicResource MenuButtonForeground}"
                     WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button.Style>
                         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
@@ -87,7 +89,7 @@
                                                 Data="M2,2 L10,2 L10,10 L2,10 Z M0,0 L8,0 L8,8 L0,8 Z"
                                                 Fill="Transparent"
                                                 Stretch="Uniform"
-                                                Stroke="White"
+                                                Stroke="{DynamicResource MenuButtonForeground}"
                                                 StrokeThickness="1" />
                                         </Setter.Value>
                                     </Setter>
@@ -122,7 +124,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Command="{Binding CloseWindowCommand}"
-                    Foreground="White"
+                    Foreground="{DynamicResource MenuButtonForeground}"
                     WindowChrome.IsHitTestVisibleInChrome="True">
                     <Path
                         Width="10"

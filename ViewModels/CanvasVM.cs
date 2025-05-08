@@ -390,6 +390,7 @@ namespace MyGraph.ViewModels
         CurrentAction = Action.None;
         return;
       }
+      
 
       var mat = CanvasTransformMatrix.Matrix;
       mat.OffsetX += delta.X;

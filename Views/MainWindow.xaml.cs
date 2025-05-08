@@ -19,8 +19,23 @@ namespace MyGraph.Views
   {
     public MainWindow()
     {
+      CoreCompatibilityPreferences.EnableMultiMonitorDisplayClipping = true;
       DataContext = new MainWindowVM();
       InitializeComponent();
     }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      if (this.WindowState == WindowState.Maximized)
+      {
+        this.BorderThickness = new System.Windows.Thickness(8);
+      }
+      else
+      {
+        this.BorderThickness = new System.Windows.Thickness(0);
+      }
+
+    }
   }
+
 }

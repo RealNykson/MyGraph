@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ColorPallete.xaml" />
         <ResourceDictionary Source="../Colors/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -17,6 +16,7 @@
     <Color x:Key="Border-3">black</Color>
 
     <Color x:Key="Background-1">#ffffff</Color>
-    <Color x:Key="Background-2">#cbd5e1</Color>
-    <Color x:Key="Background-3">#e2e8f0</Color>
+    <Color x:Key="Background-2">#F5F5F5</Color>
+    <Color x:Key="Background-3">#ffffff</Color>
+    <Color x:Key="Background-4">#e2e8f0</Color>
 </ResourceDictionary>
