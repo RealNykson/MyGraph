@@ -72,200 +72,389 @@
 
         </Grid.Resources>
 
-        <StackPanel
-            Margin="30"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                    FontSize="20"
-                    Foreground="{DynamicResource MenuInfoText}"
-                    Text="{Binding Canvas.CleanScale}" />
-                <TextBlock FontSize="20" Foreground="{DynamicResource MenuInfoText}">%</TextBlock>
-            </StackPanel>
-        </StackPanel>
-
-        <Border
-            Margin="30"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom"
-            Background="{DynamicResource MenuBackground}"
-            BorderBrush="{DynamicResource MenuBorder}"
-            BorderThickness="1.5"
-            CornerRadius="4">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Canvas.SelectedNodes.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                    <Style.Setters>
-                        <Setter Property="Visibility" Value="Visible" />
-                    </Style.Setters>
-                </Style>
-
-            </Border.Style>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
             <StackPanel
+                Margin="30"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="20"
+                        Foreground="{DynamicResource MenuInfoText}"
+                        Text="{Binding Canvas.CleanScale}" />
+                    <TextBlock FontSize="20" Foreground="{DynamicResource MenuInfoText}">%</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <Border
+                Margin="30"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
+                Background="{DynamicResource MenuBackground}"
+                BorderBrush="{DynamicResource MenuBorder}"
+                BorderThickness="1.5"
+                CornerRadius="4">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Canvas.SelectedNodes.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </Style.Setters>
+                    </Style>
+
+                </Border.Style>
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+
+                    <Button Command="{Binding LockNodesCommand}">
+                        <Button.Style>
+
+                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path
+                                Fill="Transparent"
+                                Stroke="{DynamicResource MenuButtonForeground}"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Round"
+                                StrokeThickness="2">
+                                <Path.Style>
+                                    <Style BasedOn="{StaticResource {x:Type Path}}" TargetType="Path">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="True">
+                                                <!--  Unlocked icon  -->
+                                                <Setter Property="Data" Value="M3,11 A2,2 0 0 1 5,9 H19 A2,2 0 0 1 21,11 V20 A2,2 0 0 1 19,22 H5 A2,2 0 0 1 3,20 Z M7,9 V5 A5,5 0 0 1 17,5 V9" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="False">
+                                                <!--  Locked icon  -->
+                                                <Setter Property="Data" Value="M3,11 A2,2 0 0 1 5,9 H19 A2,2 0 0 1 21,11 V20 A2,2 0 0 1 19,22 H5 A2,2 0 0 1 3,20 Z M7,9 V5 A5,5 0 0 1 17,5 V9" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                        <Setter Property="StrokeThickness" Value="2" />
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                        </Grid>
+                    </Button>
+
+                    <Button Command="{Binding ConnectNodesCommand}">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!--  Plug (Right Side, Bottom)  -->
+                            <Path
+                                Data="M17,21 V19 A1,1 0 0 1 16,18 V17 A2,2 0 0 1 18,15 H20 A2,2 0 0 1 22,17 V18 A1,1 0 0 1 21,19"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Main Cable Curve  -->
+                            <Path
+                                Data="M19,15 V6.5 A1,1 0 0 0 12,6.5 V17.5 A1,1 0 0 1 5,17.5 V9"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Horizontal Cable End (Right Plug Line)  -->
+                            <Path
+                                Data="M21,21 V19 H17"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Horizontal Cable Start (Left Top Plug Line)  -->
+                            <Path
+                                Data="M3,5 H7 V3"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Plug (Left Side, Top)  -->
+                            <Path
+                                Data="M7,5 A1,1 0 0 1 8,6 V7 A2,2 0 0 1 6,9 H4 A2,2 0 0 1 2,7 V6 A1,1 0 0 1 3,5 V3"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2" />
+                        </Grid>
+
+                    </Button>
+
+                    <Button Command="{Binding DeleteNodesCommand}">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            <Path
+                                Data="M3,6 H21"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Trash Can Body  -->
+                            <Path
+                                Data="M19,6 V20 C19,21 18,22 17,22 H7 C6,22 5,21 5,20 V6"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Round"
+                                StrokeThickness="2" />
+
+                            <!--  Trash Can Handle  -->
+                            <Path
+                                Data="M8,6 V4 C8,3 9,2 10,2 H14 C15,2 16,3 16,4 V6"
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Round"
+                                StrokeThickness="2" />
+                        </Grid>
+
+                    </Button>
+
+
+
+
+                </StackPanel>
+
+            </Border>
+
+
+            <StackPanel
+                Margin="30,100,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
                 Orientation="Horizontal">
+                <StackPanel>
+                    <Border
+                        BorderBrush="{DynamicResource MenuBorder}"
+                        BorderThickness="1.5"
+                        CornerRadius="4">
+                        <Button Command="{Binding OpenSearchCommand}">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path
+                                    Data="m21 21-4.34-4.34  M19,11     A8,8 0 1 0 3,11     A8,8 0 1 0 19,11"
+                                    StrokeEndLineCap="Round"
+                                    StrokeLineJoin="Round"
+                                    StrokeThickness="2" />
 
-                <Button Command="{Binding LockNodesCommand}">
-                    <Button.Style>
+                            </Grid>
+                        </Button>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSearching}" Value="true">
+                                        <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Style.Setters>
+                                    <Setter Property="Background" Value="{DynamicResource MenuButtonBackground}" />
+                                </Style.Setters>
+                            </Style>
 
-                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                        </Border.Style>
+
+                    </Border>
+                    <Border
+                        Margin="0,5,0,0"
+                        Background="{DynamicResource MenuBackground}"
+                        BorderBrush="{DynamicResource MenuBorder}"
+                        BorderThickness="1.5"
+                        CornerRadius="4">
+                        <Border.Style>
+                            <Style TargetType="Border" />
+                        </Border.Style>
+
+
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Orientation="Vertical">
+
+                            <Button Command="{Binding AddNewNodeCommand}">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Path
+                                        Data="M5,12 H19 M12,5 V19"
+                                        Fill="Transparent"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="2" />
+
+                                </Grid>
+                            </Button>
+
+                            <Button Command="{Binding SortNodesCommand}" ToolTip="Rearange all Nodes">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <!--  Center Rounded Rectangle  -->
+                                    <Path
+                                        Data="M8,10 C8,8.895 8.895,8 10,8 H14 C15.105,8 16,8.895 16,10 V14 C16,15.105 15.105,16 14,16 H10 C8.895,16 8,15.105 8,14 Z"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="2" />
+
+                                    <!--  Top-Left Frame Curve  -->
+                                    <Path
+                                        Data="M4,10 C2.895,10 2,9.105 2,8 V4 C2,2.895 2.895,2 4,2 H8 C9.105,2 10,2.895 10,4"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="2" />
+
+                                    <!--  Bottom-Right Frame Curve  -->
+                                    <Path
+                                        Data="M14,20 C14,21.105 14.895,22 16,22 H20 C21.105,22 22,21.105 22,20 V16 C22,14.895 21.105,14 20,14"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="2" />
+
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+
+                    </Border>
+                </StackPanel>
+                <Border
+                    Width="200"
+                    Height="300"
+                    Margin="10,0,0,0"
+                    Padding="20,20,20,20"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MenuBackground}"
+                    BorderBrush="{DynamicResource MenuBorder}"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                    <Border.Style>
+                        <Style TargetType="Border">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
+                                <DataTrigger Binding="{Binding IsSearching}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
+                            <Setter Property="Visibility" Value="Collapsed" />
                         </Style>
-                    </Button.Style>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Path
-                            Fill="Transparent"
-                            Stroke="{DynamicResource MenuButtonForeground}"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round"
-                            StrokeThickness="2">
-                            <Path.Style>
-                                <Style BasedOn="{StaticResource {x:Type Path}}" TargetType="Path">
+
+                    </Border.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+
+                        <Grid Grid.Row="0">
+                            <Grid.Style>
+                                <Style>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="True">
-                                            <!--  Unlocked icon  -->
-                                            <Setter Property="Data" Value="M3,11 A2,2 0 0 1 5,9 H19 A2,2 0 0 1 21,11 V20 A2,2 0 0 1 19,22 H5 A2,2 0 0 1 3,20 Z M7,9 V5 A5,5 0 0 1 17,5 V9" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding AreSelectedNodesLocked}" Value="False">
-                                            <!--  Locked icon  -->
-                                            <Setter Property="Data" Value="M3,11 A2,2 0 0 1 5,9 H19 A2,2 0 0 1 21,11 V20 A2,2 0 0 1 19,22 H5 A2,2 0 0 1 3,20 Z M7,9 V5 A5,5 0 0 1 17,5 V9" />
+                                        <DataTrigger Binding="{Binding IsSearching}" Value="True">
+                                            <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=SearchInput}" />
                                         </DataTrigger>
                                     </Style.Triggers>
-
-                                    <Setter Property="StrokeThickness" Value="2" />
                                 </Style>
-                            </Path.Style>
-                        </Path>
-                    </Grid>
-                </Button>
-
-                <Button Command="{Binding ConnectNodesCommand}">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <!--  Plug (Right Side, Bottom)  -->
-                        <Path
-                            Data="M17,21 V19 A1,1 0 0 1 16,18 V17 A2,2 0 0 1 18,15 H20 A2,2 0 0 1 22,17 V18 A1,1 0 0 1 21,19"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Main Cable Curve  -->
-                        <Path
-                            Data="M19,15 V6.5 A1,1 0 0 0 12,6.5 V17.5 A1,1 0 0 1 5,17.5 V9"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Horizontal Cable End (Right Plug Line)  -->
-                        <Path
-                            Data="M21,21 V19 H17"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Horizontal Cable Start (Left Top Plug Line)  -->
-                        <Path
-                            Data="M3,5 H7 V3"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Plug (Left Side, Top)  -->
-                        <Path
-                            Data="M7,5 A1,1 0 0 1 8,6 V7 A2,2 0 0 1 6,9 H4 A2,2 0 0 1 2,7 V6 A1,1 0 0 1 3,5 V3"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-                    </Grid>
-
-                </Button>
-
-                <Button Command="{Binding DeleteNodesCommand}">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                        <Path
-                            Data="M3,6 H21"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Trash Can Body  -->
-                        <Path
-                            Data="M19,6 V20 C19,21 18,22 17,22 H7 C6,22 5,21 5,20 V6"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round"
-                            StrokeThickness="2" />
-
-                        <!--  Trash Can Handle  -->
-                        <Path
-                            Data="M8,6 V4 C8,3 9,2 10,2 H14 C15,2 16,3 16,4 V6"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round"
-                            StrokeThickness="2" />
-                    </Grid>
-
-                </Button>
-
-
-
-
-            </StackPanel>
-
-        </Border>
-
-
-        <StackPanel
-            Margin="30,100,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-            <StackPanel>
-                <Border
-                    BorderBrush="{DynamicResource MenuBorder}"
-                    BorderThickness="1.5"
-                    CornerRadius="4">
-                    <Button Command="{Binding OpenSearchCommand}">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </Grid.Style>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
                             <Path
                                 Data="m21 21-4.34-4.34  M19,11     A8,8 0 1 0 3,11     A8,8 0 1 0 19,11"
                                 StrokeEndLineCap="Round"
                                 StrokeLineJoin="Round"
                                 StrokeThickness="2" />
+                            <Grid Grid.Column="1" Margin="10,0,0,0">
+                                <TextBox
+                                    Name="SearchInput"
+                                    Background="{DynamicResource MenuBackground}"
+                                    BorderThickness="0"
+                                    Foreground="{DynamicResource MenuButtonForeground}"
+                                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" Command="{Binding SearchEnterCommand}" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
+                                <TextBlock
+                                    Margin="2,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="DarkGray"
+                                    IsHitTestVisible="False"
+                                    Text="Search Nodes">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=SearchInput}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
 
                         </Grid>
-                    </Button>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsSearching}" Value="true">
-                                    <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Style.Setters>
-                                <Setter Property="Background" Value="{DynamicResource MenuButtonBackground}" />
-                            </Style.Setters>
-                        </Style>
 
-                    </Border.Style>
+                        <ItemsControl
+                            Grid.Row="1"
+                            Margin="0,5,0,0"
+                            ItemsSource="{Binding SearchedNodes}">
+                            <ItemsControl.Template>
+                                <ControlTemplate>
+                                    <ScrollViewer x:Name="ScrollViewer" CanContentScroll="False">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="0,10,0,0"
+                                        Background="{DynamicResource NodeBackground}"
+                                        BorderBrush="{DynamicResource NodeBorder}"
+                                        BorderThickness="1.5"
+                                        CornerRadius="4">
+                                        <Button
+                                            Padding="20,10,20,10"
+                                            Command="{Binding Path=DataContext.SearchNodeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource SearchedNodeButton}">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                FontWeight="Normal"
+                                                Foreground="{DynamicResource MenuButtonForeground}"
+                                                Text="{Binding Name}" />
+                                        </Button>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+
+                    </Grid>
 
                 </Border>
+            </StackPanel>
+            <StackPanel
+                Margin="30"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+
                 <Border
                     Margin="0,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
                     Background="{DynamicResource MenuBackground}"
                     BorderBrush="{DynamicResource MenuBorder}"
                     BorderThickness="1.5"
@@ -274,313 +463,133 @@
                         <Style TargetType="Border" />
                     </Border.Style>
 
+                    <Button Command="{Binding OpenSettingsCommand}">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path
+                                StrokeEndLineCap="Round"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="4,12" EndPoint="20,12" />
+                                        <LineGeometry StartPoint="4,18" EndPoint="20,18" />
+                                        <LineGeometry StartPoint="4,6" EndPoint="20,6" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
 
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Orientation="Vertical">
+                        </Grid>
+                    </Button>
+                </Border>
+                <Border
+                    Width="200"
+                    Height="auto"
+                    Margin="0,5,0,0"
+                    Padding="10,10,10,10"
+                    Background="{DynamicResource MenuBackground}"
+                    BorderBrush="{DynamicResource MenuBorder}"
+                    BorderThickness="1"
+                    CornerRadius="3">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SettingsOpen}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Border.Style>
+                    <StackPanel Orientation="Vertical">
+                        <!--  Theme Switcher  -->
+                        <Button
+                            Width="auto"
+                            Height="auto"
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Command="{Binding ChangeThemeCommand}"
+                            ToolTip="Switch Theme">
+                            <Grid Width="Auto" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                        <Button Command="{Binding AddNewNodeCommand}">
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Path
-                                    Data="M5,12 H19 M12,5 V19"
-                                    Fill="Transparent"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="2" />
+                                <Grid
+                                    Grid.Column="0"
+                                    Width="24"
+                                    Height="24"
+                                    Margin="0,0,10,0">
+                                    <Path
+                                        Data="M12,2 A10,10 0 0 1 12,22 A10,10 0 0 1 12,2"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="1.5" />
+                                    <Path
+                                        Data="M12,2 A10,10 0 0 0 12,22"
+                                        Fill="{DynamicResource MenuButtonForeground}"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="0" />
+                                </Grid>
 
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource MenuButtonForeground}"
+                                    Text="{Binding DarkMode, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Dark Mode;Light Mode'}" />
                             </Grid>
                         </Button>
 
-                        <Button Command="{Binding SortNodesCommand}" ToolTip="Rearange all Nodes">
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <!--  Center Rounded Rectangle  -->
-                                <Path
-                                    Data="M8,10 C8,8.895 8.895,8 10,8 H14 C15.105,8 16,8.895 16,10 V14 C16,15.105 15.105,16 14,16 H10 C8.895,16 8,15.105 8,14 Z"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="2" />
+                        <!--  Mode Switcher  -->
+                        <Button
+                            Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Command="{Binding SwitchModeCommand}"
+                            ToolTip="Switch Mode">
+                            <Grid Width="Auto" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                <!--  Top-Left Frame Curve  -->
-                                <Path
-                                    Data="M4,10 C2.895,10 2,9.105 2,8 V4 C2,2.895 2.895,2 4,2 H8 C9.105,2 10,2.895 10,4"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="2" />
+                                <Grid
+                                    Grid.Column="0"
+                                    Width="24"
+                                    Height="24"
+                                    Margin="0,0,10,0">
+                                    <Path
+                                        Data="M3,17 V21 H21 V17"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="1.5" />
+                                    <Path
+                                        Data="M18,10 L12,16 L6,10"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="1.5" />
+                                    <Path
+                                        Data="M12,3 V16"
+                                        StrokeEndLineCap="Round"
+                                        StrokeLineJoin="Round"
+                                        StrokeThickness="1.5" />
+                                </Grid>
 
-                                <!--  Bottom-Right Frame Curve  -->
-                                <Path
-                                    Data="M14,20 C14,21.105 14.895,22 16,22 H20 C21.105,22 22,21.105 22,20 V16 C22,14.895 21.105,14 20,14"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="2" />
-
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource MenuButtonForeground}"
+                                    Text="{Binding EditMode, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Edit Mode;View Mode'}" />
                             </Grid>
                         </Button>
                     </StackPanel>
-
                 </Border>
+
             </StackPanel>
-            <Border
-                Width="200"
-                Height="300"
-                Margin="10,0,0,0"
-                Padding="20,20,20,20"
-                VerticalAlignment="Top"
-                Background="{DynamicResource MenuBackground}"
-                BorderBrush="{DynamicResource MenuBorder}"
-                BorderThickness="1"
-                CornerRadius="4">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsSearching}" Value="true">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </Style>
-
-                </Border.Style>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-
-                    <Grid Grid.Row="0">
-                        <Grid.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSearching}" Value="True">
-                                        <Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=SearchInput}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Path
-                            Data="m21 21-4.34-4.34  M19,11     A8,8 0 1 0 3,11     A8,8 0 1 0 19,11"
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2" />
-                        <Grid Grid.Column="1" Margin="10,0,0,0">
-                            <TextBox
-                                Name="SearchInput"
-                                Background="{DynamicResource MenuBackground}"
-                                BorderThickness="0"
-                                Foreground="{DynamicResource MenuButtonForeground}"
-                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
-                                <TextBox.InputBindings>
-                                    <KeyBinding Key="Enter" Command="{Binding SearchEnterCommand}" />
-                                </TextBox.InputBindings>
-                            </TextBox>
-                            <TextBlock
-                                Margin="2,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Foreground="DarkGray"
-                                IsHitTestVisible="False"
-                                Text="Search Nodes">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=SearchInput}" Value="">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-
-                    </Grid>
-
-                    <ItemsControl
-                        Grid.Row="1"
-                        Margin="0,5,0,0"
-                        ItemsSource="{Binding SearchedNodes}">
-                        <ItemsControl.Template>
-                            <ControlTemplate>
-                                <ScrollViewer x:Name="ScrollViewer" CanContentScroll="False">
-                                    <ItemsPresenter />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border
-                                    Margin="0,10,0,0"
-                                    Background="{DynamicResource NodeBackground}"
-                                    BorderBrush="{DynamicResource NodeBorder}"
-                                    BorderThickness="1.5"
-                                    CornerRadius="4">
-                                    <Button
-                                        Padding="20,10,20,10"
-                                        Command="{Binding Path=DataContext.SearchNodeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource SearchedNodeButton}">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontWeight="Normal"
-                                            Foreground="{DynamicResource MenuButtonForeground}"
-                                            Text="{Binding Name}" />
-                                    </Button>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-
-                </Grid>
-
-            </Border>
-        </StackPanel>
-        <StackPanel
-            Margin="30"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-
-            <Border
-                Margin="0,5,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Background="{DynamicResource MenuBackground}"
-                BorderBrush="{DynamicResource MenuBorder}"
-                BorderThickness="1.5"
-                CornerRadius="4">
-                <Border.Style>
-                    <Style TargetType="Border" />
-                </Border.Style>
-
-                <Button Command="{Binding OpenSettingsCommand}">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Path
-                            StrokeEndLineCap="Round"
-                            StrokeLineJoin="Round"
-                            StrokeThickness="2">
-                            <Path.Data>
-                                <GeometryGroup>
-                                    <LineGeometry StartPoint="4,12" EndPoint="20,12" />
-                                    <LineGeometry StartPoint="4,18" EndPoint="20,18" />
-                                    <LineGeometry StartPoint="4,6" EndPoint="20,6" />
-                                </GeometryGroup>
-                            </Path.Data>
-                        </Path>
-
-                    </Grid>
-                </Button>
-            </Border>
-            <Border
-                Width="200"
-                Height="auto"
-                Margin="0,5,0,0"
-                Padding="10,10,10,10"
-                Background="{DynamicResource MenuBackground}"
-                BorderBrush="{DynamicResource MenuBorder}"
-                BorderThickness="1"
-                CornerRadius="3">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding SettingsOpen}" Value="true">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </Style>
-                </Border.Style>
-                <StackPanel Orientation="Vertical">
-                    <!--  Theme Switcher  -->
-                    <Button
-                        Margin="0,0,0,10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding ChangeThemeCommand}"
-                        ToolTip="Switch Theme">
-                        <Grid Width="Auto" HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                Margin="0,0,10,0">
-                                <Path
-                                    Data="M12,2 A10,10 0 0 1 12,22 A10,10 0 0 1 12,2"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="1.5" />
-                                <Path
-                                    Data="M12,2 A10,10 0 0 0 12,22"
-                                    Fill="{DynamicResource MenuButtonForeground}"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="0" />
-                            </Grid>
-
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource MenuButtonForeground}"
-                                Text="{Binding DarkMode, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Dark Mode;Light Mode'}" />
-                        </Grid>
-                    </Button>
-
-                    <!--  Mode Switcher  -->
-                    <Button
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding SwitchModeCommand}"
-                        ToolTip="Switch Mode">
-                        <Grid Width="Auto" HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                Margin="0,0,10,0">
-                                <Path
-                                    Data="M3,17 V21 H21 V17"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="1.5" />
-                                <Path
-                                    Data="M18,10 L12,16 L6,10"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="1.5" />
-                                <Path
-                                    Data="M12,3 V16"
-                                    StrokeEndLineCap="Round"
-                                    StrokeLineJoin="Round"
-                                    StrokeThickness="1.5" />
-                            </Grid>
-
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource MenuButtonForeground}"
-                                Text="{Binding EditMode, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Edit Mode;View Mode'}" />
-                        </Grid>
-                    </Button>
-                </StackPanel>
-            </Border>
-
-        </StackPanel>
-        <!--<StackPanel
+            <!--<StackPanel
             Margin="50,100,50,50"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
@@ -603,6 +612,9 @@
 
         </StackPanel>-->
 
-
+        </Grid>
+        <Grid Grid.Column="1">
+            <!--<Grid Width="300" Background="Red" />-->
+        </Grid>
     </Grid>
 </UserControl>

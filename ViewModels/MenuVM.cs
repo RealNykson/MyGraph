@@ -146,7 +146,6 @@ namespace MyGraph.ViewModels
     private void sortNodes()
     {
       Canvas.sortNodes();
-
     }
 
     private Point positionBeforeSearch;

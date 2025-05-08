@@ -89,12 +89,12 @@ namespace MyGraph.ViewModels
     public ObservableCollection<Connection> Inputs
     {
       get => Get<ObservableCollection<Connection>>();
-      set { Set(value); value.CollectionChanged += Inputs_CollectionChanged;  }
+      set { Set(value); value.CollectionChanged += Inputs_CollectionChanged; }
     }
     public ObservableCollection<Connection> Outputs
     {
       get => Get<ObservableCollection<Connection>>();
-      set { Set(value); value.CollectionChanged += Outputs_CollectionChanged;  }
+      set { Set(value); value.CollectionChanged += Outputs_CollectionChanged; }
     }
 
     public void move(double deltaX, double deltaY)
@@ -140,7 +140,7 @@ namespace MyGraph.ViewModels
       Debug.Assert(node != this);
       Debug.Assert(Outputs.Where(n => n.End == node).FirstOrDefault() == null);
       Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
-     
+
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
 
@@ -201,24 +201,30 @@ namespace MyGraph.ViewModels
     }
     double spacingHorizontal = 125;
     double spacingVertical = 50;
-    public void orderAllChildrenRelativeToSelf()
+    public void orderAllChildrenRelativeToSelf(List<NodeVM> allreadyOrderedList)
     {
       double startX = Position.X;
       double startY = Position.Y;
       double currentX = startX;
       double currentY = startY;
+      allreadyOrderedList.Add(this);
 
       List<Connection> connections = new List<Connection>();
 
       foreach (Connection con in Outputs)
       {
+
+        if (allreadyOrderedList.Contains(con.End))
+          continue;
         con.End.moveAbsolute(currentX + Width + spacingHorizontal, startY);
         startY += con.End.Height + spacingVertical;
       }
 
       foreach (Connection con in Outputs)
       {
-        con.End.orderAllChildrenRelativeToSelf();
+        if (allreadyOrderedList.Contains(con.End))
+          continue;
+        con.End.orderAllChildrenRelativeToSelf(allreadyOrderedList);
       }
 
 

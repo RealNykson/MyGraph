@@ -566,7 +566,8 @@ namespace MyGraph.ViewModels
 
       foreach (NodeVM node in startNodes)
       {
-        node.orderAllChildrenRelativeToSelf();
+        List<NodeVM> orderList = new List<NodeVM>();
+        node.orderAllChildrenRelativeToSelf(orderList);
       }
 
     }
