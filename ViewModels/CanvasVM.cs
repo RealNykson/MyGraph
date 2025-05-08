@@ -501,7 +501,7 @@ namespace MyGraph.ViewModels
 
     #region Events
 
-    public void SelectedNodes_Changed(object sender, NotifyCollectionChangedEventArgs e )
+    public void SelectedNodes_Changed(object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e != null && e.Action == NotifyCollectionChangedAction.Reset)
       {
@@ -518,16 +518,23 @@ namespace MyGraph.ViewModels
 
       foreach (NodeVM node in SelectedNodes)
       {
-        if (!SelectedNodesInputs.Contains(node))
+        foreach (Connection output in node.Outputs)
         {
-          SelectedNodesInputs.Add(node);
+          if (!SelectedNodesOutputs.Contains(output.End))
+          {
+            SelectedNodesOutputs.Add(output.End);
+          }
         }
 
-        if (!SelectedNodesOutputs.Contains(node))
+        foreach (Connection inputs in node.Inputs)
         {
-          SelectedNodesOutputs.Add(node);
+          if (inputs.End != null && !SelectedNodesInputs.Contains(inputs.Start))
+          {
+            SelectedNodesInputs.Add(inputs.Start);
+          }
         }
       }
+
       //
 
     }

@@ -2,7 +2,7 @@
 
     <Style TargetType="TextBlock">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="{DynamicResource MenuButtonForeground}" />
         <Setter Property="FontFamily" Value="Inter" />
 
     </Style>

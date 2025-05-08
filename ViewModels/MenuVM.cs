@@ -110,6 +110,12 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
+    public bool IsSidebarCollapsed
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
     #endregion
 
     #region Commands
@@ -123,6 +129,7 @@ namespace MyGraph.ViewModels
     public IRelayCommand SortNodesCommand { get; private set; }
     public IRelayCommand SwitchModeCommand { get; private set; }
     public IRelayCommand AddNewNodeCommand { get; private set; }
+    public IRelayCommand ToggleSidebarCommand { get; private set; }
 
     private void createCommands()
     {
@@ -136,6 +143,7 @@ namespace MyGraph.ViewModels
       SortNodesCommand = new RelayCommand(sortNodes);
       SwitchModeCommand = new RelayCommand(switchMode);
       AddNewNodeCommand = new RelayCommand(addNewNode);
+      ToggleSidebarCommand = new RelayCommand(toggleSidebar);
     }
 
     private void addNewNode()
@@ -233,6 +241,11 @@ namespace MyGraph.ViewModels
       // Add any additional logic needed when switching modes
     }
 
+    public void toggleSidebar()
+    {
+      IsSidebarCollapsed = !IsSidebarCollapsed;
+    }
+
     #endregion Commands
 
     #region Constructor
@@ -248,6 +261,7 @@ namespace MyGraph.ViewModels
       currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
       DarkMode = false;
+      IsSidebarCollapsed = false;
       EditMode = true;
 
       createCommands();
