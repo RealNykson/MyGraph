@@ -82,46 +82,7 @@ namespace MyGraph.Models
     }
  
    
-    public void moveStart(double deltaX, double deltaY)
-    {
-
-      Debug.Assert(CurvePoints.Count == 3);
-      startPos = new Point(startPos.X + deltaX, startPos.Y + deltaY);
-      CurvePoints[0] = new Point(CurvePoints[0].X + deltaX, CurvePoints[0].Y + deltaY);
-    }
-
-    public void moveEnd(double deltaX, double deltaY)
-    {
-
-      Debug.Assert(CurvePoints.Count == 3);
-      CurvePoints[1] = new Point(CurvePoints[1].X + deltaX, CurvePoints[1].Y + deltaY);
-      CurvePoints[2] = new Point(CurvePoints[2].X + deltaX, CurvePoints[2].Y + deltaY);
-
-      //Easy way to trigger WPF render refresh because PointCollection dont recognize change
-      Point _startPos = startPos;
-      startPos = new Point();
-      startPos = _startPos;
-    }
-    public void moveStartAbsolute(double newPosX, double newPosY)
-    {
-      Debug.Assert(CurvePoints.Count == 3);
-      startPos = new Point(newPosX, newPosY);
-      CurvePoints[0] = new Point(newPosX + MarginStrength, newPosY);
-    }
-
-    public void moveEndAbsolute(double newPosX, double newPosY)
-    {
-
-      Debug.Assert(CurvePoints.Count == 3);
-      CurvePoints[1] = new Point(newPosX - MarginStrength, newPosY);
-      CurvePoints[2] = new Point(newPosX, newPosY);
-
-      //Easy way to trigger WPF render refresh because PointCollection dont recognize change
-      Point _startPos = startPos;
-      startPos = new Point();
-      startPos = _startPos;
-    }
-
+ 
 
     /// <summary>
     /// Updates the position of the connection when a new input/output is added
@@ -139,13 +100,6 @@ namespace MyGraph.Models
 
       double newPosition = (double)(spacing * modifier) * stepCount;
       double maxPositionInsideNode = (double)(node.Height / 2) - spacing;
-
-      //if (newPosition > maxPositionInsideNode)
-      //{
-      //  node.Height += spacing;
-      //  node.updateInputs();
-      //  node.updateOutputs();
-      //}
 
       return newPosition + node.Position.Y + (double)(node.Height / 2);
 

@@ -21,6 +21,12 @@ namespace MyGraph.ViewModels
       get => Get<string>();
       set => Set(value);
     }
+    public Point Position
+    {
+      get => Get<Point>();
+      set { Set(value); updateInputs(); updateOutputs(); }
+    }
+
 
     public double MinWidth
     {
@@ -83,12 +89,12 @@ namespace MyGraph.ViewModels
     public ObservableCollection<Connection> Inputs
     {
       get => Get<ObservableCollection<Connection>>();
-      set => Set(value);
+      set { Set(value); value.CollectionChanged += Inputs_CollectionChanged;  }
     }
     public ObservableCollection<Connection> Outputs
     {
       get => Get<ObservableCollection<Connection>>();
-      set => Set(value);
+      set { Set(value); value.CollectionChanged += Outputs_CollectionChanged;  }
     }
 
     public void move(double deltaX, double deltaY)
@@ -101,13 +107,11 @@ namespace MyGraph.ViewModels
       foreach (Connection connection in Inputs)
       {
         connection.Start.orderConnections();
-        connection.moveEnd(deltaX, deltaY);
       }
 
       foreach (Connection connection in Outputs)
       {
         connection.End.orderConnections();
-        connection.moveStart(deltaX, deltaY);
       }
     }
     public void moveAbsolute(double newPosX, double newPosY)
@@ -226,6 +230,9 @@ namespace MyGraph.ViewModels
 
     public void updateOutputs()
     {
+
+      if (Outputs == null)
+        return;
       foreach (Connection connection in Outputs)
       {
         connection.updateOutput();
@@ -234,6 +241,9 @@ namespace MyGraph.ViewModels
 
     public void updateInputs()
     {
+
+      if (Inputs == null)
+        return;
 
       foreach (Connection connection in Inputs)
       {
@@ -307,7 +317,6 @@ namespace MyGraph.ViewModels
                && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
       {
         Canvas.GhostConnection.End = this;
-        Canvas.GhostConnection.updateInput();
         ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
 
       }
@@ -355,10 +364,7 @@ namespace MyGraph.ViewModels
       Position = new Point(2500, 2500);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
-      Inputs.CollectionChanged += Inputs_CollectionChanged;
-      Outputs.CollectionChanged += Outputs_CollectionChanged;
       createCommands();
-
       Canvas.Nodes.Add(this);
 
     }

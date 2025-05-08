@@ -122,6 +122,7 @@ namespace MyGraph.ViewModels
     public IRelayCommand ChangeThemeCommand { get; private set; }
     public IRelayCommand SortNodesCommand { get; private set; }
     public IRelayCommand SwitchModeCommand { get; private set; }
+    public IRelayCommand AddNewNodeCommand { get; private set; }
 
     private void createCommands()
     {
@@ -134,7 +135,14 @@ namespace MyGraph.ViewModels
       ChangeThemeCommand = new RelayCommand(changeTheme);
       SortNodesCommand = new RelayCommand(sortNodes);
       SwitchModeCommand = new RelayCommand(switchMode);
+      AddNewNodeCommand = new RelayCommand(addNewNode);
     }
+
+    private void addNewNode()
+    {
+      new NodeVM();
+    }
+
     private void sortNodes()
     {
       Canvas.sortNodes();

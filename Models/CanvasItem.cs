@@ -12,11 +12,6 @@ namespace MyGraph.Models
 {
   abstract class CanvasItem : NotifyObject
   {
-    public Point Position
-    {
-      get => Get<Point>();
-      set => Set(value);
-    }
     public int ZIndex
     {
       get => Get<int>();

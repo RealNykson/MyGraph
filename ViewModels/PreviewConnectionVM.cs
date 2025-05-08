@@ -34,7 +34,6 @@ namespace MyGraph.ViewModels
     }
     public void moveEndToMouse()
     {
-
       CurvePoints[1] = Canvas.MousePositionOnCanvas;
       CurvePoints[2] = Canvas.MousePositionOnCanvas;
 
@@ -45,16 +44,6 @@ namespace MyGraph.ViewModels
     }
 
 
-    public void MouseDown()
-    {
-      if (End != null)
-      {
-        Start.disconnectNode(End);
-        new ConnectionVM(Start, null);
-        Canvas.CurrentAction = Action.ConnectingOutput;
-      }
-
-    }
-
+  
   }
 }

@@ -144,7 +144,7 @@ namespace MyGraph.ViewModels
       set
       {
         Set(value);
-          panToNode(value);
+        panToNode(value);
       }
     }
 
@@ -289,13 +289,6 @@ namespace MyGraph.ViewModels
       c3.connectNode(c5);
 
 
-      //NodeVM test123 = new NodeVM() { name = "Node" };
-      //NodeVM newNode = new NodeVM() { name = "Node2" };
-      //NodeVM test = new NodeVM() { name = "ThisIsAReallyLongNameCuzItIs" };
-
-      //test123.move(500, 200);
-
-      //test123.connectNode(newNode);
       var mat = CanvasTransformMatrix.Matrix;
       mat.OffsetX += -2500;
       mat.OffsetY += -2500;
@@ -390,7 +383,7 @@ namespace MyGraph.ViewModels
         CurrentAction = Action.None;
         return;
       }
-      
+
 
       var mat = CanvasTransformMatrix.Matrix;
       mat.OffsetX += delta.X;

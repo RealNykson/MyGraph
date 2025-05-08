@@ -16,7 +16,6 @@
     <Color x:Key="Border-3">black</Color>
 
     <Color x:Key="Background-1">#ffffff</Color>
-    <Color x:Key="Background-2">#F5F5F5</Color>
-    <Color x:Key="Background-3">#ffffff</Color>
-    <Color x:Key="Background-4">#e2e8f0</Color>
+    <Color x:Key="Background-2">#e4e4e7</Color>
+    <Color x:Key="Background-3">#d4d4d8</Color>
 </ResourceDictionary>
