@@ -18,6 +18,7 @@ using System.Threading;
 using System.Windows.Media.Animation;
 using System.Diagnostics.Eventing.Reader;
 using MyGraph.Models;
+using System.Collections.Specialized;
 
 namespace MyGraph.ViewModels
 {
@@ -131,7 +132,6 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
-
     public PreviewConnectionVM GhostConnection
     {
       get => Get<PreviewConnectionVM>();
@@ -154,8 +154,6 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
-
-
     public double SelectRangeWidth
     {
       get => Get<double>();
@@ -173,6 +171,12 @@ namespace MyGraph.ViewModels
       get => Get<Point>();
       set => Set(value);
 
+    }
+
+    public bool IsOneSelectedNodeLocked
+    {
+      get => Get<bool>();
+      set => Set(value);
     }
 
     #endregion
@@ -194,6 +198,18 @@ namespace MyGraph.ViewModels
     public ObservableCollection<NodeVM> SelectedNodes
     {
       get { return Get<ObservableCollection<NodeVM>>(); }
+      set { Set(value); value.CollectionChanged += SelectedNodes_Changed; }
+    }
+
+    public ObservableCollection<NodeVM> SelectedNodesOutputs
+    {
+      get { return Get<ObservableCollection<NodeVM>>(); }
+      set { Set(value); }
+    }
+
+    public ObservableCollection<NodeVM> SelectedNodesInputs
+    {
+      get { return Get<ObservableCollection<NodeVM>>(); }
       set { Set(value); }
     }
 
@@ -204,97 +220,6 @@ namespace MyGraph.ViewModels
     }
 
     #endregion
-
-    #endregion
-
-    #region Commands
-
-    private bool darkMode = true;
-
-    #endregion
-
-    #region Constructor 
-    public CanvasVM()
-    {
-      currentCanvas = this;
-      CleanScale = 100;
-      GridHeight = 650;
-      GridWidth = 1000;
-      CanvasHeight = 5000;
-      CanvasWidth = 5000;
-      Scale = 1;
-
-      Nodes = new ObservableCollection<NodeVM>();
-      SelectedNodes = new ObservableCollection<NodeVM>();
-      Dots = new ObservableCollection<int>();
-      Connections = new ObservableCollection<ConnectionVM>();
-      CanvasTransformMatrix = new MatrixTransform();
-
-      for (int i = 0; i < 10000; i++)
-      {
-        Dots.Add(i);
-      }
-
-      // Gruppe A (Cluster 1)
-      NodeVM a1 = new NodeVM() { Name = "Alpha" };
-      NodeVM a2 = new NodeVM() { Name = "Beta" };
-      NodeVM a3 = new NodeVM() { Name = "Gamma" };
-      NodeVM a4 = new NodeVM() { Name = "Delta" };
-      NodeVM a5 = new NodeVM() { Name = "Epsilon" };
-
-      a1.move(100, 100);
-      a2.move(300, 100);
-      a3.move(500, 100);
-      a4.move(200, 250);
-      a5.move(400, 250);
-
-      a1.connectNode(a2);
-      a2.connectNode(a3);
-      a2.connectNode(a4);
-      a4.connectNode(a5);
-      a3.connectNode(a5);
-
-      // Gruppe B (Cluster 2)
-      NodeVM b1 = new NodeVM() { Name = "Zeta" };
-      NodeVM b2 = new NodeVM() { Name = "Eta" };
-      NodeVM b3 = new NodeVM() { Name = "Theta" };
-      NodeVM b4 = new NodeVM() { Name = "Iota" };
-
-      b1.move(800, 100);
-      b2.move(1000, 100);
-      b3.move(900, 250);
-      b4.move(1100, 250);
-
-      b1.connectNode(b2);
-      b2.connectNode(b3);
-      b3.connectNode(b1);
-      b3.connectNode(b4);
-
-      // Gruppe C (Tree-Struktur)
-      NodeVM c1 = new NodeVM() { Name = "Root" };
-      NodeVM c2 = new NodeVM() { Name = "Leaf1" };
-      NodeVM c3 = new NodeVM() { Name = "Leaf2" };
-      NodeVM c4 = new NodeVM() { Name = "Leaf3" };
-      NodeVM c5 = new NodeVM() { Name = "Leaf4" };
-
-      c1.move(250, 500);
-      c2.move(50, 650);
-      c3.move(200, 650);
-      c4.move(400, 650);
-      c5.move(200, 800);
-
-      c1.connectNode(c2);
-      c1.connectNode(c3);
-      c1.connectNode(c4);
-      c3.connectNode(c5);
-
-
-      var mat = CanvasTransformMatrix.Matrix;
-      mat.OffsetX += -2500;
-      mat.OffsetY += -2500;
-      CanvasTransformMatrix.Matrix = mat;
-
-    }
 
     #endregion
 
@@ -576,6 +501,36 @@ namespace MyGraph.ViewModels
 
     #region Events
 
+    public void SelectedNodes_Changed(object sender, NotifyCollectionChangedEventArgs e )
+    {
+      if (e != null && e.Action == NotifyCollectionChangedAction.Reset)
+      {
+        SelectedNodesOutputs.Clear();
+        SelectedNodesInputs.Clear();
+        return;
+      }
+
+      IsOneSelectedNodeLocked = SelectedNodes.Where(n => n.IsLocked).Count() != 0;
+
+      // This can be improved significantly by only removing/added outputs but this is the lazy way 
+      SelectedNodesOutputs.Clear();
+      SelectedNodesInputs.Clear();
+
+      foreach (NodeVM node in SelectedNodes)
+      {
+        if (!SelectedNodesInputs.Contains(node))
+        {
+          SelectedNodesInputs.Add(node);
+        }
+
+        if (!SelectedNodesOutputs.Contains(node))
+        {
+          SelectedNodesOutputs.Add(node);
+        }
+      }
+      //
+
+    }
     public void MouseDown(MouseButtonEventArgs ev)
     {
 
@@ -652,8 +607,93 @@ namespace MyGraph.ViewModels
 
     #endregion
 
+    #region Constructor 
+    public CanvasVM()
+    {
+      currentCanvas = this;
+      CleanScale = 100;
+      GridHeight = 650;
+      GridWidth = 1000;
+      CanvasHeight = 5000;
+      CanvasWidth = 5000;
+      Scale = 1;
+
+      Nodes = new ObservableCollection<NodeVM>();
+      SelectedNodes = new ObservableCollection<NodeVM>();
+      SelectedNodesOutputs = new ObservableCollection<NodeVM>();
+      SelectedNodesInputs = new ObservableCollection<NodeVM>();
+      Dots = new ObservableCollection<int>();
+      Connections = new ObservableCollection<ConnectionVM>();
+
+      CanvasTransformMatrix = new MatrixTransform();
+
+      for (int i = 0; i < 10000; i++)
+      {
+        Dots.Add(i);
+      }
+
+      // Gruppe A (Cluster 1)
+      NodeVM a1 = new NodeVM() { Name = "Alpha" };
+      NodeVM a2 = new NodeVM() { Name = "Beta" };
+      NodeVM a3 = new NodeVM() { Name = "Gamma" };
+      NodeVM a4 = new NodeVM() { Name = "Delta" };
+      NodeVM a5 = new NodeVM() { Name = "Epsilon" };
+
+      a1.move(100, 100);
+      a2.move(300, 100);
+      a3.move(500, 100);
+      a4.move(200, 250);
+      a5.move(400, 250);
+
+      a1.connectNode(a2);
+      a2.connectNode(a3);
+      a2.connectNode(a4);
+      a4.connectNode(a5);
+      a3.connectNode(a5);
+
+      // Gruppe B (Cluster 2)
+      NodeVM b1 = new NodeVM() { Name = "Zeta" };
+      NodeVM b2 = new NodeVM() { Name = "Eta" };
+      NodeVM b3 = new NodeVM() { Name = "Theta" };
+      NodeVM b4 = new NodeVM() { Name = "Iota" };
+
+      b1.move(800, 100);
+      b2.move(1000, 100);
+      b3.move(900, 250);
+      b4.move(1100, 250);
+
+      b1.connectNode(b2);
+      b2.connectNode(b3);
+      b3.connectNode(b1);
+      b3.connectNode(b4);
+
+      // Gruppe C (Tree-Struktur)
+      NodeVM c1 = new NodeVM() { Name = "Root" };
+      NodeVM c2 = new NodeVM() { Name = "Leaf1" };
+      NodeVM c3 = new NodeVM() { Name = "Leaf2" };
+      NodeVM c4 = new NodeVM() { Name = "Leaf3" };
+      NodeVM c5 = new NodeVM() { Name = "Leaf4" };
+
+      c1.move(250, 500);
+      c2.move(50, 650);
+      c3.move(200, 650);
+      c4.move(400, 650);
+      c5.move(200, 800);
+
+      c1.connectNode(c2);
+      c1.connectNode(c3);
+      c1.connectNode(c4);
+      c3.connectNode(c5);
 
 
+      var mat = CanvasTransformMatrix.Matrix;
+      mat.OffsetX += -2500;
+      mat.OffsetY += -2500;
+      CanvasTransformMatrix.Matrix = mat;
+
+    }
+
+    #endregion
 
 
   }
