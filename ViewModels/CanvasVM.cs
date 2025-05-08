@@ -595,6 +595,10 @@ namespace MyGraph.ViewModels
 
     }
 
+    public void MouseLeave()
+    {
+      CurrentAction = Action.None;
+    }
     public void MouseUp(MouseButtonEventArgs ev)
     {
       switch (CurrentAction)

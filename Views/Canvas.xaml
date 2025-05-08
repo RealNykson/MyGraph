@@ -44,6 +44,7 @@
             Width="10000"
             Height="10000"
             Background="{DynamicResource CanvasBackground}"
+            MouseLeave="Canvas_MouseLeave"
             MouseMove="Canvas_MouseMove"
             RenderTransform="{Binding CanvasTransformMatrix}">
             <Rectangle

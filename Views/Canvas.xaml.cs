@@ -64,5 +64,12 @@ namespace MyGraph.Views
       ((ViewModels.CanvasVM)DataContext).GridHeight = grid.ActualHeight;
 
     }
+
+    private void Canvas_MouseLeave(object sender, MouseEventArgs e)
+    {
+
+      ((ViewModels.CanvasVM)DataContext).MouseLeave();
+
+    }
   }
 }
