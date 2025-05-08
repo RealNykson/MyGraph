@@ -11,6 +11,7 @@
 
 
     <Grid>
+        <!--  Bigger Path for hit detection  -->
         <Path
             x:Name="HitTestPath"
             Data="{Binding ElementName=VisiblePath, Path=Data}"
@@ -29,6 +30,7 @@
             </Path.Style>
         </Path>
 
+        <!--  Visible connection path  -->
         <Path
             x:Name="VisiblePath"
             IsHitTestVisible="False"
@@ -83,5 +85,6 @@
                 </Style>
             </Path.Style>
         </Path>
+
     </Grid>
 </UserControl>

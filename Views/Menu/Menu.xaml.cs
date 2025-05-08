@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MyGraph.Views
+namespace MyGraph.Views.Menu
 {
   /// <summary>
   /// Interaction logic for Menu.xaml

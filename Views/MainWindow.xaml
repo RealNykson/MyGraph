@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyGraph"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:menu="clr-namespace:MyGraph.Views.Menu"
     xmlns:views="clr-namespace:MyGraph.Views"
     Title="NodeGraph - prototype"
     Width="{Binding Width}"
@@ -27,23 +28,25 @@
     </WindowChrome.WindowChrome>
 
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="2">
-            <views:Canvas />
-            <views:Menu />
-        </Grid>
 
+        <!--  Title bar  -->
         <Border
+            Grid.Row="0"
             Background="{DynamicResource MenuBackground}"
             BorderBrush="{DynamicResource MenuBorder}"
             BorderThickness="0,0,0,1">
+
             <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
+
+                <!--  Minimize Button  -->
                 <Button
                     Width="35"
                     Height="35"
@@ -64,6 +67,8 @@
                         Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                         StrokeThickness="1" />
                 </Button>
+
+                <!--  Maximize Button  -->
                 <Button
                     Width="35"
                     Height="35"
@@ -116,6 +121,8 @@
 
                     </Button.Style>
                 </Button>
+
+                <!--  Close Button  -->
                 <Button
                     Width="40"
                     Height="35"
@@ -139,5 +146,11 @@
 
             </StackPanel>
         </Border>
+
+        <Grid Grid.Row="1">
+            <views:Canvas />
+            <menu:Menu />
+        </Grid>
+
     </Grid>
 </Window>
