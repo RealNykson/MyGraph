@@ -216,7 +216,6 @@ namespace MyGraph.ViewModels
     }
     private void connectNodes()
     {
-      new NodeVM();
     }
     private void deleteNodes()
     {

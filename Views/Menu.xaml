@@ -280,7 +280,7 @@
                         VerticalAlignment="Bottom"
                         Orientation="Vertical">
 
-                        <Button Command="{Binding AddNodeCommand}">
+                        <Button Command="{Binding AddNewNodeCommand}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Path
                                     Data="M5,12 H19 M12,5 V19"
@@ -580,7 +580,7 @@
             </Border>
 
         </StackPanel>
-        <StackPanel
+        <!--<StackPanel
             Margin="50,100,50,50"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
@@ -601,7 +601,7 @@
                 Foreground="{DynamicResource DebugText}"
                 Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
 
-        </StackPanel>
+        </StackPanel>-->
 
 
     </Grid>
