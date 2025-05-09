@@ -64,6 +64,5 @@ namespace MyGraph.ViewModels
     #endregion
 
 
-
   }
 }

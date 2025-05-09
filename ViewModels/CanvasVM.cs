@@ -655,22 +655,6 @@ namespace MyGraph.ViewModels
       a4.connectNode(a5);
       a3.connectNode(a5);
 
-      // Gruppe B (Cluster 2)
-      NodeVM b1 = new NodeVM() { Name = "Zeta" };
-      NodeVM b2 = new NodeVM() { Name = "Eta" };
-      NodeVM b3 = new NodeVM() { Name = "Theta" };
-      NodeVM b4 = new NodeVM() { Name = "Iota" };
-
-      b1.move(800, 100);
-      b2.move(1000, 100);
-      b3.move(900, 250);
-      b4.move(1100, 250);
-
-      b1.connectNode(b2);
-      b2.connectNode(b3);
-      b3.connectNode(b1);
-      b3.connectNode(b4);
-
       // Gruppe C (Tree-Struktur)
       NodeVM c1 = new NodeVM() { Name = "Root" };
       NodeVM c2 = new NodeVM() { Name = "Leaf1" };
