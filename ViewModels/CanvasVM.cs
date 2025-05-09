@@ -19,6 +19,7 @@ using System.Windows.Media.Animation;
 using System.Diagnostics.Eventing.Reader;
 using MyGraph.Models;
 using System.Collections.Specialized;
+using System.Windows.Threading;
 
 namespace MyGraph.ViewModels
 {
@@ -237,57 +238,66 @@ namespace MyGraph.ViewModels
       double offsetX = GridWidth / 2 - (node.Width / 2);
       double offsetY = GridHeight / 2 - (node.Height / 2);
 
-      Matrix mat = CanvasTransformMatrix.Matrix;
-      mat.OffsetX = targetPanX + offsetX;
-      mat.OffsetY = targetPanY + offsetY;
-      CanvasTransformMatrix.Matrix = mat;
+      // Get current matrix and target offsets
+      Matrix currentMatrix = CanvasTransformMatrix.Matrix;
+      double startOffsetX = currentMatrix.OffsetX;
+      double startOffsetY = currentMatrix.OffsetY;
+      double endOffsetX = targetPanX + offsetX;
+      double endOffsetY = targetPanY + offsetY;
 
-      //// Get current position (OffsetX, OffsetY) from the matrix
-      //double currentPanX = CanvasTransformMatrix.Matrix.OffsetX;
-      //double currentPanY = CanvasTransformMatrix.Matrix.OffsetY;
-
-      //// Create DoubleAnimations for both X and Y offsets
-      //DoubleAnimation panXAnimation = new DoubleAnimation
-      //{
-      //  From = currentPanX,
-      //  To = targetPanX,
-      //  Duration = TimeSpan.FromSeconds(1),  // Adjust duration for smoothness
-      //  EasingFunction = new QuadraticEase()  // Easing for smooth animation
-      //};
-
-      //DoubleAnimation panYAnimation = new DoubleAnimation
-      //{
-      //  From = currentPanY,
-      //  To = targetPanY,
-      //  Duration = TimeSpan.FromSeconds(1),  // Same duration for both axes
-      //  EasingFunction = new QuadraticEase()  // Easing for smooth animation
-      //};
-
-      //// Apply animations to the OffsetX and OffsetY properties of the MatrixTransform
-      //Storyboard storyboard = new Storyboard();
-      //storyboard.Children.Add(panXAnimation);
-      //storyboard.Children.Add(panYAnimation);
-
-      //// Bind animations to the MatrixTransform properties
-      //Storyboard.SetTarget(panXAnimation, CanvasTransformMatrix);
-      //Storyboard.SetTarget(panYAnimation, CanvasTransformMatrix);
-      //Storyboard.SetTargetProperty(panXAnimation, new PropertyPath("Matrix.OffsetX"));
-      //Storyboard.SetTargetProperty(panYAnimation, new PropertyPath(MatrixTransform.MatrixProperty + ".OffsetY"));
-
-      //// Start the storyboard
-      //storyboard.Begin();
-
-      //// When the animation is complete, manually update the Matrix with the final position
-      //panXAnimation.Completed += (s, e) =>
-      //{
-      //  // After animation finishes, update the MatrixTransform to the final target position
-      //  CanvasTransformMatrix.Matrix = new Matrix(
-      //    CanvasTransformMatrix.Matrix.M11, CanvasTransformMatrix.Matrix.M12,
-      //    CanvasTransformMatrix.Matrix.M21, CanvasTransformMatrix.Matrix.M22,
-      //    targetPanX, targetPanY);
-      //};
-
+      // Create animation duration
+      Duration duration = new Duration(TimeSpan.FromSeconds(0.2));
+      
+      // Create storyboard for animation
+      Storyboard storyboard = new Storyboard();
+      
+      // Create timer for animation
+      System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+      timer.Interval = TimeSpan.FromMilliseconds(10); // Update every 10ms
+      
+      // Calculate total animation steps
+      int totalSteps = 20; // 0.2s / 10ms = 20 steps
+      int currentStep = 0;
+      
+      timer.Tick += (sender, e) => 
+      {
+          currentStep++;
+          if (currentStep > totalSteps)
+          {
+              // Ensure we end exactly at the target position
+              Matrix finalMatrix = currentMatrix;
+              finalMatrix.OffsetX = endOffsetX;
+              finalMatrix.OffsetY = endOffsetY;
+              CanvasTransformMatrix.Matrix = finalMatrix;
+              
+              // Stop the timer
+              timer.Stop();
+              return;
+          }
+          
+          // Calculate progress (0 to 1) with easing
+          double progress = (double)currentStep / totalSteps;
+          double easedProgress = EaseOutQuad(progress);
+          
+          // Interpolate between start and end positions
+          Matrix animatedMatrix = currentMatrix;
+          animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
+          animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
+          
+          // Apply the animated matrix
+          CanvasTransformMatrix.Matrix = animatedMatrix;
+      };
+      
+      // Start the timer
+      timer.Start();
     }
+    
+    // Helper method for quadratic ease-out function
+    private double EaseOutQuad(double t)
+    {
+        return t * (2 - t);
+    }
+
     public void updateDraggingNode(Point delta)
     {
       if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)

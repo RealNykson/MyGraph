@@ -54,7 +54,7 @@
                                 </DataTrigger.Binding>
 
                                 <Setter Property="Background" Value="{DynamicResource NodeBackgroundSearched}" />
-                                <Setter Property="BorderThickness" Value="3.5" />
+                                <Setter Property="BorderThickness" Value="3" />
                             </DataTrigger>
 
                         </Style.Triggers>
