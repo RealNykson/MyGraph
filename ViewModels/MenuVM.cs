@@ -130,6 +130,9 @@ namespace MyGraph.ViewModels
     public IRelayCommand SwitchModeCommand { get; private set; }
     public IRelayCommand AddNewNodeCommand { get; private set; }
     public IRelayCommand ToggleSidebarCommand { get; private set; }
+    public IRelayCommand UnselectNodeCommand { get; private set; }
+    public IRelayCommand RemoveInputCommand { get; private set; }
+    public IRelayCommand RemoveOutputCommand { get; private set; }
 
     private void createCommands()
     {
@@ -138,6 +141,9 @@ namespace MyGraph.ViewModels
       ConnectNodesCommand = new RelayCommand(connectNodes);
       OpenSearchCommand = new RelayCommand(openSearch);
       SearchNodeCommand = new RelayCommand<NodeVM>(searchNode);
+      UnselectNodeCommand = new RelayCommand<NodeVM>(unselectNode);
+      RemoveInputCommand = new RelayCommand<NodeVM>(removeInput);
+      RemoveOutputCommand = new RelayCommand<NodeVM>(removeOutput);
       OpenSettingsCommand = new RelayCommand(openSettings);
       ChangeThemeCommand = new RelayCommand(changeTheme);
       SortNodesCommand = new RelayCommand(sortNodes);
@@ -146,6 +152,38 @@ namespace MyGraph.ViewModels
       ToggleSidebarCommand = new RelayCommand(toggleSidebar);
     }
 
+    private void removeInput(NodeVM node)
+    {
+      foreach (NodeVM currentNode in Canvas.SelectedNodes)
+      {
+        if (currentNode.Inputs.Where(c => c.Start == node).Count() == 0)
+        {
+          continue;
+        }
+        node.disconnectNode(currentNode);
+      }
+
+    }
+
+    private void removeOutput(NodeVM node)
+    {
+      foreach (NodeVM currentNode in Canvas.SelectedNodes)
+      {
+        if (currentNode.Outputs.Where(c => c.End == node).Count() == 0)
+        {
+          continue;
+        }
+        currentNode.disconnectNode(node);
+      }
+
+    }
+    private void unselectNode(NodeVM node)
+    {
+      if (node == null)
+        return;
+
+      node.IsSelected = false;
+    }
     private void addNewNode()
     {
       new NodeVM();
@@ -261,7 +299,7 @@ namespace MyGraph.ViewModels
       currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
       DarkMode = false;
-      IsSidebarCollapsed = false;
+      IsSidebarCollapsed = true;
       EditMode = true;
 
       createCommands();

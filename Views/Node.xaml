@@ -53,9 +53,8 @@
                                     </MultiBinding>
                                 </DataTrigger.Binding>
 
-                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSearched}" />
                                 <Setter Property="Background" Value="{DynamicResource NodeBackgroundSearched}" />
-                                <Setter Property="BorderThickness" Value="2.5" />
+                                <Setter Property="BorderThickness" Value="3.5" />
                             </DataTrigger>
 
                         </Style.Triggers>
@@ -113,7 +112,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
 
-                    <!--  Ouputs  -->
+                    <!--  Outputs  -->
                     <ItemsControl
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"

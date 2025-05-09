@@ -39,6 +39,10 @@
         <Border.Style>
             <Style TargetType="Border">
                 <Style.Triggers>
+                    <DataTrigger Binding="{Binding Canvas.SelectedNodes.Count}" Value="0">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+
                     <DataTrigger Binding="{Binding IsSidebarCollapsed}" Value="false">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
@@ -74,7 +78,7 @@
 
             <!--  Toggle Button at the top  -->
             <Button
-                Margin="0,10,10,0"
+                Margin="10,10,10,10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Command="{Binding ToggleSidebarCommand}"
@@ -110,10 +114,10 @@
             </Button>
 
             <!--  Main Content  -->
-            <StackPanel Margin="15,20,15,20" Orientation="Vertical">
+            <Grid Margin="15,20,15,20">
 
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
+                <Grid.Style>
+                    <Style TargetType="Grid">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsSidebarCollapsed}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -121,44 +125,358 @@
                         </Style.Triggers>
 
                     </Style>
-                </StackPanel.Style>
-                <StackPanel.Resources>
+                </Grid.Style>
+                <Grid.Resources>
                     <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
                         <Setter Property="FontFamily" Value="Inter" />
                         <Setter Property="Foreground" Value="{DynamicResource MenuForegroundLight}" />
-                        <Setter Property="Margin" Value="0,20,0,10" />
+                        <Setter Property="Margin" Value="5,10,0,5" />
                         <Setter Property="FontSize" Value="12" />
                     </Style>
-                </StackPanel.Resources>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="CanContentScroll" Value="True" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <TextBlock Text="SelectedNodes" />
-                <ItemsControl ItemsSource="{Binding Canvas.SelectedNodes}">
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <TextBlock Foreground="{DynamicResource MenuButtonForeground}" Text="{Binding Name}" />
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
 
-                <TextBlock Text="SelectedNodes" />
-                <ItemsControl ItemsSource="{Binding Canvas.SelectedNodesInputs}">
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <TextBlock Foreground="{DynamicResource MenuButtonForeground}" Text="{Binding Name}" />
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
 
-                <TextBlock Text="SelectedNodes" />
-                <ItemsControl ItemsSource="{Binding Canvas.SelectedNodesOutputs}">
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <TextBlock Foreground="{DynamicResource MenuButtonForeground}" Text="{Binding Name}" />
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Selected" />
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding Canvas.SelectedNodes}">
+                            <ItemsControl.ItemTemplate>
+                                <ItemContainerTemplate>
+                                    <Grid
+                                        x:Name="ButtonSelectedNode"
+                                        Width="auto"
+                                        Height="auto"
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Grid.Column="0"
+                                                Height="auto"
+                                                Margin="0,0,5,0"
+                                                HorizontalAlignment="Stretch"
+                                                Background="{DynamicResource NodeBackground}"
+                                                BorderBrush="{DynamicResource NodeBorder}"
+                                                BorderThickness="1"
+                                                CornerRadius="1">
+                                                <TextBlock
+                                                    Margin="10,5,0,5"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{DynamicResource MenuButtonForeground}"
+                                                    Text="{Binding Name}" />
 
-            </StackPanel>
+                                            </Border>
+                                            <Button
+                                                x:Name="UnselectButton"
+                                                Grid.Column="1"
+                                                Width="auto"
+                                                Height="auto"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                Command="{Binding Path=DataContext.UnselectNodeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=ButtonSelectedNode}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                    </Style>
+                                                </Button.Style>
+                                                <Path
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="M0,0 L10,10 M0,10 L10,0"
+                                                    Fill="Transparent"
+                                                    Stretch="Uniform"
+                                                    StrokeThickness="1">
+                                                    <Path.Style>
+                                                        <Style TargetType="Path">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=UnselectButton}" Value="True">
+                                                                    <Setter Property="Stroke" Value="{DynamicResource MenuButtonForeground}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Stroke" Value="{DynamicResource MenuForegroundLight}" />
+                                                        </Style>
+                                                    </Path.Style>
+
+
+                                                </Path>
+                                            </Button>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </ItemContainerTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Inputs" />
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding Canvas.SelectedNodesInputs}">
+                            <ItemsControl.ItemTemplate>
+                                <ItemContainerTemplate>
+                                    <Grid
+                                        x:Name="ButtonSelectedNode"
+                                        Width="auto"
+                                        Height="auto"
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Grid.Column="0"
+                                                Height="auto"
+                                                HorizontalAlignment="Stretch"
+                                                Background="{DynamicResource NodeBackground}"
+                                                BorderBrush="{DynamicResource NodeBorder}"
+                                                BorderThickness="1"
+                                                CornerRadius="1">
+                                                <Grid>
+                                                    <TextBlock
+                                                        Margin="0,5,0,5"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{DynamicResource MenuButtonForeground}"
+                                                        Text="{Binding Name}"
+                                                        TextAlignment="Left" />
+                                                    <Ellipse
+                                                        Width="8"
+                                                        Height="8"
+                                                        Margin="0,0,-4,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Fill="{DynamicResource OutputBackground}"
+                                                        Stroke="{DynamicResource OutputBorder}" />
+                                                </Grid>
+
+                                            </Border>
+                                            <Rectangle
+                                                Grid.Column="1"
+                                                Width="30"
+                                                Height="1"
+                                                Margin="2,0,5,0"
+                                                HorizontalAlignment="Left"
+                                                Stroke="{DynamicResource ConnectionBackground}" />
+
+                                            <Button
+                                                x:Name="UnselectButton"
+                                                Grid.Column="2"
+                                                Width="auto"
+                                                Height="auto"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                Command="{Binding Path=DataContext.RemoveInputCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=ButtonSelectedNode}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                    </Style>
+                                                </Button.Style>
+                                                <Path
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="M0,0 L10,10 M0,10 L10,0"
+                                                    Fill="Transparent"
+                                                    Stretch="Uniform"
+                                                    StrokeThickness="1">
+                                                    <Path.Style>
+                                                        <Style TargetType="Path">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=UnselectButton}" Value="True">
+                                                                    <Setter Property="Stroke" Value="{DynamicResource MenuButtonForeground}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Stroke" Value="{DynamicResource MenuForegroundLight}" />
+                                                        </Style>
+                                                    </Path.Style>
+
+
+                                                </Path>
+                                            </Button>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </ItemContainerTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Outputs" />
+
+                    <ScrollViewer Grid.Row="1">
+
+                        <ItemsControl ItemsSource="{Binding Canvas.SelectedNodesOutputs}">
+                            <ItemsControl.ItemTemplate>
+                                <ItemContainerTemplate>
+                                    <Grid
+                                        x:Name="ButtonSelectedNode"
+                                        Width="auto"
+                                        Height="auto"
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle
+                                                Grid.Column="0"
+                                                Width="30"
+                                                Height="1"
+                                                Margin="0,0,2,0"
+                                                HorizontalAlignment="Left"
+                                                Stroke="{DynamicResource ConnectionBackground}" />
+                                            <Border
+                                                Grid.Column="1"
+                                                Height="auto"
+                                                Margin="0,0,5,0"
+                                                HorizontalAlignment="Stretch"
+                                                Background="{DynamicResource NodeBackground}"
+                                                BorderBrush="{DynamicResource NodeBorder}"
+                                                BorderThickness="1"
+                                                CornerRadius="1">
+                                                <Grid>
+                                                    <Rectangle
+                                                        Width="6"
+                                                        Height="11"
+                                                        Margin="-4,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Fill="{DynamicResource InputBackground}"
+                                                        IsHitTestVisible="False"
+                                                        RadiusX="2"
+                                                        RadiusY="2"
+                                                        Stroke="{DynamicResource InputBorder}"
+                                                        StrokeThickness="1" />
+
+                                                    <TextBlock
+                                                        Margin="0,5,0,5"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{DynamicResource MenuButtonForeground}"
+                                                        Text="{Binding Name}" />
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Button
+                                                x:Name="UnselectButton"
+                                                Grid.Column="2"
+                                                Width="auto"
+                                                Height="auto"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                Command="{Binding Path=DataContext.RemoveOutputCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=ButtonSelectedNode}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                    </Style>
+                                                </Button.Style>
+                                                <Path
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="M0,0 L10,10 M0,10 L10,0"
+                                                    Fill="Transparent"
+                                                    Stretch="Uniform"
+                                                    StrokeThickness="1">
+                                                    <Path.Style>
+                                                        <Style TargetType="Path">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=UnselectButton}" Value="True">
+                                                                    <Setter Property="Stroke" Value="{DynamicResource MenuButtonForeground}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Stroke" Value="{DynamicResource MenuForegroundLight}" />
+                                                        </Style>
+                                                    </Path.Style>
+
+
+                                                </Path>
+                                            </Button>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </ItemContainerTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+
+            </Grid>
+
 
         </Grid>
 

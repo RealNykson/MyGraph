@@ -258,7 +258,7 @@
                             <Style TargetType="Border">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSearching}" Value="true">
-                                        <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
+                                        <!--<Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />-->
                                     </DataTrigger>
                                 </Style.Triggers>
                                 <Style.Setters>
@@ -379,8 +379,7 @@
                                     Background="{DynamicResource MenuBackground}"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource MenuButtonForeground}"
-                                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
-                                </TextBox>
+                                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock
                                     Margin="2,0,0,0"
                                     HorizontalAlignment="Left"
@@ -417,16 +416,27 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border
-                                        Margin="0,10,0,0"
-                                        Background="{DynamicResource NodeBackground}"
-                                        BorderBrush="{DynamicResource NodeBorder}"
+                                        Margin="0,5,0,0"
                                         BorderThickness="1.5"
-                                        CornerRadius="4">
+                                        CornerRadius="2">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderHover}" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+
+                                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorder}" />
+                                            </Style>
+                                        </Border.Style>
                                         <Button
-                                            Padding="20,10,20,10"
+                                            Padding="10,5,10,5"
+                                            Background="{DynamicResource NodeBackground}"
                                             Command="{Binding Path=DataContext.SearchNodeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                             CommandParameter="{Binding}"
                                             Style="{StaticResource SearchedNodeButton}">
+
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontWeight="Normal"

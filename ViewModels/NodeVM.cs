@@ -60,7 +60,15 @@ namespace MyGraph.ViewModels
     public double Height
     {
       get => Get<double>();
-      set => Set(value);
+      set
+      {
+        if (value > MinHeight)
+        {
+          Set(value);
+          return;
+        }
+        Set(MinHeight);
+      }
     }
 
     public bool IsSelected
