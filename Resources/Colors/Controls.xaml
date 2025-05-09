@@ -37,7 +37,7 @@
     <!--  Node  -->
     <SolidColorBrush x:Key="NodeBackground" Color="{DynamicResource Background-1}" />
     <SolidColorBrush x:Key="NodeBackgroundHover" Color="{DynamicResource Primary-3}" />
-    <SolidColorBrush x:Key="NodeBackgroundSearched" Color="{DynamicResource Primary-1}" />
+    <SolidColorBrush x:Key="NodeBackgroundSearched" Color="{DynamicResource Primary-2}" />
     <SolidColorBrush x:Key="NodeBorder" Color="{DynamicResource Border-1}" />
     <SolidColorBrush x:Key="NodeBorderSelected" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="NodeBorderHover" Color="{DynamicResource Border-2}" />

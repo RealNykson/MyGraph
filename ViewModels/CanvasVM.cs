@@ -231,32 +231,26 @@ namespace MyGraph.ViewModels
       if (node == null)
         return;
 
-      // Target position based on the node's position and current scale
       double targetPanX = -node.Position.X * Scale;
       double targetPanY = -node.Position.Y * Scale;
 
       double offsetX = GridWidth / 2 - (node.Width / 2);
       double offsetY = GridHeight / 2 - (node.Height / 2);
 
-      // Get current matrix and target offsets
       Matrix currentMatrix = CanvasTransformMatrix.Matrix;
       double startOffsetX = currentMatrix.OffsetX;
       double startOffsetY = currentMatrix.OffsetY;
       double endOffsetX = targetPanX + offsetX;
       double endOffsetY = targetPanY + offsetY;
 
-      // Create animation duration
       Duration duration = new Duration(TimeSpan.FromSeconds(0.2));
       
-      // Create storyboard for animation
       Storyboard storyboard = new Storyboard();
       
-      // Create timer for animation
       System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-      timer.Interval = TimeSpan.FromMilliseconds(10); // Update every 10ms
+      timer.Interval = TimeSpan.FromMilliseconds(10); 
       
-      // Calculate total animation steps
-      int totalSteps = 20; // 0.2s / 10ms = 20 steps
+      int totalSteps = 20; 
       int currentStep = 0;
       
       timer.Tick += (sender, e) => 
@@ -264,35 +258,28 @@ namespace MyGraph.ViewModels
           currentStep++;
           if (currentStep > totalSteps)
           {
-              // Ensure we end exactly at the target position
               Matrix finalMatrix = currentMatrix;
               finalMatrix.OffsetX = endOffsetX;
               finalMatrix.OffsetY = endOffsetY;
               CanvasTransformMatrix.Matrix = finalMatrix;
               
-              // Stop the timer
               timer.Stop();
               return;
           }
           
-          // Calculate progress (0 to 1) with easing
           double progress = (double)currentStep / totalSteps;
           double easedProgress = EaseOutQuad(progress);
           
-          // Interpolate between start and end positions
           Matrix animatedMatrix = currentMatrix;
           animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
           animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
           
-          // Apply the animated matrix
           CanvasTransformMatrix.Matrix = animatedMatrix;
       };
       
-      // Start the timer
       timer.Start();
     }
     
-    // Helper method for quadratic ease-out function
     private double EaseOutQuad(double t)
     {
         return t * (2 - t);
