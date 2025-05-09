@@ -332,19 +332,23 @@ namespace MyGraph.ViewModels
         return;
       }
 
-      if (!Keyboard.IsKeyDown(Key.LeftShift) && !IsSelected)
+     if (!IsSelected)
       {
-        foreach (NodeVM node in Canvas.Nodes)
+        justSet = true;
+      }
+
+      bool before = IsSelected;
+      IsSelected = true;
+
+ 
+      if (!Keyboard.IsKeyDown(Key.LeftShift) && !before)
+      {
+        foreach (NodeVM node in Canvas.Nodes.Where(n => n != this))
         {
           node.IsSelected = false;
         }
       }
 
-      if (!IsSelected)
-      {
-        justSet = true;
-      }
-      IsSelected = true;
 
 
       if (!IsLocked)

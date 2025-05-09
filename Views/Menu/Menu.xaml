@@ -102,9 +102,30 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
+
                             <DataTrigger Binding="{Binding Canvas.SelectedNodes.Count}" Value="0">
-                                <Setter Property="Visibility" Value="Collapsed" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="Margin">
+                                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="30, 30,30,30" />
+                                                <SplineThicknessKeyFrame KeyTime="00:00:0.15" Value="30, 30,30,-100" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:0" Storyboard.TargetProperty="Margin">
+                                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="30, 30, 30, -100" />
+                                                <SplineThicknessKeyFrame KeyTime="00:00:0.15" Value="30, 30, 30, 30" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
                             </DataTrigger>
+
                         </Style.Triggers>
                         <Style.Setters>
                             <Setter Property="Visibility" Value="Visible" />
