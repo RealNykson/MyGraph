@@ -39,6 +39,8 @@ namespace MyGraph.ViewModels
         }
       }
     }
+
+
     public bool SettingsOpen
     {
       get => Get<bool>();
@@ -65,6 +67,11 @@ namespace MyGraph.ViewModels
 
         return Canvas.SelectedNodes.Where(n => n.IsLocked).FirstOrDefault() != null;
       }
+    }
+    public string SideBarSearchText
+    {
+      get => Get<string>();
+      set => Set(value);
     }
 
     public string SearchText
@@ -306,6 +313,7 @@ namespace MyGraph.ViewModels
       Canvas = CanvasVM.currentCanvas;
       SearchedNodes = new ObservableCollection<NodeVM>();
       SearchText = "";
+      SideBarSearchText = "";
       IsSearching = false;
     }
     #endregion

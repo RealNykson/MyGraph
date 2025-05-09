@@ -11,6 +11,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:HeightSubtractor x:Key="HeightSubtractor" />
+        <converters:StringContainsConverter x:Key="StringContainsConverter" />
         <Style
             x:Key="ToggleButtonStyle"
             BasedOn="{StaticResource MenuButton}"
@@ -103,6 +104,57 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
+
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSidebarCollapsed}" Value="true">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </Style>
+                    </StackPanel.Style>
+                    <Path
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Data="m21 21-4.34-4.34  M19,11     A8,8 0 1 0 3,11     A8,8 0 1 0 19,11"
+                        StrokeEndLineCap="Round"
+                        StrokeLineJoin="Round"
+                        StrokeThickness="2" />
+                    <Grid Margin="10,0,0,0" HorizontalAlignment="Center">
+                        <TextBox
+                            Name="SearchInput"
+                            Width="150"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource MenuBackground}"
+                            BorderThickness="0"
+                            Foreground="{DynamicResource MenuButtonForeground}"
+                            Text="{Binding SideBarSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
+                            Margin="2,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="DarkGray"
+                            IsHitTestVisible="False"
+                            Text="Search Nodes">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=SearchInput}" Value="">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+
                 <!--  Toggle Button at the top  -->
                 <Button
                     Grid.Column="1"
@@ -168,6 +220,7 @@
                                         <ContentPresenter
                                             x:Name="ContentSite"
                                             Width="60"
+                                            Height="17"
                                             Margin="10,2"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
@@ -188,36 +241,13 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                        <Setter Property="FontSize" Value="13" />
                     </Style>
                 </TabControl.Resources>
 
                 <TabControl.Style>
                     <Style TargetType="TabControl">
                         <Style.Triggers>
-                            <!--<DataTrigger Binding="{Binding IsSidebarCollapsed}" Value="false">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="Margin">
-                                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="350, 0, 0, 0" />
-                                                <SplineThicknessKeyFrame KeyTime="00:00:0.15" Value="0, 0,0,0" />
-                                            </ThicknessAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:0" Storyboard.TargetProperty="Margin">
-
-                                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0, 0,0,0" />
-                                                <SplineThicknessKeyFrame KeyTime="00:00:00.15" Value="350, 0, 0, 0" />
-                                            </ThicknessAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>-->
-
                             <DataTrigger Binding="{Binding IsSidebarCollapsed}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
@@ -246,6 +276,23 @@
                                             HorizontalAlignment="Stretch"
                                             Background="Transparent">
                                             <Grid>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Value="True">
+                                                                <DataTrigger.Binding>
+                                                                    <MultiBinding Converter="{StaticResource StringContainsConverter}">
+                                                                        <Binding Path="Name" />
+                                                                        <Binding Path="DataContext.SideBarSearchText" RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}" />
+                                                                    </MultiBinding>
+                                                                </DataTrigger.Binding>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </Grid.Style>
+
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="auto" />
@@ -343,6 +390,23 @@
                                             HorizontalAlignment="Stretch"
                                             Background="Transparent">
                                             <Grid>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Value="True">
+                                                                <DataTrigger.Binding>
+                                                                    <MultiBinding Converter="{StaticResource StringContainsConverter}">
+                                                                        <Binding Path="Name" />
+                                                                        <Binding Path="DataContext.SideBarSearchText" RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}" />
+                                                                    </MultiBinding>
+                                                                </DataTrigger.Binding>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </Grid.Style>
+
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="auto" />
@@ -459,6 +523,22 @@
                                             HorizontalAlignment="Stretch"
                                             Background="Transparent">
                                             <Grid>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Value="True">
+                                                                <DataTrigger.Binding>
+                                                                    <MultiBinding Converter="{StaticResource StringContainsConverter}">
+                                                                        <Binding Path="Name" />
+                                                                        <Binding Path="DataContext.SideBarSearchText" RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}" />
+                                                                    </MultiBinding>
+                                                                </DataTrigger.Binding>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto" />
                                                     <ColumnDefinition Width="*" />

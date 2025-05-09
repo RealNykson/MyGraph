@@ -34,6 +34,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+
+        <Grid Grid.Row="1">
+            <views:Canvas />
+            <menu:Menu />
+        </Grid>
+
         <!--  Title bar  -->
         <Border
             Grid.Row="0"
@@ -146,11 +152,6 @@
 
             </StackPanel>
         </Border>
-
-        <Grid Grid.Row="1">
-            <views:Canvas />
-            <menu:Menu />
-        </Grid>
 
     </Grid>
 </Window>
