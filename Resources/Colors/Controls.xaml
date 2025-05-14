@@ -8,10 +8,13 @@
     <SolidColorBrush x:Key="ScaleText" Color="{DynamicResource}" />
     <SolidColorBrush
         x:Key="CanvasBackground"
-        Opacity="0"
+        Opacity="1"
         Color="{DynamicResource Background-2}" />
     <SolidColorBrush x:Key="GraphBackground" Color="{DynamicResource Background-2}" />
-    <SolidColorBrush x:Key="GraphDots" Color="{DynamicResource Foreground-1}" />
+    <SolidColorBrush
+        x:Key="GraphDots"
+        Opacity="0.3"
+        Color="{DynamicResource Foreground-1}" />
 
     <!--  RangeSelector  -->
     <SolidColorBrush

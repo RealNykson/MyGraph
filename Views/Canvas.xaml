@@ -13,39 +13,33 @@
 
         <!--  Dotted Graph Background  -->
         <Grid
-            Width="2000"
-            Height="1000"
-            Background="{DynamicResource GraphBackground}"
-            IsHitTestVisible="False">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ItemsControl ItemsSource="{Binding Dots}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="80" Rows="40" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Ellipse
-                            Width="2"
-                            Height="2"
-                            Fill="{DynamicResource GraphDots}"
-                            Opacity="0.3" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            IsHitTestVisible="True"
+            MouseMove="Canvas_MouseMove">
+            <Grid.Background>
+                <DrawingBrush 
+                    TileMode="Tile" 
+                    Viewport="0,0,25,25" 
+                    ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="{DynamicResource GraphBackground}">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0,25,25" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                            <GeometryDrawing Brush="{DynamicResource GraphDots}">
+                                <GeometryDrawing.Geometry>
+                                    <EllipseGeometry Center="12.5,12.5" RadiusX="1" RadiusY="1" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Grid.Background>
         </Grid>
 
         <Canvas
-            Width="10000"
-            Height="10000"
             Background="{DynamicResource CanvasBackground}"
-            MouseLeave="Canvas_MouseLeave"
             MouseMove="Canvas_MouseMove"
             RenderTransform="{Binding CanvasTransformMatrix}">
 

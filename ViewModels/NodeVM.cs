@@ -21,7 +21,7 @@ namespace MyGraph.ViewModels
     public string Name
     {
       get => Get<string>();
-      set => Set(value);
+      set => Set(value.Trim());
     }
     public Point Position
     {
@@ -464,13 +464,13 @@ namespace MyGraph.ViewModels
 
     #region Constructor 
 
-    public NodeVM()
+    public NodeVM(string name = "")
     {
 
-      MinWidth = 150;
+      MinWidth = 350;
       MinHeight = 60;
-      Name = "";
-      Position = new Point(2500, 2500);
+      Name = name;
+      Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
       createCommands();

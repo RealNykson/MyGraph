@@ -20,6 +20,7 @@ using System.Diagnostics.Eventing.Reader;
 using MyGraph.Models;
 using System.Collections.Specialized;
 using System.Windows.Threading;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MyGraph.ViewModels
 {
@@ -158,13 +159,13 @@ namespace MyGraph.ViewModels
     public double SelectRangeWidth
     {
       get => Get<double>();
-      set => Set(value);
+      set { if (value >= 0) Set(value); }
     }
 
     public double SelectRangeHeight
     {
       get => Get<double>();
-      set => Set(value);
+      set { if (value >= 0) Set(value); }
     }
 
     public Point MousePositionOnCanvas
@@ -214,12 +215,6 @@ namespace MyGraph.ViewModels
       set { Set(value); }
     }
 
-    public ObservableCollection<int> Dots
-    {
-      get { return Get<ObservableCollection<int>>(); }
-      set { Set(value); }
-    }
-
     #endregion
 
     #endregion
@@ -244,45 +239,45 @@ namespace MyGraph.ViewModels
       double endOffsetY = targetPanY + offsetY;
 
       Duration duration = new Duration(TimeSpan.FromSeconds(0.2));
-      
+
       Storyboard storyboard = new Storyboard();
-      
+
       System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-      timer.Interval = TimeSpan.FromMilliseconds(10); 
-      
-      int totalSteps = 20; 
+      timer.Interval = TimeSpan.FromMilliseconds(10);
+
+      int totalSteps = 20;
       int currentStep = 0;
-      
-      timer.Tick += (sender, e) => 
+
+      timer.Tick += (sender, e) =>
       {
-          currentStep++;
-          if (currentStep > totalSteps)
-          {
-              Matrix finalMatrix = currentMatrix;
-              finalMatrix.OffsetX = endOffsetX;
-              finalMatrix.OffsetY = endOffsetY;
-              CanvasTransformMatrix.Matrix = finalMatrix;
-              
-              timer.Stop();
-              return;
-          }
-          
-          double progress = (double)currentStep / totalSteps;
-          double easedProgress = EaseOutQuad(progress);
-          
-          Matrix animatedMatrix = currentMatrix;
-          animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
-          animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
-          
-          CanvasTransformMatrix.Matrix = animatedMatrix;
+        currentStep++;
+        if (currentStep > totalSteps)
+        {
+          Matrix finalMatrix = currentMatrix;
+          finalMatrix.OffsetX = endOffsetX;
+          finalMatrix.OffsetY = endOffsetY;
+          CanvasTransformMatrix.Matrix = finalMatrix;
+
+          timer.Stop();
+          return;
+        }
+
+        double progress = (double)currentStep / totalSteps;
+        double easedProgress = EaseOutQuad(progress);
+
+        Matrix animatedMatrix = currentMatrix;
+        animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
+        animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
+
+        CanvasTransformMatrix.Matrix = animatedMatrix;
       };
-      
+
       timer.Start();
     }
-    
+
     private double EaseOutQuad(double t)
     {
-        return t * (2 - t);
+      return t * (2 - t);
     }
 
     public void updateDraggingNode(Point delta)
@@ -295,6 +290,48 @@ namespace MyGraph.ViewModels
       foreach (NodeVM node in SelectedNodes)
       {
         node.move(delta.X / Scale, delta.Y / Scale);
+      }
+    }
+    public Point findNextFreeArea(double widthNeeded, double heightNeeded)
+    {
+      Point currentCheckingPosition = new Point(CanvasTransformMatrix.Matrix.OffsetX / Scale * -1.1, CanvasTransformMatrix.Matrix.OffsetY / Scale * -1.1);
+
+      while (true)
+      {
+        bool collisionFound = false;
+
+        foreach (NodeVM node in Nodes)
+        {
+          // Check if the current node intersects with the area we're checking
+          // Create a rectangle for the area we need
+          Rect neededArea = new Rect(currentCheckingPosition.X, currentCheckingPosition.Y, widthNeeded, heightNeeded);
+
+          // Create a rectangle for the node's position
+          Rect nodeRect = new Rect(node.Position.X, node.Position.Y, node.Width, node.Height);
+
+          // Check if they intersect
+          if (neededArea.IntersectsWith(nodeRect))
+          {
+            // If there's a collision, move right by 10 units and check again
+            currentCheckingPosition.X += 10;
+            collisionFound = true;
+            break; // Exit the foreach loop to restart checking with the new position
+          }
+        }
+
+        // If we've looped through all nodes with no collision, we found a free spot
+        if (!collisionFound)
+        {
+          return currentCheckingPosition;
+        }
+
+        // Add a safeguard to prevent infinite loops
+        // If we've moved too far to the right, try a new row
+        if (currentCheckingPosition.X > CanvasWidth) // Arbitrary large number
+        {
+          currentCheckingPosition.X = CanvasTransformMatrix.Matrix.OffsetX;
+          currentCheckingPosition.Y += 10;
+        }
       }
     }
 
@@ -614,26 +651,49 @@ namespace MyGraph.ViewModels
     #region Constructor 
     public CanvasVM()
     {
+
+
       currentCanvas = this;
       CleanScale = 100;
       GridHeight = 650;
       GridWidth = 1000;
-      CanvasHeight = 5000;
-      CanvasWidth = 5000;
+      CanvasHeight = 1000;
+      CanvasWidth = 1000;
       Scale = 1;
 
       Nodes = new ObservableCollection<NodeVM>();
       SelectedNodes = new ObservableCollection<NodeVM>();
       SelectedNodesOutputs = new ObservableCollection<NodeVM>();
       SelectedNodesInputs = new ObservableCollection<NodeVM>();
-      Dots = new ObservableCollection<int>();
       Connections = new ObservableCollection<ConnectionVM>();
 
       CanvasTransformMatrix = new MatrixTransform();
 
-      for (int i = 0; i < 10000; i++)
+      var mat = CanvasTransformMatrix.Matrix;
+      mat.OffsetX += CanvasWidth / -2;
+      mat.OffsetY += CanvasHeight / -2;
+      CanvasTransformMatrix.Matrix = mat;
+
+      // Initialize database connection
+      DatabaseConnection _dbConnection = new DatabaseConnection();
+
+      try
       {
-        Dots.Add(i);
+        // Connect to database
+        _dbConnection.Connect();
+
+        // Get process units for process cell 39
+        var processUnitsList = _dbConnection.GetProcessUnits(39);
+
+        foreach (ProcessUnit pc in processUnitsList)
+        {
+          new NodeVM(pc.UnitName);
+
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
       }
 
       // Gruppe A (Cluster 1)
@@ -673,11 +733,6 @@ namespace MyGraph.ViewModels
       c1.connectNode(c4);
       c3.connectNode(c5);
 
-
-      var mat = CanvasTransformMatrix.Matrix;
-      mat.OffsetX += -2500;
-      mat.OffsetY += -2500;
-      CanvasTransformMatrix.Matrix = mat;
 
     }
 

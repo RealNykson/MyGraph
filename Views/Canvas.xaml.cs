@@ -52,8 +52,12 @@ namespace MyGraph.Views
 
     private void Canvas_MouseMove(object sender, MouseEventArgs e)
     {
+      Point position = e.GetPosition((IInputElement)sender);
+      if (sender is System.Windows.Controls.Canvas)
+        ((ViewModels.CanvasVM)DataContext).MousePositionOnCanvas = position;
+      else
+        ((ViewModels.CanvasVM)DataContext).MousePositionOnCanvas = new Point((position.X - CanvasVM.currentCanvas.CanvasTransformMatrix.Matrix.OffsetX) / CanvasVM.currentCanvas.Scale, (position.Y - CanvasVM.currentCanvas.CanvasTransformMatrix.Matrix.OffsetY) / CanvasVM.currentCanvas.Scale);
 
-      ((ViewModels.CanvasVM)DataContext).MousePositionOnCanvas = e.GetPosition((IInputElement)sender);
     }
 
     private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -69,6 +73,20 @@ namespace MyGraph.Views
     {
 
       ((ViewModels.CanvasVM)DataContext).MouseLeave();
+
+    }
+
+    private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+
+      ((ViewModels.CanvasVM)DataContext).MouseDown(e);
+
+    }
+
+    private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+
+      ((ViewModels.CanvasVM)DataContext).MouseDown(e);
 
     }
   }

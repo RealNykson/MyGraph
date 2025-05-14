@@ -100,16 +100,16 @@
                     </Grid>
 
                     <!--  Name  -->
-                    <Grid Margin="20">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="Inter"
-                            FontSize="18"
-                            Foreground="{DynamicResource NodeText}"
-                            Text="{Binding Name}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
+                    <Grid
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                            <TextBlock
+                                FontFamily="Inter"
+                                FontSize="18"
+                                Foreground="{DynamicResource NodeText}"
+                                Text="{Binding Name}" />
                     </Grid>
 
                     <!--  Outputs  -->

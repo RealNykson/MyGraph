@@ -1,6 +1,7 @@
 ﻿using MyGraph.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,14 @@ namespace MyGraph.ViewModels
   public class MainWindowVM : NotifyObject
   {
     #region Properties
+    private DatabaseConnection _dbConnection;
+
+    public ObservableCollection<ProcessUnit> ProcessUnits
+    {
+      get => Get<ObservableCollection<ProcessUnit>>();
+      set => Set(value);
+    }
+
     public double Height
     {
       get => Get<double>();
@@ -60,6 +69,7 @@ namespace MyGraph.ViewModels
       Width = 1000;
       Height = 600;
       createCommands();
+
     }
     #endregion
 
