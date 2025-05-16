@@ -302,32 +302,22 @@ namespace MyGraph.ViewModels
 
         foreach (NodeVM node in Nodes)
         {
-          // Check if the current node intersects with the area we're checking
-          // Create a rectangle for the area we need
           Rect neededArea = new Rect(currentCheckingPosition.X, currentCheckingPosition.Y, widthNeeded, heightNeeded);
-
-          // Create a rectangle for the node's position
           Rect nodeRect = new Rect(node.Position.X, node.Position.Y, node.Width, node.Height);
-
-          // Check if they intersect
           if (neededArea.IntersectsWith(nodeRect))
           {
-            // If there's a collision, move right by 10 units and check again
             currentCheckingPosition.X += 10;
             collisionFound = true;
-            break; // Exit the foreach loop to restart checking with the new position
+            break; 
           }
         }
 
-        // If we've looped through all nodes with no collision, we found a free spot
         if (!collisionFound)
         {
           return currentCheckingPosition;
         }
 
-        // Add a safeguard to prevent infinite loops
-        // If we've moved too far to the right, try a new row
-        if (currentCheckingPosition.X > CanvasWidth) // Arbitrary large number
+        if (currentCheckingPosition.X > CanvasWidth)
         {
           currentCheckingPosition.X = CanvasTransformMatrix.Matrix.OffsetX;
           currentCheckingPosition.Y += 10;

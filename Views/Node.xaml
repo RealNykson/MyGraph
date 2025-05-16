@@ -22,6 +22,7 @@
             MouseLeave="NodeBody_MouseLeave"
             Orientation="Horizontal">
 
+            <!--  Node Body  -->
             <Border
                 Width="{Binding Width}"
                 Height="{Binding Height}"
