@@ -31,10 +31,7 @@
         </Path>
 
         <!--  Visible connection path  -->
-        <Path
-            x:Name="VisiblePath"
-            IsHitTestVisible="False"
-            StrokeThickness="3">
+        <Path x:Name="VisiblePath" IsHitTestVisible="False">
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
@@ -72,6 +69,14 @@
             <Path.Style>
                 <Style TargetType="Path">
                     <Style.Triggers>
+                        <DataTrigger Binding="{Binding End.IsSelected}" Value="True">
+                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundSelected}" />
+                            <Setter Property="StrokeThickness" Value="6" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Start.IsSelected}" Value="True">
+                            <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundSelected}" />
+                            <Setter Property="StrokeThickness" Value="6" />
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding ElementName=HitTestPath, Path=IsMouseOver}" Value="True">
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundHover}" />
                         </DataTrigger>
@@ -80,8 +85,10 @@
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
                         </DataTrigger>
                     </Style.Triggers>
+                    <Setter Property="Panel.ZIndex" Value="1" />
                     <Setter Property="StrokeDashArray" Value="4,1" />
                     <Setter Property="Stroke" Value="{DynamicResource ConnectionBackground}" />
+                    <Setter Property="StrokeThickness" Value="4" />
                 </Style>
             </Path.Style>
         </Path>

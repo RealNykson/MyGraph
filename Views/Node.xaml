@@ -44,6 +44,10 @@
                                 <Setter Property="BorderThickness" Value="2.5" />
                             </DataTrigger>
 
+                            <DataTrigger Binding="{Binding IsTransfer}" Value="True">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+
                             <!--  Searched Node Trigger  -->
                             <DataTrigger Value="True">
                                 <DataTrigger.Binding>
@@ -109,7 +113,7 @@
                                 FontFamily="Inter"
                                 FontSize="18"
                                 Foreground="{DynamicResource NodeText}"
-                                Text="{Binding Name}" />
+                                Text="{Binding Id}" />
                     </Grid>
 
                     <!--  Outputs  -->

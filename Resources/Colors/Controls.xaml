@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="ScaleText" Color="{DynamicResource}" />
     <SolidColorBrush
         x:Key="CanvasBackground"
-        Opacity="1"
+        Opacity="0"
         Color="{DynamicResource Background-2}" />
     <SolidColorBrush x:Key="GraphBackground" Color="{DynamicResource Background-2}" />
     <SolidColorBrush
@@ -77,6 +77,7 @@
     <SolidColorBrush x:Key="InputBackgroundConnected" Color="{DynamicResource Background-1}" />
 
     <SolidColorBrush x:Key="ConnectionBackground" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="ConnectionBackgroundSelected" Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="ConnectionBackgroundHover" Color="{DynamicResource Border-1}" />
     <SolidColorBrush
         x:Key="ConnectionBackgroundGhost"

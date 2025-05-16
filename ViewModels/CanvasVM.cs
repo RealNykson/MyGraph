@@ -522,6 +522,12 @@ namespace MyGraph.ViewModels
       List<NodeVM> startNodes = new List<NodeVM>();
 
       startNodes = Nodes.Where(n => n.Inputs.Count() == 0).ToList();
+      
+     List<double> nodeCount = new List<double>();
+     foreach(NodeVM node in startNodes) {
+      nodeCount.Add(node.Outputs.Count());
+     }
+     
 
       foreach (NodeVM node in startNodes)
       {
@@ -687,51 +693,67 @@ namespace MyGraph.ViewModels
 
         foreach (ProcessUnit pc in processUnitsList)
         {
-          new NodeVM(pc.UnitName);
-
+          new NodeVM(pc.UnitName, pc.UnitId);
         }
+
+        var connectionsList = _dbConnection.GetConnections(39);
+
+        foreach (ConnectionDB connection in connectionsList)
+        {
+          var sourceUnit = Nodes.FirstOrDefault(n => n.Id == connection.SourceUnitId);
+          var transfer = Nodes.FirstOrDefault(n => n.Id == connection.TransferUnitId);  
+          var destinationUnit = Nodes.FirstOrDefault(n => n.Id == connection.DestinationUnitId);
+          if (sourceUnit != null && destinationUnit != null && transfer != null)
+          {
+            sourceUnit.connectNode(transfer);
+            transfer.IsTransfer = true;
+            transfer.connectNode(destinationUnit);
+          }
+        }
+
+        
       }
       catch (Exception ex)
       {
         MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
       }
 
-      // Gruppe A (Cluster 1)
-      NodeVM a1 = new NodeVM() { Name = "Alpha" };
-      NodeVM a2 = new NodeVM() { Name = "Beta" };
-      NodeVM a3 = new NodeVM() { Name = "Gamma" };
-      NodeVM a4 = new NodeVM() { Name = "Delta" };
-      NodeVM a5 = new NodeVM() { Name = "Epsilon" };
+      //// Gruppe A (Cluster 1)
+      //NodeVM a1 = new NodeVM() { Name = "Alpha" };
+      //NodeVM a2 = new NodeVM() { Name = "Beta" };
+      //NodeVM a3 = new NodeVM() { Name = "Gamma" };
+      //NodeVM a4 = new NodeVM() { Name = "Delta" };
+      //NodeVM a5 = new NodeVM() { Name = "Epsilon" };
 
-      a1.move(100, 100);
-      a2.move(300, 100);
-      a3.move(500, 100);
-      a4.move(200, 250);
-      a5.move(400, 250);
+      //a1.move(100, 100);
+      //a2.move(300, 100);
+      //a3.move(500, 100);
+      //a4.move(200, 250);
+      //a5.move(400, 250);
 
-      a1.connectNode(a2);
-      a2.connectNode(a3);
-      a2.connectNode(a4);
-      a4.connectNode(a5);
-      a3.connectNode(a5);
+      //a1.connectNode(a2);
+      //a2.connectNode(a3);
+      //a2.connectNode(a4);
+      //a4.connectNode(a5);
+      //a3.connectNode(a5);
 
-      // Gruppe C (Tree-Struktur)
-      NodeVM c1 = new NodeVM() { Name = "Root" };
-      NodeVM c2 = new NodeVM() { Name = "Leaf1" };
-      NodeVM c3 = new NodeVM() { Name = "Leaf2" };
-      NodeVM c4 = new NodeVM() { Name = "Leaf3" };
-      NodeVM c5 = new NodeVM() { Name = "Leaf4" };
+      //// Gruppe C (Tree-Struktur)
+      //NodeVM c1 = new NodeVM() { Name = "Root" };
+      //NodeVM c2 = new NodeVM() { Name = "Leaf1" };
+      //NodeVM c3 = new NodeVM() { Name = "Leaf2" };
+      //NodeVM c4 = new NodeVM() { Name = "Leaf3" };
+      //NodeVM c5 = new NodeVM() { Name = "Leaf4" };
 
-      c1.move(250, 500);
-      c2.move(50, 650);
-      c3.move(200, 650);
-      c4.move(400, 650);
-      c5.move(200, 800);
+      //c1.move(250, 500);
+      //c2.move(50, 650);
+      //c3.move(200, 650);
+      //c4.move(400, 650);
+      //c5.move(200, 800);
 
-      c1.connectNode(c2);
-      c1.connectNode(c3);
-      c1.connectNode(c4);
-      c3.connectNode(c5);
+      //c1.connectNode(c2);
+      //c1.connectNode(c3);
+      //c1.connectNode(c4);
+      //c3.connectNode(c5);
 
 
     }

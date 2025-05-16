@@ -17,6 +17,14 @@ namespace MyGraph.ViewModels
 {
   class NodeVM : CanvasItem
   {
+    public int Id { get; set; }
+
+    public bool IsTransfer { 
+      get => Get<bool>(); 
+      set => Set(value); 
+    }
+
+
     #region Properties
     public string Name
     {
@@ -198,9 +206,12 @@ namespace MyGraph.ViewModels
     public void connectNode(NodeVM node)
     {
       Debug.Assert(node != null);
-      Debug.Assert(node != this);
-      Debug.Assert(Outputs.Where(n => n.End == node).FirstOrDefault() == null);
+      //Debug.Assert(node != this);
+      if (Outputs.Where(n => n.End == node).FirstOrDefault() != null) {
+        return;
+      }
       Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
+
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
     }
@@ -235,6 +246,7 @@ namespace MyGraph.ViewModels
     public void orderConnections()
     {
       List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
+
       if (!Outputs.SequenceEqual(orderedOutputs))
       {
         Outputs = new ObservableCollection<Connection>(orderedOutputs);
@@ -250,10 +262,11 @@ namespace MyGraph.ViewModels
 
     }
 
-    double spacingHorizontal = 125;
-    double spacingVertical = 50;
+    double spacingHorizontal = 250;
+    double spacingVertical = 75;
     public void orderAllChildrenRelativeToSelf(List<NodeVM> allreadyOrderedList)
     {
+
       double startX = Position.X;
       double startY = Position.Y;
       double currentX = startX;
@@ -408,7 +421,7 @@ namespace MyGraph.ViewModels
       switch (e.Action)
       {
         case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-          if (newInputs.Count() > Outputs.Count())
+          if (newInputs.Count() > Outputs.Count() && newInputs.Count() != 1)
           {
             Height += 15;
             updateOutputs();
@@ -416,7 +429,7 @@ namespace MyGraph.ViewModels
           break;
         case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
         case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-          if (newInputs.Count() >= Outputs.Count())
+          if (newInputs.Count() >= Outputs.Count() && newInputs.Count() != 0)
           {
             Height -= 15;
             updateOutputs();
@@ -437,7 +450,7 @@ namespace MyGraph.ViewModels
       switch (e.Action)
       {
         case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-          if (newOutputs.Count() > Inputs.Count())
+          if (newOutputs.Count() > Inputs.Count() && newOutputs.Count() != 1)
           {
             Height += 23;
             updateInputs();
@@ -445,7 +458,7 @@ namespace MyGraph.ViewModels
           break;
         case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
         case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-          if (newOutputs.Count() >= Inputs.Count())
+          if (newOutputs.Count() >= Inputs.Count() && newOutputs.Count() != 0)
           {
             Height -= 23;
             updateInputs();
@@ -464,11 +477,12 @@ namespace MyGraph.ViewModels
 
     #region Constructor 
 
-    public NodeVM(string name = "")
+    public NodeVM(string name = "", int id = -1)
     {
+      Id = id;
 
       MinWidth = 350;
-      MinHeight = 60;
+      MinHeight = 70;
       Name = name;
       Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
       Outputs = new ObservableCollection<Connection>();

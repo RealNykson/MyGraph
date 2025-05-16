@@ -9,10 +9,17 @@ namespace MyGraph.Utilities
 {
   public struct ProcessUnit
   {
-    public int UnitKey { get; set; }
+    public int UnitId { get; set; }
     public string UnitName { get; set; }
     public int ProcessCellLink { get; set; }
     public string ProcessCellName { get; set; }
+  }
+
+  public struct ConnectionDB
+  {
+    public int TransferUnitId { get; set; }
+    public int SourceUnitId { get; set; }
+    public int DestinationUnitId { get; set; }
   }
 
   public class DatabaseConnection
@@ -174,7 +181,7 @@ namespace MyGraph.Utilities
       {
         processUnits.Add(new ProcessUnit
         {
-          UnitKey = Convert.ToInt32(row[0]),
+          UnitId = Convert.ToInt32(row[0]),
           UnitName = row[1].ToString(),
           ProcessCellLink = Convert.ToInt32(row[2]),
           ProcessCellName = row[3].ToString()
@@ -182,6 +189,36 @@ namespace MyGraph.Utilities
       }
 
       return processUnits;
+    }
+
+    public List<ConnectionDB> GetConnections(int processCellId)
+    {
+      string query = @"
+                use dbIdc 
+                select rel.nTransferUnitLink, rel.nSourceProcessUnitLink, rel.nDestinationProcessUnitLink 
+                from tblVDProcessUnitRelation rel
+                join tblItpProcessUnit unit on unit.nKey = rel.nTransferUnitLink
+                where unit.nProcessCellLink = @processCellId";
+
+      var parameters = new Dictionary<string, object>
+            {
+                { "@processCellId", processCellId }
+            };
+
+      var dataTable = ExecuteQuery(query, parameters);
+      var connections = new List<ConnectionDB>();
+
+      foreach (DataRow row in dataTable.Rows)
+      {
+        connections.Add(new ConnectionDB
+        {
+          TransferUnitId = Convert.ToInt32(row[0]),
+          SourceUnitId = Convert.ToInt32(row[1]),
+          DestinationUnitId = Convert.ToInt32(row[2])
+        });
+      }
+
+      return connections;
     }
   }
 }
