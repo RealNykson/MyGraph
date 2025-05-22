@@ -19,6 +19,8 @@ namespace MyGraph.ViewModels
   class ConnectionVM : Connection
   {
 
+    public ObservableCollection<TransferUnitVM> TransferUnits { get; set; } = new ObservableCollection<TransferUnitVM>();
+
     public enum State
     {
       None,

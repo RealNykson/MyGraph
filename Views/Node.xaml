@@ -46,7 +46,7 @@
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding IsTransfer}" Value="True">
-                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="Background" Value="{DynamicResource TransferUnitBackground}" />
                             </DataTrigger>
 
                             <!--  Searched Node Trigger  -->
@@ -112,6 +112,7 @@
 
                         <TextBlock
                             FontFamily="Inter"
+                            FontWeight="Medium"
                             FontSize="18"
                             Foreground="{DynamicResource NodeText}"
                             Text="{Binding Name}" />

@@ -272,9 +272,9 @@ namespace MyGraph.ViewModels
         darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
       }
 
-      currentTheme = darkTheme;
+      currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
-      DarkMode = true;
+      DarkMode = false;
       IsSidebarCollapsed = true;
       EditMode = true;
       EditMode = true;

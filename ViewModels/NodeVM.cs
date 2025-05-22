@@ -32,7 +32,8 @@ namespace MyGraph.ViewModels
       get => Get<string>();
       set => Set(value.Trim());
     }
-    public Point Position
+
+    public override Point Position
     {
       get => Get<Point>();
       set { Set(value); updateInputs(); updateOutputs(); }
@@ -60,54 +61,18 @@ namespace MyGraph.ViewModels
       }
     }
 
-    public double Width
+    public override void handleConnection()
     {
-      get => Get<double>();
-      set => Set(value);
-    }
-
-    public double Height
-    {
-      get => Get<double>();
-      set
+      if (Canvas.GhostConnection.Start != this
+        && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
       {
-        if (value > MinHeight)
-        {
-          Set(value);
-          return;
-        }
-        Set(MinHeight);
+        Canvas.GhostConnection.Delete();
+        Canvas.GhostConnection.Start.connectNode(this);
+        Canvas.CurrentAction = ViewModels.Action.None;
       }
     }
 
-    public bool IsSelected
-    {
-      get => Get<bool>();
-      set
-      {
-        if (value)
-        {
-          if (Canvas.SelectedNodes.IndexOf(this) == -1)
-          {
-            Canvas.SelectedNodes.Add(this);
-          }
-          ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
-        }
-        else
-        {
-          Canvas.SelectedNodes.Remove(this);
-        }
 
-        Set(value);
-
-      }
-    }
-
-    public bool IsLocked
-    {
-      get => Get<bool>();
-      set { Set(value); Canvas.SelectedNodes_Changed(this, null); }
-    }
 
     public bool IsDragging
     {
@@ -115,11 +80,6 @@ namespace MyGraph.ViewModels
       set => Set(value);
     }
 
-    struct Input
-    {
-      Connection CommingFrom;
-      Connection GoingTo;
-    }
 
     public ObservableCollection<Connection> Inputs
     {
@@ -169,48 +129,11 @@ namespace MyGraph.ViewModels
       return connected;
     }
 
-    public void move(double deltaX, double deltaY)
-    {
-      if (IsLocked)
-      {
-        return;
-      }
-
-      Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
 
-      foreach (Connection connection in Inputs)
-      {
-        connection.Start.orderConnections();
-      }
 
-      foreach (Connection connection in Outputs)
-      {
-        connection.End.orderConnections();
-      }
 
-    }
-
-    public void moveAbsolute(double newPosX, double newPosY)
-    {
-      Position = new Point(newPosX, newPosY);
-
-      foreach (Connection connection in Inputs)
-      {
-
-        connection.End.orderConnections();
-        connection.updateInput();
-      }
-
-      foreach (Connection connection in Outputs)
-      {
-
-        connection.Start.orderConnections();
-        connection.updateOutput();
-      }
-    }
-
-    public void connectNode(NodeVM node)
+    public void connectNode(NodeVM node, List<TransferUnitVM> transferUnits = null)
     {
       Debug.Assert(node != null);
       //Debug.Assert(node != this);
@@ -227,6 +150,14 @@ namespace MyGraph.ViewModels
 
 
       ConnectionVM connectionVM = new ConnectionVM(this, node);
+      if (transferUnits != null)
+      {
+        foreach (TransferUnitVM transferUnit in transferUnits)
+        {
+          connectionVM.addTransferUnit(transferUnit);
+          transferUnit.Connections.Add(connectionVM);
+        }
+      }
     }
 
     public void disconnectNode(NodeVM node)
@@ -337,66 +268,6 @@ namespace MyGraph.ViewModels
 
     #region Events
 
-    bool justSet = false;
-    public void MouseDown(MouseButtonEventArgs ev)
-    {
-
-      if (ev.LeftButton != MouseButtonState.Pressed)
-        return;
-
-      if (Canvas.CurrentAction == Action.ConnectingOutput
-        && Canvas.GhostConnection.Start != this
-        && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
-      {
-        NodeVM start = Canvas.GhostConnection.Start;
-        Canvas.GhostConnection.Delete();
-        start.connectNode(this);
-        Canvas.CurrentAction = Action.None;
-        return;
-      }
-
-      if (!IsSelected)
-      {
-        justSet = true;
-      }
-
-      bool before = IsSelected;
-      IsSelected = true;
-
-
-      if (!Keyboard.IsKeyDown(Key.LeftShift) && !before)
-      {
-        foreach (NodeVM node in Canvas.Nodes.Where(n => n != this))
-        {
-          node.IsSelected = false;
-        }
-      }
-
-
-
-      if (!IsLocked)
-      {
-        startDragPosition = Canvas.LastMousePosition;
-        Canvas.CurrentAction = Action.Dragging;
-      }
-    }
-
-    public void MouseRightDown(MouseButtonEventArgs ev)
-    {
-      IsLocked = !IsLocked;
-    }
-
-    private Point startDragPosition;
-    public void MouseUp(MouseButtonEventArgs ev)
-    {
-      if (!justSet && Canvas.LastMousePosition == startDragPosition)
-      {
-        IsSelected = false;
-      }
-      justSet = false;
-
-      Canvas.CurrentAction = Action.None;
-    }
 
     public void MouseEnter()
     {
@@ -429,7 +300,6 @@ namespace MyGraph.ViewModels
         Canvas.GhostConnection.moveEndToMouse();
 
       }
-
 
     }
 
@@ -501,8 +371,8 @@ namespace MyGraph.ViewModels
     public NodeVM(string name = "", int id = -1)
     {
       Id = id;
-      MinWidth = 350;
-      MinHeight = 70;
+      Width = 350;
+      Height = 70;
       Name = name;
       //Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
       Outputs = new ObservableCollection<Connection>();

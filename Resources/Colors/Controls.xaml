@@ -19,7 +19,7 @@
     <!--  RangeSelector  -->
     <SolidColorBrush
         x:Key="SelectorBackground"
-        Opacity="0.8"
+        Opacity="1"
         Color="{DynamicResource Primary-1}" />
     <SolidColorBrush x:Key="SelectorBorder" Color="{DynamicResource Primary-1}" />
 
@@ -49,6 +49,16 @@
     <SolidColorBrush x:Key="NodeAddOutput" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="NodeAddOutputHover" Color="{DynamicResource Border-3}" />
     <SolidColorBrush x:Key="NodeLock" Color="{DynamicResource Border-2}" />
+
+    <!--  TransferUnit  -->
+    <SolidColorBrush x:Key="TransferUnitBackground" Color="{DynamicResource Border-1}" />
+    <SolidColorBrush x:Key="TransferUnitBackgroundSearched" Color="{DynamicResource Background-1}" />
+    <SolidColorBrush x:Key="TransferUnitBackgroundHover" Color="{DynamicResource Primary-3}" />
+    <SolidColorBrush x:Key="TransferUnitBorder" Color="{DynamicResource Border-2}" />
+    <SolidColorBrush x:Key="TransferUnitBorderHover" Color="{DynamicResource Primary-3}" />
+    <SolidColorBrush x:Key="TransferUnitBorderSelected" Color="{DynamicResource Primary-1}" />
+    <SolidColorBrush x:Key="TransferUnitText" Color="{DynamicResource Foreground-1}" />
+    <SolidColorBrush x:Key="TransferLock" Color="{DynamicResource Border-2}" />
 
     <!--  Sidebar  -->
     <SolidColorBrush x:Key="SidebarBackground" Color="{DynamicResource}" />

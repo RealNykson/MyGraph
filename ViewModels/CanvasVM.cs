@@ -70,7 +70,7 @@ namespace MyGraph.ViewModels
         {
           SelectRangeHeight = 0;
           SelectRangeWidth = 0;
-          SelectorSelectedNodes.Clear();
+          SelectorSelectedItems.Clear();
         }
 
         switch (value)
@@ -177,8 +177,7 @@ namespace MyGraph.ViewModels
 
     public bool IsOneSelectedNodeLocked
     {
-      get => Get<bool>();
-      set => Set(value);
+      get => SelectedNodes.Where(n => n.IsLocked).Count() != 0;
     }
 
     #endregion
@@ -202,12 +201,34 @@ namespace MyGraph.ViewModels
       get { return Get<ObservableCollection<TransferUnitVM>>(); }
       set { Set(value); }
     }
+    public bool isANodeSelected
+    {
+      get => SelectedNodes.Count > 0;
+    }
 
+    public ObservableCollection<CanvasItem> SelectedCanvasItems
+    {
+      get { return new ObservableCollection<CanvasItem>(CanvasItems.Where(c => c.IsSelected).ToList()); }
+    }
 
     public ObservableCollection<NodeVM> SelectedNodes
     {
-      get { return Get<ObservableCollection<NodeVM>>(); }
-      set { Set(value); value.CollectionChanged += SelectedNodes_Changed; }
+      get { return new ObservableCollection<NodeVM>(Nodes.Where(n => n.IsSelected).ToList()); }
+      set
+      {
+        Set(value);
+      }
+    }
+
+    public ObservableCollection<CanvasItem> CanvasItems
+    {
+      get
+      {
+        return new ObservableCollection<CanvasItem>(
+        Nodes.Cast<CanvasItem>().Concat(
+        TransferUnits.Cast<CanvasItem>()
+        ));
+      }
     }
 
     public ObservableCollection<NodeVM> SelectedNodesOutputs
@@ -229,6 +250,9 @@ namespace MyGraph.ViewModels
     #region Methods
 
     private DispatcherTimer currentPanTimer;
+    private DateTime _lastPanRequest = DateTime.MinValue;
+    private NodeVM _targetNode = null;
+
     private void loadObjectsFromDatabase()
     {
 
@@ -283,10 +307,23 @@ namespace MyGraph.ViewModels
       if (node == null)
         return;
 
-      // Stop any existing animation
+      // Debounce rapid requests (ignore calls within 100ms of each other)
+      DateTime now = DateTime.Now;
+      if ((now - _lastPanRequest).TotalMilliseconds < 100)
+      {
+        // Store the target node for deferred processing
+        _targetNode = node;
+        return;
+      }
+
+      _lastPanRequest = now;
+      _targetNode = null;
+
+      // Always stop any existing animation immediately
       if (currentPanTimer != null && currentPanTimer.IsEnabled)
       {
         currentPanTimer.Stop();
+        currentPanTimer = null;
       }
 
       double targetPanX = -node.Position.X * Scale;
@@ -301,15 +338,27 @@ namespace MyGraph.ViewModels
       double endOffsetX = targetPanX + offsetX;
       double endOffsetY = targetPanY + offsetY;
 
-      Duration duration = new Duration(TimeSpan.FromSeconds(0.2));
+      // Calculate distance to determine animation speed
+      double distance = Math.Sqrt(Math.Pow(endOffsetX - startOffsetX, 2) + Math.Pow(endOffsetY - startOffsetY, 2));
 
-      Storyboard storyboard = new Storyboard();
+      // Skip animation for very small distances
+      if (distance < 10)
+      {
+        Matrix finalMatrix = currentMatrix;
+        finalMatrix.OffsetX = endOffsetX;
+        finalMatrix.OffsetY = endOffsetY;
+        CanvasTransformMatrix.Matrix = finalMatrix;
+        return;
+      }
+
+      // Adjust animation speed based on distance (faster for longer distances)
+      int totalSteps = Math.Min(20, Math.Max(5, (int)(distance / 40)));
+      double intervalMs = Math.Min(20, Math.Max(10, distance / 100));
 
       System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-      timer.Interval = TimeSpan.FromMilliseconds(10);
+      timer.Interval = TimeSpan.FromMilliseconds(intervalMs);
       currentPanTimer = timer;
 
-      int totalSteps = 20;
       int currentStep = 0;
 
       timer.Tick += (sender, e) =>
@@ -324,6 +373,14 @@ namespace MyGraph.ViewModels
 
           timer.Stop();
           currentPanTimer = null;
+
+          // Process deferred pan request if one exists
+          if (_targetNode != null)
+          {
+            NodeVM nextNode = _targetNode;
+            _targetNode = null;
+            panToNode(nextNode);
+          }
           return;
         }
 
@@ -347,14 +404,16 @@ namespace MyGraph.ViewModels
 
     public void updateDraggingNode(Point delta)
     {
+
       if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)
       {
         CurrentAction = Action.None;
         return;
       }
-      foreach (NodeVM node in SelectedNodes)
+
+      foreach (CanvasItem item in SelectedCanvasItems)
       {
-        node.move(delta.X / Scale, delta.Y / Scale);
+        item.move(delta.X / Scale, delta.Y / Scale);
       }
     }
     public Point findNextFreeArea(double widthNeeded, double heightNeeded)
@@ -367,32 +426,24 @@ namespace MyGraph.ViewModels
 
         foreach (NodeVM node in Nodes)
         {
-          // Check if the current node intersects with the area we're checking
-          // Create a rectangle for the area we need
           Rect neededArea = new Rect(currentCheckingPosition.X, currentCheckingPosition.Y, widthNeeded, heightNeeded);
 
-          // Create a rectangle for the node's position
           Rect nodeRect = new Rect(node.Position.X, node.Position.Y, node.Width, node.Height);
 
-          // Check if they intersect
           if (neededArea.IntersectsWith(nodeRect))
           {
-            // If there's a collision, move right by 10 units and check again
             currentCheckingPosition.X += 10;
             collisionFound = true;
-            break; // Exit the foreach loop to restart checking with the new position
+            break;
           }
         }
 
-        // If we've looped through all nodes with no collision, we found a free spot
         if (!collisionFound)
         {
           return currentCheckingPosition;
         }
 
-        // Add a safeguard to prevent infinite loops
-        // If we've moved too far to the right, try a new row
-        if (currentCheckingPosition.X > CanvasWidth) // Arbitrary large number
+        if (currentCheckingPosition.X > CanvasWidth)
         {
           currentCheckingPosition.X = CanvasTransformMatrix.Matrix.OffsetX;
           currentCheckingPosition.Y += 10;
@@ -416,28 +467,28 @@ namespace MyGraph.ViewModels
     }
 
 
-    public List<NodeVM> SelectorSelectedNodes = new List<NodeVM>();
+    public List<CanvasItem> SelectorSelectedItems = new List<CanvasItem>();
 
-    public void addSelectorSelectedNodes()
+    public void addSelectorSelectedItems()
     {
-      foreach (NodeVM node in Nodes)
+      foreach (CanvasItem item in CanvasItems)
       {
-        if (node.Position.X >= StartSelectRangePosition.X
-          && node.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
-          && node.Position.Y >= StartSelectRangePosition.Y
-          && node.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
+        if (item.Position.X >= StartSelectRangePosition.X
+          && item.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
+          && item.Position.Y >= StartSelectRangePosition.Y
+          && item.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
         {
-          if (!node.IsSelected)
+          if (!item.IsSelected)
           {
-            SelectorSelectedNodes.Add(node);
-            node.IsSelected = true;
+            SelectorSelectedItems.Add(item);
+            item.IsSelected = true;
           }
           continue;
         }
-        else if (SelectorSelectedNodes.Contains(node))
+        else if (SelectorSelectedItems.Contains(item))
         {
-          node.IsSelected = false;
-          SelectorSelectedNodes.Remove(node);
+          item.IsSelected = false;
+          SelectorSelectedItems.Remove(item);
         }
 
       }
@@ -479,14 +530,12 @@ namespace MyGraph.ViewModels
       {
         SelectRangeHeight += (-delta.Y) / Scale;
         StartSelectRangePosition = new Point(StartSelectRangePosition.X, StartSelectRangePosition.Y + delta.Y / Scale);
-        addSelectorSelectedNodes();
+        addSelectorSelectedItems();
         return;
       }
 
       SelectRangeHeight += delta.Y / Scale;
-      addSelectorSelectedNodes();
-
-
+      addSelectorSelectedItems();
 
     }
 
@@ -895,8 +944,6 @@ namespace MyGraph.ViewModels
         return;
       }
 
-      IsOneSelectedNodeLocked = SelectedNodes.Where(n => n.IsLocked).Count() != 0;
-
       // This can be improved significantly by only removing/added outputs but this is the lazy way 
       SelectedNodesOutputs.Clear();
       SelectedNodesInputs.Clear();
@@ -920,7 +967,6 @@ namespace MyGraph.ViewModels
         }
       }
 
-      //
 
     }
     public void MouseDown(MouseButtonEventArgs ev)
@@ -933,9 +979,9 @@ namespace MyGraph.ViewModels
       }
       if (!Keyboard.IsKeyDown(Key.LeftShift))
       {
-        foreach (NodeVM node in Nodes)
+        foreach (CanvasItem item in CanvasItems)
         {
-          node.IsSelected = false;
+          item.IsSelected = false;
         }
       }
       StartSelectRangePosition = MousePositionOnCanvas;
@@ -1015,11 +1061,21 @@ namespace MyGraph.ViewModels
 
 
       Nodes = new ObservableCollection<NodeVM>();
-      SelectedNodes = new ObservableCollection<NodeVM>();
       SelectedNodesOutputs = new ObservableCollection<NodeVM>();
       SelectedNodesInputs = new ObservableCollection<NodeVM>();
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
+
+      NodeVM node1 = new NodeVM("Node 1", 1);
+      NodeVM node2 = new NodeVM("Node 2", 2);
+      NodeVM node3 = new NodeVM("Node 3", 3);
+      TransferUnitVM transferUnit1 = new TransferUnitVM("Transfer Unit 1", 1);
+      TransferUnitVM transferUnit2 = new TransferUnitVM("Transfer Unit 2", 2);
+      TransferUnitVM transferUnit3 = new TransferUnitVM("Transfer Unit 3", 3);
+
+      node1.connectNode(node2, new List<TransferUnitVM> { transferUnit3 });
+
+
 
       CanvasTransformMatrix = new MatrixTransform();
 

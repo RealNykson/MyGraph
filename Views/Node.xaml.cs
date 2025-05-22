@@ -62,15 +62,5 @@ namespace MyGraph.Views
 
 
 
-
-    //protected override void OnMouseMove(MouseEventArgs e)
-    //{
-    //  ((NodeVM)DataContext).MouseMove(e.GetPosition(this));
-    //}
-
-
-
-
-
   }
 }
