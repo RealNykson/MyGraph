@@ -23,14 +23,12 @@ namespace MyGraph.Models
       get => Get<CanvasVM>();
       set => Set(value);
     }
+
     public CanvasItem()
     {
       Debug.Assert(CanvasVM.currentCanvas != null);
       Canvas = CanvasVM.currentCanvas;
     }
-
-
-    //public Canvas Canvas { get; set; }
 
 
   }

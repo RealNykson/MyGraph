@@ -160,14 +160,14 @@ namespace MyGraph.Utilities
 
     public List<ProcessUnit> GetProcessUnits(int processCellId)
     {
+
       string query = @"
                 use dbIdc 
                 select unit.nKey, datax.szName, unit.nProcessCellLink, x.szName
                 from tblItpProcessUnit unit
                 join tblCPDataX datax on datax.nKey = unit.nDataXLink
                 join tblItpProcessCell cell on cell.nKey = unit.nProcessCellLink
-                join tblCPDataX x on x.nKey = cell.nDataXLink
-                where unit.nProcessCellLink = @processCellId";
+                join tblCPDataX x on x.nKey = cell.nDataXLink";
 
       var parameters = new Dictionary<string, object>
             {
@@ -197,8 +197,7 @@ namespace MyGraph.Utilities
                 use dbIdc 
                 select rel.nTransferUnitLink, rel.nSourceProcessUnitLink, rel.nDestinationProcessUnitLink 
                 from tblVDProcessUnitRelation rel
-                join tblItpProcessUnit unit on unit.nKey = rel.nTransferUnitLink
-                where unit.nProcessCellLink = @processCellId";
+                join tblItpProcessUnit unit on unit.nKey = rel.nTransferUnitLink";
 
       var parameters = new Dictionary<string, object>
             {

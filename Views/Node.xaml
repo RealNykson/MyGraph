@@ -110,11 +110,11 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
-                            <TextBlock
-                                FontFamily="Inter"
-                                FontSize="18"
-                                Foreground="{DynamicResource NodeText}"
-                                Text="{Binding Id}" />
+                        <TextBlock
+                            FontFamily="Inter"
+                            FontSize="18"
+                            Foreground="{DynamicResource NodeText}"
+                            Text="{Binding Name}" />
                     </Grid>
 
                     <!--  Outputs  -->

@@ -19,9 +19,10 @@ namespace MyGraph.ViewModels
   {
     public int Id { get; set; }
 
-    public bool IsTransfer { 
-      get => Get<bool>(); 
-      set => Set(value); 
+    public bool IsTransfer
+    {
+      get => Get<bool>();
+      set => Set(value);
     }
 
 
@@ -112,6 +113,12 @@ namespace MyGraph.ViewModels
     {
       get => Get<bool>();
       set => Set(value);
+    }
+
+    struct Input
+    {
+      Connection CommingFrom;
+      Connection GoingTo;
     }
 
     public ObservableCollection<Connection> Inputs
@@ -207,7 +214,13 @@ namespace MyGraph.ViewModels
     {
       Debug.Assert(node != null);
       //Debug.Assert(node != this);
-      if (Outputs.Where(n => n.End == node).FirstOrDefault() != null) {
+      if (node == this)
+      {
+        return;
+      }
+
+      if (Outputs.Where(n => n.End == node).FirstOrDefault() != null)
+      {
         return;
       }
       Debug.Assert(Canvas.Connections.Where(c => c.End == node && c.Start == this).Count() == 0);
@@ -262,7 +275,7 @@ namespace MyGraph.ViewModels
 
     }
 
-    double spacingHorizontal = 250;
+    double spacingHorizontal = 350;
     double spacingVertical = 75;
     public void orderAllChildrenRelativeToSelf(List<NodeVM> allreadyOrderedList)
     {
@@ -291,8 +304,6 @@ namespace MyGraph.ViewModels
         con.End.orderAllChildrenRelativeToSelf(allreadyOrderedList);
       }
 
-
-
     }
 
     public void updateOutputs()
@@ -308,7 +319,6 @@ namespace MyGraph.ViewModels
 
     public void updateInputs()
     {
-
       if (Inputs == null)
         return;
 
@@ -345,7 +355,7 @@ namespace MyGraph.ViewModels
         return;
       }
 
-     if (!IsSelected)
+      if (!IsSelected)
       {
         justSet = true;
       }
@@ -353,7 +363,7 @@ namespace MyGraph.ViewModels
       bool before = IsSelected;
       IsSelected = true;
 
- 
+
       if (!Keyboard.IsKeyDown(Key.LeftShift) && !before)
       {
         foreach (NodeVM node in Canvas.Nodes.Where(n => n != this))
@@ -397,6 +407,14 @@ namespace MyGraph.ViewModels
         Canvas.GhostConnection.End = this;
         ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
       }
+      else
+      {
+        foreach (ConnectionVM connection in Inputs)
+        {
+          connection.CurrentState = ConnectionVM.State.PartOfHover;
+        }
+      }
+
     }
 
     public void MouseLeave()
@@ -414,6 +432,8 @@ namespace MyGraph.ViewModels
 
 
     }
+
+
 
     private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
@@ -443,6 +463,7 @@ namespace MyGraph.ViewModels
       Canvas.SelectedNodes_Changed(this, null);
 
     }
+
     private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
 
@@ -480,11 +501,10 @@ namespace MyGraph.ViewModels
     public NodeVM(string name = "", int id = -1)
     {
       Id = id;
-
       MinWidth = 350;
       MinHeight = 70;
       Name = name;
-      Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
+      //Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
       createCommands();

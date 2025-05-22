@@ -19,6 +19,7 @@ namespace MyGraph.Models
     public double OffsetInput = 2.5;
     public double OffsetOutput = 3;
     public double spacing = 23;
+    public ObservableCollection<TransferUnitVM> TransferUnits { get; set; } = new ObservableCollection<TransferUnitVM>();
 
     private NodeVM _Start;
     public NodeVM Start
@@ -80,9 +81,9 @@ namespace MyGraph.Models
       get => Get<PointCollection>();
       set => Set(value);
     }
- 
-   
- 
+
+
+
 
     /// <summary>
     /// Updates the position of the connection when a new input/output is added
