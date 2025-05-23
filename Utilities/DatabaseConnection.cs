@@ -43,31 +43,7 @@ namespace MyGraph.Utilities
         }
 
         var envLines = File.ReadAllLines(envPath);
-        var envVars = new Dictionary<string, string>();
-
-        foreach (var line in envLines)
-        {
-          var parts = line.Split('=');
-          if (parts.Length == 2)
-          {
-            envVars[parts[0].Trim()] = parts[1].Trim();
-          }
-        }
-
-        string server = envVars.ContainsKey("SERVER") ? envVars["SERVER"] : "";
-        string userId = envVars.ContainsKey("USERID") ? envVars["USERID"] : "";
-        string password = envVars.ContainsKey("PASSWORD") ? envVars["PASSWORD"] : "";
-
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(password))
-        {
-          // Use Windows Authentication
-          _connectionString = $"Server={server};Integrated Security=True;";
-        }
-        else
-        {
-          // Use SQL Server Authentication
-          _connectionString = $"Server={server};User Id={userId};Password={password};";
-        }
+        _connectionString = envLines[0] ;
       }
       catch (Exception ex)
       {
