@@ -70,7 +70,7 @@ namespace MyGraph.ViewModels
         {
           SelectRangeHeight = 0;
           SelectRangeWidth = 0;
-          SelectorSelectedNodes.Clear();
+          SelectorSelectedItems.Clear();
         }
 
         switch (value)
@@ -177,8 +177,7 @@ namespace MyGraph.ViewModels
 
     public bool IsOneSelectedNodeLocked
     {
-      get => Get<bool>();
-      set => Set(value);
+      get => SelectedNodes.Where(n => n.IsLocked).Count() != 0;
     }
 
     #endregion
@@ -197,10 +196,39 @@ namespace MyGraph.ViewModels
       set { Set(value); }
     }
 
+    public ObservableCollection<TransferUnitVM> TransferUnits
+    {
+      get { return Get<ObservableCollection<TransferUnitVM>>(); }
+      set { Set(value); }
+    }
+    public bool isANodeSelected
+    {
+      get => SelectedNodes.Count > 0;
+    }
+
+    public ObservableCollection<CanvasItem> SelectedCanvasItems
+    {
+      get { return new ObservableCollection<CanvasItem>(CanvasItems.Where(c => c.IsSelected).ToList()); }
+    }
+
     public ObservableCollection<NodeVM> SelectedNodes
     {
-      get { return Get<ObservableCollection<NodeVM>>(); }
-      set { Set(value); value.CollectionChanged += SelectedNodes_Changed; }
+      get { return new ObservableCollection<NodeVM>(Nodes.Where(n => n.IsSelected).ToList()); }
+      set
+      {
+        Set(value);
+      }
+    }
+
+    public ObservableCollection<CanvasItem> CanvasItems
+    {
+      get
+      {
+        return new ObservableCollection<CanvasItem>(
+        Nodes.Cast<CanvasItem>().Concat(
+        TransferUnits.Cast<CanvasItem>()
+        ));
+      }
     }
 
     public ObservableCollection<NodeVM> SelectedNodesOutputs
@@ -221,10 +249,82 @@ namespace MyGraph.ViewModels
 
     #region Methods
 
+    private DispatcherTimer currentPanTimer;
+    private DateTime _lastPanRequest = DateTime.MinValue;
+    private NodeVM _targetNode = null;
+
+    private void loadObjectsFromDatabase()
+    {
+
+      DatabaseConnection _dbConnection = new DatabaseConnection();
+
+      try
+      {
+        _dbConnection.Connect();
+
+        var processUnitsList = _dbConnection.GetProcessUnits(39);
+
+        foreach (ProcessUnit pc in processUnitsList)
+        {
+          new NodeVM(pc.UnitName, pc.UnitId);
+        }
+
+        var connectionsList = _dbConnection.GetConnections(39);
+
+        foreach (ConnectionDB connection in connectionsList)
+        {
+          var sourceUnit = Nodes.FirstOrDefault(n => n.Id == connection.SourceUnitId);
+          var transfer = Nodes.FirstOrDefault(n => n.Id == connection.TransferUnitId);
+          var destinationUnit = Nodes.FirstOrDefault(n => n.Id == connection.DestinationUnitId);
+          if (sourceUnit != null && destinationUnit != null && transfer != null)
+          {
+            sourceUnit.connectNode(transfer);
+            transfer.IsTransfer = true;
+            transfer.connectNode(destinationUnit);
+          }
+        }
+
+        foreach (NodeVM node in new ObservableCollection<NodeVM>(Nodes))
+        {
+          if (node.Inputs.Count() == 0 && node.Outputs.Count() == 0)
+          {
+            node.Delete();
+          }
+        }
+
+
+      }
+
+      catch (Exception ex)
+      {
+        MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+
+    }
+
     public void panToNode(NodeVM node)
     {
       if (node == null)
         return;
+
+      // Debounce rapid requests (ignore calls within 100ms of each other)
+      DateTime now = DateTime.Now;
+      if ((now - _lastPanRequest).TotalMilliseconds < 100)
+      {
+        // Store the target node for deferred processing
+        _targetNode = node;
+        return;
+      }
+
+      _lastPanRequest = now;
+      _targetNode = null;
+
+      // Always stop any existing animation immediately
+      if (currentPanTimer != null && currentPanTimer.IsEnabled)
+      {
+        currentPanTimer.Stop();
+        currentPanTimer = null;
+      }
 
       double targetPanX = -node.Position.X * Scale;
       double targetPanY = -node.Position.Y * Scale;
@@ -238,14 +338,27 @@ namespace MyGraph.ViewModels
       double endOffsetX = targetPanX + offsetX;
       double endOffsetY = targetPanY + offsetY;
 
-      Duration duration = new Duration(TimeSpan.FromSeconds(0.2));
+      // Calculate distance to determine animation speed
+      double distance = Math.Sqrt(Math.Pow(endOffsetX - startOffsetX, 2) + Math.Pow(endOffsetY - startOffsetY, 2));
 
-      Storyboard storyboard = new Storyboard();
+      // Skip animation for very small distances
+      if (distance < 10)
+      {
+        Matrix finalMatrix = currentMatrix;
+        finalMatrix.OffsetX = endOffsetX;
+        finalMatrix.OffsetY = endOffsetY;
+        CanvasTransformMatrix.Matrix = finalMatrix;
+        return;
+      }
+
+      // Adjust animation speed based on distance (faster for longer distances)
+      int totalSteps = Math.Min(20, Math.Max(5, (int)(distance / 40)));
+      double intervalMs = Math.Min(20, Math.Max(10, distance / 100));
 
       System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-      timer.Interval = TimeSpan.FromMilliseconds(10);
+      timer.Interval = TimeSpan.FromMilliseconds(intervalMs);
+      currentPanTimer = timer;
 
-      int totalSteps = 20;
       int currentStep = 0;
 
       timer.Tick += (sender, e) =>
@@ -259,6 +372,15 @@ namespace MyGraph.ViewModels
           CanvasTransformMatrix.Matrix = finalMatrix;
 
           timer.Stop();
+          currentPanTimer = null;
+
+          // Process deferred pan request if one exists
+          if (_targetNode != null)
+          {
+            NodeVM nextNode = _targetNode;
+            _targetNode = null;
+            panToNode(nextNode);
+          }
           return;
         }
 
@@ -282,14 +404,16 @@ namespace MyGraph.ViewModels
 
     public void updateDraggingNode(Point delta)
     {
+
       if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)
       {
         CurrentAction = Action.None;
         return;
       }
-      foreach (NodeVM node in SelectedNodes)
+
+      foreach (CanvasItem item in SelectedCanvasItems)
       {
-        node.move(delta.X / Scale, delta.Y / Scale);
+        item.move(delta.X / Scale, delta.Y / Scale);
       }
     }
     public Point findNextFreeArea(double widthNeeded, double heightNeeded)
@@ -303,12 +427,14 @@ namespace MyGraph.ViewModels
         foreach (NodeVM node in Nodes)
         {
           Rect neededArea = new Rect(currentCheckingPosition.X, currentCheckingPosition.Y, widthNeeded, heightNeeded);
+
           Rect nodeRect = new Rect(node.Position.X, node.Position.Y, node.Width, node.Height);
+
           if (neededArea.IntersectsWith(nodeRect))
           {
             currentCheckingPosition.X += 10;
             collisionFound = true;
-            break; 
+            break;
           }
         }
 
@@ -341,28 +467,28 @@ namespace MyGraph.ViewModels
     }
 
 
-    public List<NodeVM> SelectorSelectedNodes = new List<NodeVM>();
+    public List<CanvasItem> SelectorSelectedItems = new List<CanvasItem>();
 
-    public void addSelectorSelectedNodes()
+    public void addSelectorSelectedItems()
     {
-      foreach (NodeVM node in Nodes)
+      foreach (CanvasItem item in CanvasItems)
       {
-        if (node.Position.X >= StartSelectRangePosition.X
-          && node.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
-          && node.Position.Y >= StartSelectRangePosition.Y
-          && node.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
+        if (item.Position.X >= StartSelectRangePosition.X
+          && item.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
+          && item.Position.Y >= StartSelectRangePosition.Y
+          && item.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
         {
-          if (!node.IsSelected)
+          if (!item.IsSelected)
           {
-            SelectorSelectedNodes.Add(node);
-            node.IsSelected = true;
+            SelectorSelectedItems.Add(item);
+            item.IsSelected = true;
           }
           continue;
         }
-        else if (SelectorSelectedNodes.Contains(node))
+        else if (SelectorSelectedItems.Contains(item))
         {
-          node.IsSelected = false;
-          SelectorSelectedNodes.Remove(node);
+          item.IsSelected = false;
+          SelectorSelectedItems.Remove(item);
         }
 
       }
@@ -391,7 +517,6 @@ namespace MyGraph.ViewModels
           || (MousePositionOnCanvas.X < (StartSelectRangePosition.X + SelectRangeWidth)
           && delta.X > 0))
       {
-
         SelectRangeWidth += (-1 * delta.X) / Scale;
         StartSelectRangePosition = new Point(StartSelectRangePosition.X + delta.X / Scale, StartSelectRangePosition.Y);
       }
@@ -405,14 +530,12 @@ namespace MyGraph.ViewModels
       {
         SelectRangeHeight += (-delta.Y) / Scale;
         StartSelectRangePosition = new Point(StartSelectRangePosition.X, StartSelectRangePosition.Y + delta.Y / Scale);
-        addSelectorSelectedNodes();
+        addSelectorSelectedItems();
         return;
       }
 
       SelectRangeHeight += delta.Y / Scale;
-      addSelectorSelectedNodes();
-
-
+      addSelectorSelectedItems();
 
     }
 
@@ -439,92 +562,373 @@ namespace MyGraph.ViewModels
 
       LastMousePosition = currentPosition;
     }
-    public List<int>[] ConstructAdj(int V, int[,] edges)
+
+    /// <summary>
+    /// This functions tries to find a approximation of an optimal placmenent of the nodes to have the least overlaps.
+    /// Since topological sorting is a NP-hard problem, this function uses a heuristic approach to find a good solution.
+    /// Be careful when modifying this function, since most aspects are dependent on each other and thus can break easily.
+    /// Searching for someone to blame? => Felix Baumueller
+    /// </summary>
+    public void sortNodes()
     {
-      List<int>[] adj = new List<int>[V];
+      List<List<NodeVM>> sortedGroups = getTopologicallySortedGroups();
 
-      for (int i = 0; i < V; i++)
+      double initialStartX = 50;
+      double startX = initialStartX;
+      double startY = 50;
+      double horizontalSpacing = 400;
+      double verticalSpacing = 50;
+
+      double groupVerticalSpacing = 200;
+
+      foreach (List<NodeVM> group in sortedGroups)
       {
-        adj[i] = new List<int>();
-      }
+        if (group.Count == 0)
+          continue;
 
-      for (int i = 0; i < edges.GetLength(0); i++)
-      {
-        adj[edges[i, 0]].Add(edges[i, 1]);
-      }
+        Dictionary<NodeVM, int> nodeLevels = new Dictionary<NodeVM, int>();
+        CalculateLevels(group, nodeLevels);
 
-      return adj;
+        var nodesByLevel = group.GroupBy(node => nodeLevels[node])
+                               .OrderBy(g => g.Key)
+                               .ToDictionary(g => g.Key, g => g.ToList());
+
+        // Two-pass algorithm for better vertical alignment
+        // First pass: Determine positions with a bottom-up approach
+        Dictionary<NodeVM, double> nodeYPositions = new Dictionary<NodeVM, double>();
+        Dictionary<int, double> levelWidths = new Dictionary<int, double>();
+        Dictionary<int, double> levelHeights = new Dictionary<int, double>();
+        Dictionary<NodeVM, List<NodeVM>> parentToChildren = new Dictionary<NodeVM, List<NodeVM>>();
+        Dictionary<NodeVM, List<NodeVM>> childToParents = new Dictionary<NodeVM, List<NodeVM>>();
+
+        // Build parent-child relationships
+        foreach (var levelGroup in nodesByLevel)
+        {
+          int level = levelGroup.Key;
+          if (level > 0 && nodesByLevel.ContainsKey(level - 1))
+          {
+            foreach (NodeVM parent in nodesByLevel[level - 1])
+            {
+              foreach (Connection output in parent.Outputs)
+              {
+                NodeVM child = output.End;
+                if (nodeLevels.ContainsKey(child) && nodeLevels[child] == level)
+                {
+                  // Add to parent->children mapping
+                  if (!parentToChildren.ContainsKey(parent))
+                    parentToChildren[parent] = new List<NodeVM>();
+                  parentToChildren[parent].Add(child);
+
+                  // Add to child->parents mapping
+                  if (!childToParents.ContainsKey(child))
+                    childToParents[child] = new List<NodeVM>();
+                  childToParents[child].Add(parent);
+                }
+              }
+            }
+          }
+        }
+
+        // Calculate width and height for each level
+        foreach (var levelGroup in nodesByLevel)
+        {
+          int level = levelGroup.Key;
+          List<NodeVM> levelNodes = levelGroup.Value;
+
+          double levelWidth = levelNodes.Max(node => node.Width);
+          levelWidths[level] = levelWidth;
+
+          double levelHeight = levelNodes.Sum(node => node.Height) +
+                              (levelNodes.Count - 1) * verticalSpacing;
+          levelHeights[level] = levelHeight;
+        }
+
+        double currentLevelX = startX;
+        double maxY = startY;
+
+        // Initial placement for level 0
+        if (nodesByLevel.ContainsKey(0))
+        {
+          double currentY = startY;
+
+          // First pass: Position nodes with children
+          foreach (NodeVM node in nodesByLevel[0])
+          {
+            // If node has children, place it based on where those children will likely be
+            if (parentToChildren.ContainsKey(node) && parentToChildren[node].Count > 0)
+            {
+              // We'll position it later after we know where the children are
+              continue;
+            }
+
+            // Otherwise place sequentially
+            nodeYPositions[node] = currentY;
+            currentY += node.Height + verticalSpacing;
+            maxY = Math.Max(maxY, nodeYPositions[node] + node.Height);
+          }
+        }
+
+        // For each subsequent level, place nodes based on their parents
+        int maxLevel = nodesByLevel.Keys.Count > 0 ? nodesByLevel.Keys.Max() : 0;
+        for (int level = 1; level <= maxLevel; level++)
+        {
+          if (!nodesByLevel.ContainsKey(level)) continue;
+
+          foreach (NodeVM node in nodesByLevel[level])
+          {
+            if (childToParents.ContainsKey(node) && childToParents[node].Count > 0)
+            {
+              // Calculate position based on parents
+              var positionedParents = childToParents[node]
+                .Where(p => nodeYPositions.ContainsKey(p))
+                .ToList();
+
+              if (positionedParents.Any())
+              {
+                double avgParentCenter = positionedParents
+                  .Average(p => nodeYPositions[p] + p.Height / 2);
+
+                nodeYPositions[node] = avgParentCenter - node.Height / 2;
+              }
+            }
+          }
+
+          // Then, place nodes without parents at this level
+          double currentY = startY;
+          foreach (NodeVM node in nodesByLevel[level])
+          {
+            if (!nodeYPositions.ContainsKey(node))
+            {
+              nodeYPositions[node] = currentY;
+              currentY += node.Height + verticalSpacing;
+            }
+          }
+
+          ResolveOverlaps(nodesByLevel[level], nodeYPositions, verticalSpacing);
+        }
+
+        // Second pass - adjust parents based on children's positions
+        for (int level = maxLevel - 1; level >= 0; level--)
+        {
+          if (!nodesByLevel.ContainsKey(level)) continue;
+
+          foreach (NodeVM parent in nodesByLevel[level])
+          {
+            if (parentToChildren.ContainsKey(parent) && parentToChildren[parent].Count > 0)
+            {
+              // Calculate position based on children
+              var positionedChildren = parentToChildren[parent]
+                .Where(c => nodeYPositions.ContainsKey(c))
+                .ToList();
+
+              if (positionedChildren.Any())
+              {
+                double minChildY = positionedChildren.Min(c => nodeYPositions[c]);
+                double maxChildY = positionedChildren.Max(c => nodeYPositions[c] + c.Height);
+
+                double childrenCenter = (minChildY + maxChildY) / 2;
+                nodeYPositions[parent] = childrenCenter - parent.Height / 2;
+              }
+            }
+
+            // Handle level 0 nodes that didn't get positioned in the first pass
+            else if (level == 0 && !nodeYPositions.ContainsKey(parent))
+            {
+              double currentY = startY;
+              while (nodesByLevel[0].Any(n => nodeYPositions.ContainsKey(n) &&
+                                       nodeYPositions[n] <= currentY &&
+                                       nodeYPositions[n] + n.Height + verticalSpacing > currentY))
+              {
+                currentY += verticalSpacing;
+              }
+              nodeYPositions[parent] = currentY;
+              maxY = Math.Max(maxY, currentY + parent.Height);
+            }
+          }
+
+          ResolveOverlaps(nodesByLevel[level], nodeYPositions, verticalSpacing);
+        }
+
+        // Place the nodes at their final positions
+        for (int level = 0; level <= maxLevel; level++)
+        {
+          if (!nodesByLevel.ContainsKey(level)) continue;
+
+          double levelWidth = levelWidths[level];
+          currentLevelX = startX + level * (horizontalSpacing + levelWidth);
+
+          foreach (NodeVM node in nodesByLevel[level])
+          {
+            double nodeY = nodeYPositions[node];
+            node.moveAbsolute(currentLevelX, nodeY);
+            maxY = Math.Max(maxY, nodeY + node.Height);
+          }
+        }
+
+        // Reset X position for next group and move Y position down
+        startX = initialStartX;
+        startY = maxY + groupVerticalSpacing;
+      }
     }
 
-    public int[] TopologicalSort(int V, int[,] edges)
+    private void ResolveOverlaps(List<NodeVM> nodes, Dictionary<NodeVM, double> positions, double spacing)
     {
-      List<int>[] adj = ConstructAdj(V, edges);
-      int[] indegree = new int[V];
+      var orderedNodes = nodes.OrderBy(n => positions[n]).ToList();
 
-      for (int i = 0; i < V; i++)
+      for (int i = 0; i < orderedNodes.Count - 1; i++)
       {
-        foreach (var neighbor in adj[i])
+        NodeVM current = orderedNodes[i];
+        NodeVM next = orderedNodes[i + 1];
+
+        double currentBottom = positions[current] + current.Height;
+        double nextTop = positions[next];
+
+        if (nextTop < currentBottom + spacing)
         {
-          indegree[neighbor]++;
-        }
-      }
+          double offset = currentBottom + spacing - nextTop;
 
-      Queue<int> q = new Queue<int>();
-      for (int i = 0; i < V; i++)
-      {
-        if (indegree[i] == 0)
-        {
-          q.Enqueue(i);
-        }
-      }
-
-      int[] result = new int[V];
-      int index = 0;
-
-      while (q.Count > 0)
-      {
-        int node = q.Dequeue();
-        result[index++] = node;
-
-        foreach (var neighbor in adj[node])
-        {
-          indegree[neighbor]--;
-          if (indegree[neighbor] == 0)
+          // Push all subsequent nodes down
+          for (int j = i + 1; j < orderedNodes.Count; j++)
           {
-            q.Enqueue(neighbor);
+            positions[orderedNodes[j]] += offset;
+          }
+        }
+      }
+    }
+
+    private void CalculateLevels(List<NodeVM> nodes, Dictionary<NodeVM, int> levels)
+    {
+      foreach (var node in nodes)
+      {
+        levels[node] = 0;
+      }
+
+      bool changed = true;
+      while (changed)
+      {
+        changed = false;
+        foreach (var node in nodes)
+        {
+          int currentLevel = levels[node];
+          foreach (var connection in node.Outputs)
+          {
+            var targetNode = connection.End;
+            if (nodes.Contains(targetNode) && levels[targetNode] <= currentLevel)
+            {
+              levels[targetNode] = currentLevel + 1;
+              changed = true;
+            }
+          }
+        }
+      }
+    }
+
+    private List<List<NodeVM>> findConnectedComponents()
+    {
+      HashSet<NodeVM> visited = new HashSet<NodeVM>();
+      List<List<NodeVM>> components = new List<List<NodeVM>>();
+
+      foreach (NodeVM node in Nodes)
+      {
+        if (!visited.Contains(node))
+        {
+          List<NodeVM> component = new List<NodeVM>();
+          Queue<NodeVM> queue = new Queue<NodeVM>();
+          queue.Enqueue(node);
+          visited.Add(node);
+
+          while (queue.Count > 0)
+          {
+            NodeVM current = queue.Dequeue();
+            component.Add(current);
+
+            // Add all unvisited neighbors (both incoming and outgoing connections)
+            foreach (Connection output in current.Outputs)
+            {
+              if (!visited.Contains(output.End))
+              {
+                visited.Add(output.End);
+                queue.Enqueue(output.End);
+              }
+            }
+            foreach (Connection input in current.Inputs)
+            {
+              if (!visited.Contains(input.Start))
+              {
+                visited.Add(input.Start);
+                queue.Enqueue(input.Start);
+              }
+            }
+          }
+          components.Add(component);
+        }
+      }
+      return components;
+    }
+
+    private List<NodeVM> topologicalSortComponent(List<NodeVM> component)
+    {
+      // Calculate in-degrees for each node
+      Dictionary<NodeVM, int> inDegree = new Dictionary<NodeVM, int>();
+      foreach (NodeVM node in component)
+      {
+        inDegree[node] = node.Inputs.Count;
+      }
+
+      // Find nodes with no incoming edges
+      Queue<NodeVM> queue = new Queue<NodeVM>();
+      foreach (NodeVM node in component)
+      {
+        if (inDegree[node] == 0)
+        {
+          queue.Enqueue(node);
+        }
+      }
+
+      List<NodeVM> sortedNodes = new List<NodeVM>();
+      int visitedCount = 0;
+
+      while (queue.Count > 0)
+      {
+        NodeVM current = queue.Dequeue();
+        sortedNodes.Add(current);
+        visitedCount++;
+
+        foreach (Connection output in current.Outputs)
+        {
+          NodeVM neighbor = output.End;
+          inDegree[neighbor]--;
+          if (inDegree[neighbor] == 0)
+          {
+            queue.Enqueue(neighbor);
           }
         }
       }
 
-      // Check for cycle
-      if (index != V)
+      // If we couldn't visit all nodes, there's a cycle
+      if (visitedCount != component.Count)
       {
-        Console.WriteLine("Graph contains a cycle!");
-        return new int[0];
+        return null; // Indicates a cycle was found
+      }
+
+      return sortedNodes;
+    }
+
+    public List<List<NodeVM>> getTopologicallySortedGroups()
+    {
+      List<List<NodeVM>> result = new List<List<NodeVM>>();
+      List<List<NodeVM>> components = findConnectedComponents();
+
+      foreach (List<NodeVM> component in components)
+      {
+        List<NodeVM> sortedComponent = topologicalSortComponent(component);
+        if (sortedComponent != null) // Only add if no cycle was found
+        {
+          result.Add(sortedComponent);
+        }
       }
 
       return result;
-    }
-
-    public void sortNodes()
-    {
-
-      List<NodeVM> startNodes = new List<NodeVM>();
-
-      startNodes = Nodes.Where(n => n.Inputs.Count() == 0).ToList();
-      
-     List<double> nodeCount = new List<double>();
-     foreach(NodeVM node in startNodes) {
-      nodeCount.Add(node.Outputs.Count());
-     }
-     
-
-      foreach (NodeVM node in startNodes)
-      {
-        List<NodeVM> orderList = new List<NodeVM>();
-        node.orderAllChildrenRelativeToSelf(orderList);
-      }
-
     }
 
     #endregion Methods
@@ -539,8 +943,6 @@ namespace MyGraph.ViewModels
         SelectedNodesInputs.Clear();
         return;
       }
-
-      IsOneSelectedNodeLocked = SelectedNodes.Where(n => n.IsLocked).Count() != 0;
 
       // This can be improved significantly by only removing/added outputs but this is the lazy way 
       SelectedNodesOutputs.Clear();
@@ -565,7 +967,6 @@ namespace MyGraph.ViewModels
         }
       }
 
-      //
 
     }
     public void MouseDown(MouseButtonEventArgs ev)
@@ -578,9 +979,9 @@ namespace MyGraph.ViewModels
       }
       if (!Keyboard.IsKeyDown(Key.LeftShift))
       {
-        foreach (NodeVM node in Nodes)
+        foreach (CanvasItem item in CanvasItems)
         {
-          node.IsSelected = false;
+          item.IsSelected = false;
         }
       }
       StartSelectRangePosition = MousePositionOnCanvas;
@@ -649,6 +1050,7 @@ namespace MyGraph.ViewModels
     {
 
 
+
       currentCanvas = this;
       CleanScale = 100;
       GridHeight = 650;
@@ -657,11 +1059,23 @@ namespace MyGraph.ViewModels
       CanvasWidth = 1000;
       Scale = 1;
 
+
       Nodes = new ObservableCollection<NodeVM>();
-      SelectedNodes = new ObservableCollection<NodeVM>();
       SelectedNodesOutputs = new ObservableCollection<NodeVM>();
       SelectedNodesInputs = new ObservableCollection<NodeVM>();
       Connections = new ObservableCollection<ConnectionVM>();
+      TransferUnits = new ObservableCollection<TransferUnitVM>();
+
+      NodeVM node1 = new NodeVM("Node 1", 1);
+      NodeVM node2 = new NodeVM("Node 2", 2);
+      NodeVM node3 = new NodeVM("Node 3", 3);
+      TransferUnitVM transferUnit1 = new TransferUnitVM("Transfer Unit 1", 1);
+      TransferUnitVM transferUnit2 = new TransferUnitVM("Transfer Unit 2", 2);
+      TransferUnitVM transferUnit3 = new TransferUnitVM("Transfer Unit 3", 3);
+
+      node1.connectNode(node2, new List<TransferUnitVM> { transferUnit3 });
+
+
 
       CanvasTransformMatrix = new MatrixTransform();
 
@@ -670,81 +1084,7 @@ namespace MyGraph.ViewModels
       mat.OffsetY += CanvasHeight / -2;
       CanvasTransformMatrix.Matrix = mat;
 
-      // Initialize database connection
-      DatabaseConnection _dbConnection = new DatabaseConnection();
-
-      try
-      {
-        // Connect to database
-        _dbConnection.Connect();
-
-        // Get process units for process cell 39
-        var processUnitsList = _dbConnection.GetProcessUnits(39);
-
-        foreach (ProcessUnit pc in processUnitsList)
-        {
-          new NodeVM(pc.UnitName, pc.UnitId);
-        }
-
-        var connectionsList = _dbConnection.GetConnections(39);
-
-        foreach (ConnectionDB connection in connectionsList)
-        {
-          var sourceUnit = Nodes.FirstOrDefault(n => n.Id == connection.SourceUnitId);
-          var transfer = Nodes.FirstOrDefault(n => n.Id == connection.TransferUnitId);  
-          var destinationUnit = Nodes.FirstOrDefault(n => n.Id == connection.DestinationUnitId);
-          if (sourceUnit != null && destinationUnit != null && transfer != null)
-          {
-            sourceUnit.connectNode(transfer);
-            transfer.IsTransfer = true;
-            transfer.connectNode(destinationUnit);
-          }
-        }
-
-        
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-      }
-
-      //// Gruppe A (Cluster 1)
-      //NodeVM a1 = new NodeVM() { Name = "Alpha" };
-      //NodeVM a2 = new NodeVM() { Name = "Beta" };
-      //NodeVM a3 = new NodeVM() { Name = "Gamma" };
-      //NodeVM a4 = new NodeVM() { Name = "Delta" };
-      //NodeVM a5 = new NodeVM() { Name = "Epsilon" };
-
-      //a1.move(100, 100);
-      //a2.move(300, 100);
-      //a3.move(500, 100);
-      //a4.move(200, 250);
-      //a5.move(400, 250);
-
-      //a1.connectNode(a2);
-      //a2.connectNode(a3);
-      //a2.connectNode(a4);
-      //a4.connectNode(a5);
-      //a3.connectNode(a5);
-
-      //// Gruppe C (Tree-Struktur)
-      //NodeVM c1 = new NodeVM() { Name = "Root" };
-      //NodeVM c2 = new NodeVM() { Name = "Leaf1" };
-      //NodeVM c3 = new NodeVM() { Name = "Leaf2" };
-      //NodeVM c4 = new NodeVM() { Name = "Leaf3" };
-      //NodeVM c5 = new NodeVM() { Name = "Leaf4" };
-
-      //c1.move(250, 500);
-      //c2.move(50, 650);
-      //c3.move(200, 650);
-      //c4.move(400, 650);
-      //c5.move(200, 800);
-
-      //c1.connectNode(c2);
-      //c1.connectNode(c3);
-      //c1.connectNode(c4);
-      //c3.connectNode(c5);
-
+      loadObjectsFromDatabase();
 
     }
 

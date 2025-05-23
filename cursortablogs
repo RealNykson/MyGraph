@@ -1,0 +1,3185 @@
+2025/05/21 13:46:59 starting cursor tab...
+2025/05/21 13:46:59 service created
+2025/05/21 13:46:59 nvim created
+2025/05/21 13:46:59 creating new buffer
+2025/05/21 13:46:59 buffer created: &{[] 0 0  0 0 []}
+2025/05/21 13:46:59 starting stream
+2025/05/21 13:46:59 starting stream
+2025/05/21 13:46:59 synced col: 0, row: 2
+2025/05/21 13:46:59 synced col: 0, row: 2
+2025/05/21 13:46:59 error starting stream: canceled: context canceled
+2025/05/21 13:46:59 stream finished: >  (0, 0)
+2025/05/21 13:46:59 editing lines: 0, 0
+2025/05/21 13:46:59 editing lines 0..0 in buffer 6
+2025/05/21 13:46:59 applied line modification: 5
+2025/05/21 13:46:59 relativeLineIdx: 0
+2025/05/21 13:46:59 placing line 0
+2025/05/21 13:46:59 lines identical so skipping preview
+2025/05/21 13:46:59 diffStr: 
+2025/05/21 13:46:59 applying to buffer 6 (0..0)
+2025/05/21 13:46:59 starting stream
+2025/05/21 13:46:59 synced col: 0, row: 3
+2025/05/21 13:47:00 starting stream
+2025/05/21 13:47:00 starting stream
+2025/05/21 13:47:00 synced col: 0, row: 5
+2025/05/21 13:47:00 error starting stream: canceled: context canceled
+2025/05/21 13:47:00 synced col: 0, row: 5
+2025/05/21 13:47:00 error starting stream: canceled: context canceled
+2025/05/21 13:47:00 starting stream
+2025/05/21 13:47:00 synced col: 0, row: 6
+2025/05/21 13:47:00 error starting stream: canceled: context canceled
+2025/05/21 13:47:00 stream finished: > xaml (0, 0)
+2025/05/21 13:47:00 editing lines: 0, 0
+2025/05/21 13:47:00 editing lines 0..0 in buffer 6
+2025/05/21 13:47:00 applied line modification: 5
+2025/05/21 13:47:00 relativeLineIdx: 0
+2025/05/21 13:47:00 placing line 0
+2025/05/21 13:47:00 lines identical so skipping preview
+2025/05/21 13:47:00 diffStr: 
+2025/05/21 13:47:00 applying to buffer 6 (0..0)
+2025/05/21 13:47:05 starting stream
+2025/05/21 13:47:05 synced col: 0, row: 0
+2025/05/21 13:47:05 stream finished: 
+==============================================================================
+vim.lsp:                                     require("vim.lsp.health").check()
+ (0, 3)
+2025/05/21 13:47:05 editing lines: 0, 3
+2025/05/21 13:47:05 editing lines 0..3 in buffer 11
+2025/05/21 13:47:05 applied line modification: 5
+2025/05/21 13:47:05 relativeLineIdx: 0
+2025/05/21 13:47:05 placing line 0
+2025/05/21 13:47:05 lines identical so skipping preview
+2025/05/21 13:47:05 relativeLineIdx: 1
+2025/05/21 13:47:05 placing line 1
+2025/05/21 13:47:05 lines identical so skipping preview
+2025/05/21 13:47:05 relativeLineIdx: 2
+2025/05/21 13:47:05 placing line 2
+2025/05/21 13:47:05 lines identical so skipping preview
+2025/05/21 13:47:05 relativeLineIdx: 3
+2025/05/21 13:47:05 placing line 3
+2025/05/21 13:47:05 lines identical so skipping preview
+2025/05/21 13:47:05 diffStr: 
+2025/05/21 13:47:05 applying to buffer 11 (0..3)
+2025/05/21 13:47:39 starting cursor tab...
+2025/05/21 13:47:39 service created
+2025/05/21 13:47:39 nvim created
+2025/05/21 13:47:39 creating new buffer
+2025/05/21 13:47:39 buffer created: &{[] 0 0  0 0 []}
+2025/05/21 13:47:39 starting stream
+2025/05/21 13:47:39 synced col: 0, row: 0
+2025/05/21 13:47:40 stream finished: 
+==============================================================================
+vim.lsp:                                     require("vim.lsp.health").check()
+ (0, 3)
+2025/05/21 13:47:40 editing lines: 0, 3
+2025/05/21 13:47:40 editing lines 0..3 in buffer 3
+2025/05/21 13:47:40 applied line modification: 5
+2025/05/21 13:47:40 relativeLineIdx: 0
+2025/05/21 13:47:40 placing line 0
+2025/05/21 13:47:40 lines identical so skipping preview
+2025/05/21 13:47:40 relativeLineIdx: 1
+2025/05/21 13:47:40 placing line 1
+2025/05/21 13:47:40 lines identical so skipping preview
+2025/05/21 13:47:40 relativeLineIdx: 2
+2025/05/21 13:47:40 placing line 2
+2025/05/21 13:47:40 lines identical so skipping preview
+2025/05/21 13:47:40 relativeLineIdx: 3
+2025/05/21 13:47:40 placing line 3
+2025/05/21 13:47:40 lines identical so skipping preview
+2025/05/21 13:47:40 diffStr: 
+2025/05/21 13:47:40 applying to buffer 3 (0..3)
+2025/05/21 13:47:57 starting cursor tab...
+2025/05/21 13:47:57 service created
+2025/05/21 13:47:57 nvim created
+2025/05/21 13:47:57 creating new buffer
+2025/05/21 13:47:57 buffer created: &{[] 0 0  0 0 []}
+2025/05/21 13:47:57 starting stream
+2025/05/21 13:47:57 synced col: 0, row: 0
+2025/05/21 13:47:58 stream finished: 
+==============================================================================
+vim.lsp:                                     require("vim.lsp.health").check()
+ (0, 3)
+2025/05/21 13:47:58 editing lines: 0, 3
+2025/05/21 13:47:58 editing lines 0..3 in buffer 3
+2025/05/21 13:47:58 applied line modification: 5
+2025/05/21 13:47:58 relativeLineIdx: 0
+2025/05/21 13:47:58 placing line 0
+2025/05/21 13:47:58 lines identical so skipping preview
+2025/05/21 13:47:58 relativeLineIdx: 1
+2025/05/21 13:47:58 placing line 1
+2025/05/21 13:47:58 lines identical so skipping preview
+2025/05/21 13:47:58 relativeLineIdx: 2
+2025/05/21 13:47:58 placing line 2
+2025/05/21 13:47:58 lines identical so skipping preview
+2025/05/21 13:47:58 relativeLineIdx: 3
+2025/05/21 13:47:58 placing line 3
+2025/05/21 13:47:58 lines identical so skipping preview
+2025/05/21 13:47:58 diffStr: 
+2025/05/21 13:47:58 applying to buffer 3 (0..3)
+2025/05/21 13:49:20 starting cursor tab...
+2025/05/21 13:49:20 service created
+2025/05/21 13:49:20 nvim created
+2025/05/21 13:49:20 creating new buffer
+2025/05/21 13:49:20 buffer created: &{[] 0 0  0 0 []}
+2025/05/21 13:49:20 starting stream
+2025/05/21 13:49:20 starting stream
+2025/05/21 13:49:20 synced col: 0, row: 2
+2025/05/21 13:49:20 synced col: 0, row: 2
+2025/05/21 13:49:20 error starting stream: canceled: context canceled
+2025/05/21 13:49:20 stream finished: >  (0, 0)
+2025/05/21 13:49:20 editing lines: 0, 0
+2025/05/21 13:49:20 editing lines 0..0 in buffer 6
+2025/05/21 13:49:20 applied line modification: 5
+2025/05/21 13:49:20 relativeLineIdx: 0
+2025/05/21 13:49:20 placing line 0
+2025/05/21 13:49:20 lines identical so skipping preview
+2025/05/21 13:49:20 diffStr: 
+2025/05/21 13:49:20 applying to buffer 6 (0..0)
+2025/05/21 13:49:21 starting stream
+2025/05/21 13:49:21 synced col: 0, row: 3
+2025/05/21 13:49:21 starting stream
+2025/05/21 13:49:21 synced col: 0, row: 4
+2025/05/21 13:49:21 stream finished:  (0, 0)
+2025/05/21 13:49:21 stream error: canceled: context canceled
+2025/05/21 13:49:21 starting stream
+2025/05/21 13:49:21 synced col: 0, row: 5
+2025/05/21 13:49:21 stream finished:  (0, 0)
+2025/05/21 13:49:21 stream error: canceled: context canceled
+2025/05/21 13:49:21 stream finished: > App (0, 0)
+2025/05/21 13:49:21 editing lines: 0, 0
+2025/05/21 13:49:21 editing lines 0..0 in buffer 6
+2025/05/21 13:49:21 applied line modification: 5
+2025/05/21 13:49:21 relativeLineIdx: 0
+2025/05/21 13:49:21 placing line 0
+2025/05/21 13:49:21 lines identical so skipping preview
+2025/05/21 13:49:21 diffStr: 
+2025/05/21 13:49:21 applying to buffer 6 (0..0)
+2025/05/21 13:49:23 starting stream
+2025/05/21 13:49:23 starting stream
+2025/05/21 13:49:23 synced col: 0, row: 2
+2025/05/21 13:49:23 synced col: 0, row: 2
+2025/05/21 13:49:23 error starting stream: canceled: context canceled
+2025/05/21 13:49:23 stream finished: >  (0, 0)
+2025/05/21 13:49:23 editing lines: 0, 0
+2025/05/21 13:49:23 editing lines 0..0 in buffer 14
+2025/05/21 13:49:23 applied line modification: 5
+2025/05/21 13:49:23 relativeLineIdx: 0
+2025/05/21 13:49:23 placing line 0
+2025/05/21 13:49:23 lines identical so skipping preview
+2025/05/21 13:49:23 diffStr: 
+2025/05/21 13:49:23 applying to buffer 14 (0..0)
+2025/05/21 13:49:23 starting stream
+2025/05/21 13:49:23 synced col: 0, row: 3
+2025/05/21 13:49:23 starting stream
+2025/05/21 13:49:23 synced col: 0, row: 4
+2025/05/21 13:49:23 error starting stream: canceled: context canceled
+2025/05/21 13:49:23 starting stream
+2025/05/21 13:49:23 synced col: 0, row: 5
+2025/05/21 13:49:23 stream finished:  (0, 0)
+2025/05/21 13:49:23 stream error: canceled: context canceled
+2025/05/21 13:49:23 stream finished: > App (0, 0)
+2025/05/21 13:49:23 editing lines: 0, 0
+2025/05/21 13:49:23 editing lines 0..0 in buffer 14
+2025/05/21 13:49:23 applied line modification: 5
+2025/05/21 13:49:23 relativeLineIdx: 0
+2025/05/21 13:49:23 placing line 0
+2025/05/21 13:49:23 lines identical so skipping preview
+2025/05/21 13:49:23 diffStr: 
+2025/05/21 13:49:23 applying to buffer 14 (0..0)
+2025/05/21 13:49:26 starting stream
+2025/05/21 13:49:26 synced col: 0, row: 0
+2025/05/21 13:49:26 stream finished: 
+==============================================================================
+vim.lsp:                                     require("vim.lsp.health").check()
+ (0, 3)
+2025/05/21 13:49:26 editing lines: 0, 3
+2025/05/21 13:49:26 editing lines 0..3 in buffer 20
+2025/05/21 13:49:26 applied line modification: 5
+2025/05/21 13:49:26 relativeLineIdx: 0
+2025/05/21 13:49:26 placing line 0
+2025/05/21 13:49:26 lines identical so skipping preview
+2025/05/21 13:49:26 relativeLineIdx: 1
+2025/05/21 13:49:26 placing line 1
+2025/05/21 13:49:26 lines identical so skipping preview
+2025/05/21 13:49:26 relativeLineIdx: 2
+2025/05/21 13:49:26 placing line 2
+2025/05/21 13:49:26 lines identical so skipping preview
+2025/05/21 13:49:26 relativeLineIdx: 3
+2025/05/21 13:49:26 placing line 3
+2025/05/21 13:49:26 lines identical so skipping preview
+2025/05/21 13:49:26 diffStr: 
+2025/05/21 13:49:26 applying to buffer 20 (0..3)
+2025/05/21 13:49:36 starting stream
+2025/05/21 13:49:36 starting stream
+2025/05/21 13:49:36 synced col: 0, row: 2
+2025/05/21 13:49:36 synced col: 0, row: 2
+2025/05/21 13:49:36 error starting stream: canceled: context canceled
+2025/05/21 13:49:36 stream finished: >  (0, 0)
+2025/05/21 13:49:36 editing lines: 0, 0
+2025/05/21 13:49:36 editing lines 0..0 in buffer 25
+2025/05/21 13:49:36 applied line modification: 5
+2025/05/21 13:49:36 relativeLineIdx: 0
+2025/05/21 13:49:36 placing line 0
+2025/05/21 13:49:36 lines identical so skipping preview
+2025/05/21 13:49:36 diffStr: 
+2025/05/21 13:49:36 applying to buffer 25 (0..0)
+2025/05/21 13:49:36 starting stream
+2025/05/21 13:49:36 synced col: 0, row: 3
+2025/05/21 13:49:36 starting stream
+2025/05/21 13:49:36 synced col: 0, row: 4
+2025/05/21 13:49:36 error starting stream: canceled: context canceled
+2025/05/21 13:49:36 starting stream
+2025/05/21 13:49:36 synced col: 0, row: 5
+2025/05/21 13:49:36 stream finished: > xm (0, 0)
+2025/05/21 13:49:36 stream error: canceled: context canceled
+2025/05/21 13:49:36 stream finished: > xml (0, 0)
+2025/05/21 13:49:36 editing lines: 0, 0
+2025/05/21 13:49:36 editing lines 0..0 in buffer 25
+2025/05/21 13:49:36 applied line modification: 5
+2025/05/21 13:49:36 relativeLineIdx: 0
+2025/05/21 13:49:36 placing line 0
+2025/05/21 13:49:36 lines identical so skipping preview
+2025/05/21 13:49:36 diffStr: 
+2025/05/21 13:49:36 applying to buffer 25 (0..0)
+2025/05/21 13:49:42 starting stream
+2025/05/21 13:49:42 synced col: 1, row: 0
+2025/05/21 13:49:42 stream finished: 
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (1, 7)
+2025/05/21 13:49:42 editing lines: 1, 7
+2025/05/21 13:49:42 editing lines 1..7 in buffer 18
+2025/05/21 13:49:42 applied line modification: 5
+2025/05/21 13:49:42 relativeLineIdx: 0
+2025/05/21 13:49:42 placing line 0
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 1
+2025/05/21 13:49:42 placing line 1
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 2
+2025/05/21 13:49:42 placing line 2
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 3
+2025/05/21 13:49:42 placing line 3
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 4
+2025/05/21 13:49:42 placing line 4
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 5
+2025/05/21 13:49:42 placing line 5
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 relativeLineIdx: 6
+2025/05/21 13:49:42 placing line 6
+2025/05/21 13:49:42 lines identical so skipping preview
+2025/05/21 13:49:42 diffStr: 
+2025/05/21 13:49:42 applying to buffer 18 (1..7)
+2025/05/21 13:49:43 starting stream
+2025/05/21 13:49:43 synced col: 2, row: 0
+2025/05/21 13:49:43 stream finished:     x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (2, 7)
+2025/05/21 13:49:43 editing lines: 2, 7
+2025/05/21 13:49:43 editing lines 2..7 in buffer 18
+2025/05/21 13:49:43 applied line modification: 5
+2025/05/21 13:49:43 relativeLineIdx: 0
+2025/05/21 13:49:43 placing line 0
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 relativeLineIdx: 1
+2025/05/21 13:49:43 placing line 1
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 relativeLineIdx: 2
+2025/05/21 13:49:43 placing line 2
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 relativeLineIdx: 3
+2025/05/21 13:49:43 placing line 3
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 relativeLineIdx: 4
+2025/05/21 13:49:43 placing line 4
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 relativeLineIdx: 5
+2025/05/21 13:49:43 placing line 5
+2025/05/21 13:49:43 lines identical so skipping preview
+2025/05/21 13:49:43 diffStr: 
+2025/05/21 13:49:43 applying to buffer 18 (2..7)
+2025/05/21 13:49:45 starting stream
+2025/05/21 13:49:45 synced col: 18, row: 4
+2025/05/21 13:49:45 starting stream
+2025/05/21 13:49:45 synced col: 18, row: 5
+2025/05/21 13:49:45 stream finished:     
+
+</Application> (18, 20)
+2025/05/21 13:49:45 stream error: canceled: context canceled
+2025/05/21 13:49:45 starting stream
+2025/05/21 13:49:45 synced col: 18, row: 6
+2025/05/21 13:49:45 error starting stream: canceled: context canceled
+2025/05/21 13:49:46 starting stream
+2025/05/21 13:49:46 synced col: 18, row: 7
+2025/05/21 13:49:46 error starting stream: canceled: context canceled
+2025/05/21 13:49:46 starting stream
+2025/05/21 13:49:46 synced col: 18, row: 8
+2025/05/21 13:49:46 stream finished:  (0, 0)
+2025/05/21 13:49:46 stream error: canceled: context canceled
+2025/05/21 13:49:46 starting stream
+2025/05/21 13:49:46 synced col: 18, row: 9
+2025/05/21 13:49:46 stream finished: </ (18, 20)
+2025/05/21 13:49:46 stream error: canceled: context canceled
+2025/05/21 13:49:47 stream finished: </Application> (18, 20)
+2025/05/21 13:49:47 editing lines: 18, 20
+2025/05/21 13:49:47 editing lines 18..20 in buffer 18
+2025/05/21 13:49:47 applied line modification: 5
+2025/05/21 13:49:47 relativeLineIdx: 0
+2025/05/21 13:49:47 placing line 0
+2025/05/21 13:49:47 lines different so adding preview
+2025/05/21 13:49:47 adding buffer extmark + hl to line 18
+2025/05/21 13:49:47 added buffer extmark + hl to line 18
+2025/05/21 13:49:47 relativeLineIdx: 1
+2025/05/21 13:49:47 removing line from preview
+2025/05/21 13:49:47 nothing to preview
+2025/05/21 13:49:47 relativeLineIdx: 2
+2025/05/21 13:49:47 removing line from preview
+2025/05/21 13:49:47 nothing to preview
+2025/05/21 13:49:47 diffStr: 19-|    </App
+19+|</Application>
+20-|
+21-|</Application>
+2025/05/21 13:49:47 applying to buffer 18 (18..20)
+2025/05/21 13:49:48 aquiring tab key lock
+2025/05/21 13:49:48 predicting
+2025/05/21 13:49:48 aquiring cursor prediction lock
+2025/05/21 13:49:48 starting stream
+2025/05/21 13:49:48 applyBatch is already in use
+2025/05/21 13:49:48 synced col: 18, row: 13
+2025/05/21 13:49:48 predicting next cursor prediction
+2025/05/21 13:49:49 predicted line number: 1
+2025/05/21 13:49:49 starting stream
+2025/05/21 13:49:49 synced col: 18, row: 13
+2025/05/21 13:49:49 stream finished: </Application>
+ (18, 19)
+2025/05/21 13:49:49 editing lines: 18, 19
+2025/05/21 13:49:49 editing lines 18..19 in buffer 18
+2025/05/21 13:49:49 applied line modification: 5
+2025/05/21 13:49:49 relativeLineIdx: 0
+2025/05/21 13:49:49 placing line 0
+2025/05/21 13:49:49 lines identical so skipping preview
+2025/05/21 13:49:49 relativeLineIdx: 1
+2025/05/21 13:49:49 placing line 1
+2025/05/21 13:49:49 lines different so adding preview
+2025/05/21 13:49:49 adding buffer extmark + hl to line 19
+2025/05/21 13:49:49 added buffer extmark + hl to line 19
+2025/05/21 13:49:49 diffStr: 20-|</Application>
+20+|
+2025/05/21 13:49:49 applying to buffer 18 (18..19)
+2025/05/21 13:49:50 starting stream
+2025/05/21 13:49:50 synced col: 19, row: 0
+2025/05/21 13:49:50 stream finished: 
+</Application> (19, 20)
+2025/05/21 13:49:50 editing lines: 19, 20
+2025/05/21 13:49:50 editing lines 19..20 in buffer 18
+2025/05/21 13:49:50 applied line modification: 5
+2025/05/21 13:49:50 relativeLineIdx: 0
+2025/05/21 13:49:50 placing line 0
+2025/05/21 13:49:50 lines identical so skipping preview
+2025/05/21 13:49:50 relativeLineIdx: 1
+2025/05/21 13:49:50 placing line 1
+2025/05/21 13:49:50 lines identical so skipping preview
+2025/05/21 13:49:50 diffStr: 
+2025/05/21 13:49:50 applying to buffer 18 (19..20)
+2025/05/21 13:49:51 starting stream
+2025/05/21 13:49:51 synced col: 19, row: 1
+2025/05/21 13:49:51 stream finished:  (19, 20)
+2025/05/21 13:49:51 editing lines: 19, 20
+2025/05/21 13:49:51 editing lines 19..20 in buffer 18
+2025/05/21 13:49:51 applied line modification: 5
+2025/05/21 13:49:51 relativeLineIdx: 0
+2025/05/21 13:49:51 placing line 0
+2025/05/21 13:49:51 lines different so adding preview
+2025/05/21 13:49:51 adding buffer extmark + hl to line 19
+2025/05/21 13:49:51 added buffer extmark + hl to line 19
+2025/05/21 13:49:51 relativeLineIdx: 1
+2025/05/21 13:49:51 removing line from preview
+2025/05/21 13:49:51 nothing to preview
+2025/05/21 13:49:51 diffStr: 20-|k
+20+|
+21-|</Application>
+2025/05/21 13:49:51 applying to buffer 18 (19..20)
+2025/05/21 13:49:51 starting stream
+2025/05/21 13:49:51 synced col: 19, row: 2
+2025/05/21 13:49:51 stream finished:  (19, 20)
+2025/05/21 13:49:51 editing lines: 19, 20
+2025/05/21 13:49:51 editing lines 19..20 in buffer 18
+2025/05/21 13:49:51 applied line modification: 5
+2025/05/21 13:49:51 relativeLineIdx: 0
+2025/05/21 13:49:51 placing line 0
+2025/05/21 13:49:51 lines different so adding preview
+2025/05/21 13:49:51 adding buffer extmark + hl to line 19
+2025/05/21 13:49:51 added buffer extmark + hl to line 19
+2025/05/21 13:49:51 relativeLineIdx: 1
+2025/05/21 13:49:51 removing line from preview
+2025/05/21 13:49:51 nothing to preview
+2025/05/21 13:49:51 diffStr: 20-|kj
+20+|
+21-|</Application>
+2025/05/21 13:49:51 applying to buffer 18 (19..20)
+2025/05/21 13:49:52 starting stream
+2025/05/21 13:49:52 synced col: 19, row: 1
+2025/05/21 13:49:52 stream finished: </Application> (19, 19)
+2025/05/21 13:49:52 editing lines: 19, 19
+2025/05/21 13:49:52 editing lines 19..19 in buffer 18
+2025/05/21 13:49:52 applied line modification: 5
+2025/05/21 13:49:52 relativeLineIdx: 0
+2025/05/21 13:49:52 placing line 0
+2025/05/21 13:49:52 lines identical so skipping preview
+2025/05/21 13:49:52 diffStr: 
+2025/05/21 13:49:52 applying to buffer 18 (19..19)
+2025/05/21 13:49:53 starting stream
+2025/05/21 13:49:53 synced col: 18, row: 1
+2025/05/21 13:49:53 stream finished: </Application> (18, 18)
+2025/05/21 13:49:53 editing lines: 18, 18
+2025/05/21 13:49:53 editing lines 18..18 in buffer 18
+2025/05/21 13:49:53 applied line modification: 5
+2025/05/21 13:49:53 relativeLineIdx: 0
+2025/05/21 13:49:53 placing line 0
+2025/05/21 13:49:53 lines identical so skipping preview
+2025/05/21 13:49:53 diffStr: 
+2025/05/21 13:49:53 applying to buffer 18 (18..18)
+2025/05/21 13:49:54 starting stream
+2025/05/21 13:49:54 synced col: 18, row: 4
+2025/05/21 13:49:54 starting stream
+2025/05/21 13:49:54 synced col: 18, row: 5
+2025/05/21 13:49:54 stream finished:     
+</Application> (18, 19)
+2025/05/21 13:49:54 stream error: canceled: context canceled
+2025/05/21 13:49:54 stream finished: </Application> (18, 19)
+2025/05/21 13:49:54 editing lines: 18, 19
+2025/05/21 13:49:54 editing lines 18..19 in buffer 18
+2025/05/21 13:49:54 applied line modification: 5
+2025/05/21 13:49:54 relativeLineIdx: 0
+2025/05/21 13:49:54 placing line 0
+2025/05/21 13:49:54 lines different so adding preview
+2025/05/21 13:49:54 adding buffer extmark + hl to line 18
+2025/05/21 13:49:54 added buffer extmark + hl to line 18
+2025/05/21 13:49:54 relativeLineIdx: 1
+2025/05/21 13:49:54 removing line from preview
+2025/05/21 13:49:54 nothing to preview
+2025/05/21 13:49:54 diffStr: 19-|    <
+19+|</Application>
+20-|</Application>
+2025/05/21 13:49:54 applying to buffer 18 (18..19)
+2025/05/21 13:49:58 starting stream
+2025/05/21 13:49:58 synced col: 18, row: 6
+2025/05/21 13:49:58 starting stream
+2025/05/21 13:49:58 synced col: 18, row: 7
+2025/05/21 13:49:58 error starting stream: canceled: context canceled
+2025/05/21 13:49:58 starting stream
+2025/05/21 13:49:58 synced col: 18, row: 8
+2025/05/21 13:49:58 error starting stream: canceled: context canceled
+2025/05/21 13:49:58 starting stream
+2025/05/21 13:49:58 synced col: 18, row: 9
+2025/05/21 13:49:58 stream finished: </ (18, 19)
+2025/05/21 13:49:58 stream error: canceled: context canceled
+2025/05/21 13:49:59 starting stream
+2025/05/21 13:49:59 synced col: 18, row: 10
+2025/05/21 13:49:59 stream finished:  (0, 0)
+2025/05/21 13:49:59 stream error: canceled: context canceled
+2025/05/21 13:49:59 starting stream
+2025/05/21 13:49:59 synced col: 18, row: 11
+2025/05/21 13:49:59 error starting stream: canceled: context canceled
+2025/05/21 13:49:59 starting stream
+2025/05/21 13:49:59 synced col: 18, row: 12
+2025/05/21 13:49:59 error starting stream: canceled: context canceled
+2025/05/21 13:49:59 aquiring tab key lock
+2025/05/21 13:49:59 no apply batch
+2025/05/21 13:49:59 stream finished: </Application> (18, 19)
+2025/05/21 13:49:59 editing lines: 18, 19
+2025/05/21 13:49:59 editing lines 18..19 in buffer 18
+2025/05/21 13:49:59 applied line modification: 5
+2025/05/21 13:49:59 relativeLineIdx: 0
+2025/05/21 13:49:59 placing line 0
+2025/05/21 13:49:59 lines different so adding preview
+2025/05/21 13:49:59 adding buffer extmark + hl to line 18
+2025/05/21 13:49:59 added buffer extmark + hl to line 18
+2025/05/21 13:49:59 relativeLineIdx: 1
+2025/05/21 13:49:59 removing line from preview
+2025/05/21 13:49:59 nothing to preview
+2025/05/21 13:49:59 diffStr: 19-|    <Applica
+19+|</Application>
+20-|</Application>
+2025/05/21 13:49:59 applying to buffer 18 (18..19)
+2025/05/21 13:50:02 starting stream
+2025/05/21 13:50:02 synced col: 18, row: 16
+2025/05/21 13:50:02 stream finished: </Application> (18, 19)
+2025/05/21 13:50:02 editing lines: 18, 19
+2025/05/21 13:50:02 editing lines 18..19 in buffer 18
+2025/05/21 13:50:02 applied line modification: 5
+2025/05/21 13:50:02 relativeLineIdx: 0
+2025/05/21 13:50:02 placing line 0
+2025/05/21 13:50:02 lines different so adding preview
+2025/05/21 13:50:02 adding buffer extmark + hl to line 18
+2025/05/21 13:50:02 added buffer extmark + hl to line 18
+2025/05/21 13:50:02 relativeLineIdx: 1
+2025/05/21 13:50:02 removing line from preview
+2025/05/21 13:50:02 nothing to preview
+2025/05/21 13:50:02 diffStr: 19-|    <Application
+19+|</Application>
+20-|</Application>
+2025/05/21 13:50:02 applying to buffer 18 (18..19)
+2025/05/21 13:50:03 starting stream
+2025/05/21 13:50:03 synced col: 18, row: 17
+2025/05/21 13:50:03 stream finished: </Application> (18, 19)
+2025/05/21 13:50:03 editing lines: 18, 19
+2025/05/21 13:50:03 editing lines 18..19 in buffer 18
+2025/05/21 13:50:03 applied line modification: 5
+2025/05/21 13:50:03 relativeLineIdx: 0
+2025/05/21 13:50:03 placing line 0
+2025/05/21 13:50:03 lines different so adding preview
+2025/05/21 13:50:03 adding buffer extmark + hl to line 18
+2025/05/21 13:50:03 added buffer extmark + hl to line 18
+2025/05/21 13:50:03 relativeLineIdx: 1
+2025/05/21 13:50:03 removing line from preview
+2025/05/21 13:50:03 nothing to preview
+2025/05/21 13:50:03 diffStr: 19-|    <Application>
+19+|</Application>
+20-|</Application>
+2025/05/21 13:50:03 applying to buffer 18 (18..19)
+2025/05/21 13:50:04 starting stream
+2025/05/21 13:50:04 synced col: 19, row: 4
+2025/05/21 13:50:04 stream finished: </Application> (19, 20)
+2025/05/21 13:50:04 editing lines: 19, 20
+2025/05/21 13:50:04 editing lines 19..20 in buffer 18
+2025/05/21 13:50:04 applied line modification: 5
+2025/05/21 13:50:04 relativeLineIdx: 0
+2025/05/21 13:50:04 placing line 0
+2025/05/21 13:50:04 lines different so adding preview
+2025/05/21 13:50:04 adding buffer extmark + hl to line 19
+2025/05/21 13:50:04 added buffer extmark + hl to line 19
+2025/05/21 13:50:04 relativeLineIdx: 1
+2025/05/21 13:50:04 removing line from preview
+2025/05/21 13:50:04 nothing to preview
+2025/05/21 13:50:04 diffStr: 20-|    
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:04 applying to buffer 18 (19..20)
+2025/05/21 13:50:05 starting stream
+2025/05/21 13:50:05 synced col: 19, row: 5
+2025/05/21 13:50:05 stream finished: </Application> (19, 20)
+2025/05/21 13:50:05 editing lines: 19, 20
+2025/05/21 13:50:05 editing lines 19..20 in buffer 18
+2025/05/21 13:50:05 applied line modification: 5
+2025/05/21 13:50:05 relativeLineIdx: 0
+2025/05/21 13:50:05 placing line 0
+2025/05/21 13:50:05 lines different so adding preview
+2025/05/21 13:50:05 adding buffer extmark + hl to line 19
+2025/05/21 13:50:05 added buffer extmark + hl to line 19
+2025/05/21 13:50:05 relativeLineIdx: 1
+2025/05/21 13:50:05 removing line from preview
+2025/05/21 13:50:05 nothing to preview
+2025/05/21 13:50:05 diffStr: 20-|    k
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:05 applying to buffer 18 (19..20)
+2025/05/21 13:50:08 starting stream
+2025/05/21 13:50:08 synced col: 19, row: 4
+2025/05/21 13:50:08 stream finished: </Application> (19, 20)
+2025/05/21 13:50:08 editing lines: 19, 20
+2025/05/21 13:50:08 editing lines 19..20 in buffer 18
+2025/05/21 13:50:08 applied line modification: 5
+2025/05/21 13:50:08 relativeLineIdx: 0
+2025/05/21 13:50:08 placing line 0
+2025/05/21 13:50:08 lines different so adding preview
+2025/05/21 13:50:08 adding buffer extmark + hl to line 19
+2025/05/21 13:50:08 added buffer extmark + hl to line 19
+2025/05/21 13:50:08 relativeLineIdx: 1
+2025/05/21 13:50:08 removing line from preview
+2025/05/21 13:50:08 nothing to preview
+2025/05/21 13:50:08 diffStr: 20-|    
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:08 applying to buffer 18 (19..20)
+2025/05/21 13:50:08 aquiring tab key lock
+2025/05/21 13:50:08 predicting
+2025/05/21 13:50:08 aquiring cursor prediction lock
+2025/05/21 13:50:08 starting stream
+2025/05/21 13:50:08 applyBatch is already in use
+2025/05/21 13:50:08 synced col: 19, row: 13
+2025/05/21 13:50:08 predicting next cursor prediction
+2025/05/21 13:50:09 predicted line number: 1
+2025/05/21 13:50:09 starting stream
+2025/05/21 13:50:09 synced col: 19, row: 12
+2025/05/21 13:50:09 stream finished: </Application>
+</Application> (19, 20)
+2025/05/21 13:50:09 editing lines: 19, 20
+2025/05/21 13:50:09 editing lines 19..20 in buffer 18
+2025/05/21 13:50:09 applied line modification: 5
+2025/05/21 13:50:09 relativeLineIdx: 0
+2025/05/21 13:50:09 placing line 0
+2025/05/21 13:50:09 lines identical so skipping preview
+2025/05/21 13:50:09 relativeLineIdx: 1
+2025/05/21 13:50:09 placing line 1
+2025/05/21 13:50:09 lines identical so skipping preview
+2025/05/21 13:50:09 diffStr: 
+2025/05/21 13:50:09 applying to buffer 18 (19..20)
+2025/05/21 13:50:10 starting stream
+2025/05/21 13:50:10 synced col: 19, row: 12
+2025/05/21 13:50:10 stream finished: </Application> (19, 19)
+2025/05/21 13:50:10 editing lines: 19, 19
+2025/05/21 13:50:10 editing lines 19..19 in buffer 18
+2025/05/21 13:50:10 applied line modification: 5
+2025/05/21 13:50:10 relativeLineIdx: 0
+2025/05/21 13:50:10 placing line 0
+2025/05/21 13:50:10 lines identical so skipping preview
+2025/05/21 13:50:10 diffStr: 
+2025/05/21 13:50:10 applying to buffer 18 (19..19)
+2025/05/21 13:50:11 starting stream
+2025/05/21 13:50:11 synced col: 19, row: 4
+2025/05/21 13:50:11 starting stream
+2025/05/21 13:50:11 synced col: 19, row: 5
+2025/05/21 13:50:11 stream finished: </Application> (19, 20)
+2025/05/21 13:50:11 stream error: canceled: context canceled
+2025/05/21 13:50:11 starting stream
+2025/05/21 13:50:11 synced col: 19, row: 6
+2025/05/21 13:50:11 stream finished: </Application> (19, 20)
+2025/05/21 13:50:11 stream error: canceled: context canceled
+2025/05/21 13:50:11 stream finished: </Application> (19, 20)
+2025/05/21 13:50:11 editing lines: 19, 20
+2025/05/21 13:50:11 editing lines 19..20 in buffer 18
+2025/05/21 13:50:11 applied line modification: 5
+2025/05/21 13:50:11 relativeLineIdx: 0
+2025/05/21 13:50:11 placing line 0
+2025/05/21 13:50:11 lines different so adding preview
+2025/05/21 13:50:11 adding buffer extmark + hl to line 19
+2025/05/21 13:50:11 added buffer extmark + hl to line 19
+2025/05/21 13:50:11 relativeLineIdx: 1
+2025/05/21 13:50:11 removing line from preview
+2025/05/21 13:50:11 nothing to preview
+2025/05/21 13:50:11 diffStr: 20-|    </
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:11 applying to buffer 18 (19..20)
+2025/05/21 13:50:12 starting stream
+2025/05/21 13:50:12 synced col: 19, row: 7
+2025/05/21 13:50:12 starting stream
+2025/05/21 13:50:12 synced col: 19, row: 8
+2025/05/21 13:50:12 stream finished:  (0, 0)
+2025/05/21 13:50:12 stream error: canceled: context canceled
+2025/05/21 13:50:12 starting stream
+2025/05/21 13:50:12 synced col: 19, row: 9
+2025/05/21 13:50:12 stream finished:     </Application (19, 20)
+2025/05/21 13:50:12 stream error: canceled: context canceled
+2025/05/21 13:50:13 stream finished:     </App
+</Application> (19, 20)
+2025/05/21 13:50:13 editing lines: 19, 20
+2025/05/21 13:50:13 editing lines 19..20 in buffer 18
+2025/05/21 13:50:13 applied line modification: 5
+2025/05/21 13:50:13 relativeLineIdx: 0
+2025/05/21 13:50:13 placing line 0
+2025/05/21 13:50:13 lines identical so skipping preview
+2025/05/21 13:50:13 relativeLineIdx: 1
+2025/05/21 13:50:13 placing line 1
+2025/05/21 13:50:13 lines identical so skipping preview
+2025/05/21 13:50:13 diffStr: 
+2025/05/21 13:50:13 applying to buffer 18 (19..20)
+2025/05/21 13:50:13 starting stream
+2025/05/21 13:50:13 synced col: 19, row: 8
+2025/05/21 13:50:13 starting stream
+2025/05/21 13:50:13 synced col: 19, row: 7
+2025/05/21 13:50:13 stream finished:  (0, 0)
+2025/05/21 13:50:13 stream error: canceled: context canceled
+2025/05/21 13:50:13 starting stream
+2025/05/21 13:50:13 synced col: 19, row: 6
+2025/05/21 13:50:13 stream finished:  (0, 0)
+2025/05/21 13:50:13 stream error: canceled: context canceled
+2025/05/21 13:50:13 starting stream
+2025/05/21 13:50:13 synced col: 19, row: 7
+2025/05/21 13:50:13 stream finished: </ (19, 20)
+2025/05/21 13:50:13 stream error: canceled: context canceled
+2025/05/21 13:50:13 starting stream
+2025/05/21 13:50:13 synced col: 19, row: 8
+2025/05/21 13:50:13 error starting stream: canceled: context canceled
+2025/05/21 13:50:14 starting stream
+2025/05/21 13:50:14 synced col: 19, row: 9
+2025/05/21 13:50:14 stream finished:  (0, 0)
+2025/05/21 13:50:14 stream error: canceled: context canceled
+2025/05/21 13:50:14 starting stream
+2025/05/21 13:50:14 synced col: 19, row: 10
+2025/05/21 13:50:14 stream finished:  (0, 0)
+2025/05/21 13:50:14 stream error: canceled: context canceled
+2025/05/21 13:50:14 starting stream
+2025/05/21 13:50:14 synced col: 19, row: 11
+2025/05/21 13:50:14 stream finished: </ (19, 20)
+2025/05/21 13:50:14 stream error: canceled: context canceled
+2025/05/21 13:50:14 starting stream
+2025/05/21 13:50:14 synced col: 19, row: 12
+2025/05/21 13:50:14 error starting stream: canceled: context canceled
+2025/05/21 13:50:14 starting stream
+2025/05/21 13:50:14 synced col: 19, row: 13
+2025/05/21 13:50:14 error starting stream: canceled: context canceled
+2025/05/21 13:50:14 aquiring tab key lock
+2025/05/21 13:50:14 no apply batch
+2025/05/21 13:50:14 stream finished: </Application> (19, 20)
+2025/05/21 13:50:14 editing lines: 19, 20
+2025/05/21 13:50:14 editing lines 19..20 in buffer 18
+2025/05/21 13:50:14 applied line modification: 5
+2025/05/21 13:50:14 relativeLineIdx: 0
+2025/05/21 13:50:14 placing line 0
+2025/05/21 13:50:14 lines different so adding preview
+2025/05/21 13:50:14 adding buffer extmark + hl to line 19
+2025/05/21 13:50:14 added buffer extmark + hl to line 19
+2025/05/21 13:50:14 relativeLineIdx: 1
+2025/05/21 13:50:14 removing line from preview
+2025/05/21 13:50:14 nothing to preview
+2025/05/21 13:50:14 diffStr: 20-|    </Applica
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:14 applying to buffer 18 (19..20)
+2025/05/21 13:50:15 starting stream
+2025/05/21 13:50:15 synced col: 19, row: 14
+2025/05/21 13:50:15 stream finished:     </Application>
+</Application> (19, 20)
+2025/05/21 13:50:15 editing lines: 19, 20
+2025/05/21 13:50:15 editing lines 19..20 in buffer 18
+2025/05/21 13:50:15 applied line modification: 5
+2025/05/21 13:50:15 relativeLineIdx: 0
+2025/05/21 13:50:15 placing line 0
+2025/05/21 13:50:15 lines different so adding preview
+2025/05/21 13:50:15 adding buffer extmark + hl to line 19
+2025/05/21 13:50:15 added buffer extmark + hl to line 19
+2025/05/21 13:50:15 relativeLineIdx: 1
+2025/05/21 13:50:15 placing line 1
+2025/05/21 13:50:15 lines identical so skipping preview
+2025/05/21 13:50:15 diffStr: 20-|    </ApplicaN
+20+|    </Application>
+2025/05/21 13:50:15 applying to buffer 18 (19..20)
+2025/05/21 13:50:15 starting stream
+2025/05/21 13:50:15 synced col: 19, row: 13
+2025/05/21 13:50:16 starting stream
+2025/05/21 13:50:16 synced col: 19, row: 17
+2025/05/21 13:50:16 stream finished: </Application> (19, 20)
+2025/05/21 13:50:16 stream error: canceled: context canceled
+2025/05/21 13:50:16 stream finished: </Application> (19, 20)
+2025/05/21 13:50:16 editing lines: 19, 20
+2025/05/21 13:50:16 editing lines 19..20 in buffer 18
+2025/05/21 13:50:16 applied line modification: 5
+2025/05/21 13:50:16 relativeLineIdx: 0
+2025/05/21 13:50:16 placing line 0
+2025/05/21 13:50:16 lines different so adding preview
+2025/05/21 13:50:16 adding buffer extmark + hl to line 19
+2025/05/21 13:50:16 added buffer extmark + hl to line 19
+2025/05/21 13:50:16 relativeLineIdx: 1
+2025/05/21 13:50:16 removing line from preview
+2025/05/21 13:50:16 nothing to preview
+2025/05/21 13:50:16 diffStr: 20-|    </Application
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:16 applying to buffer 18 (19..20)
+2025/05/21 13:50:17 starting stream
+2025/05/21 13:50:17 synced col: 19, row: 18
+2025/05/21 13:50:17 stream finished: </Application> (19, 20)
+2025/05/21 13:50:17 editing lines: 19, 20
+2025/05/21 13:50:17 editing lines 19..20 in buffer 18
+2025/05/21 13:50:17 applied line modification: 5
+2025/05/21 13:50:17 relativeLineIdx: 0
+2025/05/21 13:50:17 placing line 0
+2025/05/21 13:50:17 lines different so adding preview
+2025/05/21 13:50:17 adding buffer extmark + hl to line 19
+2025/05/21 13:50:17 added buffer extmark + hl to line 19
+2025/05/21 13:50:17 relativeLineIdx: 1
+2025/05/21 13:50:17 removing line from preview
+2025/05/21 13:50:17 nothing to preview
+2025/05/21 13:50:17 diffStr: 20-|    </Application>
+20+|</Application>
+21-|</Application>
+2025/05/21 13:50:17 applying to buffer 18 (19..20)
+2025/05/21 13:50:18 starting stream
+2025/05/21 13:50:18 synced col: 18, row: 17
+2025/05/21 13:50:18 starting stream
+2025/05/21 13:50:18 stream finished: </Application> (18, 19)
+2025/05/21 13:50:18 editing lines: 18, 19
+2025/05/21 13:50:18 editing lines 18..19 in buffer 18
+2025/05/21 13:50:18 applied line modification: 5
+2025/05/21 13:50:18 relativeLineIdx: 0
+2025/05/21 13:50:18 placing line 0
+2025/05/21 13:50:18 lines different so adding preview
+2025/05/21 13:50:18 adding buffer extmark + hl to line 18
+2025/05/21 13:50:18 added buffer extmark + hl to line 18
+2025/05/21 13:50:18 relativeLineIdx: 1
+2025/05/21 13:50:18 nothing to preview
+2025/05/21 13:50:18 diffStr: 19-|    </Application>
+19+|</Application>
+2025/05/21 13:50:18 synced col: 18, row: 13
+2025/05/21 13:50:18 applying to buffer 18 (18..19)
+2025/05/21 13:50:19 stream finished: </Application> (18, 18)
+2025/05/21 13:50:19 editing lines: 18, 18
+2025/05/21 13:50:19 editing lines 18..18 in buffer 18
+2025/05/21 13:50:19 applied line modification: 5
+2025/05/21 13:50:19 relativeLineIdx: 0
+2025/05/21 13:50:19 placing line 0
+2025/05/21 13:50:19 lines identical so skipping preview
+2025/05/21 13:50:19 diffStr: 
+2025/05/21 13:50:19 applying to buffer 18 (18..18)
+2025/05/21 13:50:19 starting stream
+2025/05/21 13:50:19 starting stream
+2025/05/21 13:50:19 synced col: 0, row: 2
+2025/05/21 13:50:19 synced col: 0, row: 2
+2025/05/21 13:50:19 error starting stream: canceled: context canceled
+2025/05/21 13:50:19 stream finished: >  (0, 0)
+2025/05/21 13:50:19 editing lines: 0, 0
+2025/05/21 13:50:19 editing lines 0..0 in buffer 34
+2025/05/21 13:50:19 applied line modification: 5
+2025/05/21 13:50:19 relativeLineIdx: 0
+2025/05/21 13:50:19 placing line 0
+2025/05/21 13:50:19 lines identical so skipping preview
+2025/05/21 13:50:19 diffStr: 
+2025/05/21 13:50:19 applying to buffer 34 (0..0)
+2025/05/21 13:50:19 starting stream
+2025/05/21 13:50:19 synced col: 0, row: 3
+2025/05/21 13:50:19 starting stream
+2025/05/21 13:50:19 synced col: 0, row: 4
+2025/05/21 13:50:19 error starting stream: canceled: context canceled
+2025/05/21 13:50:19 starting stream
+2025/05/21 13:50:19 synced col: 0, row: 5
+2025/05/21 13:50:19 stream finished:  (0, 0)
+2025/05/21 13:50:19 stream error: canceled: context canceled
+2025/05/21 13:50:20 stream finished: > xml (0, 0)
+2025/05/21 13:50:20 editing lines: 0, 0
+2025/05/21 13:50:20 editing lines 0..0 in buffer 34
+2025/05/21 13:50:20 applied line modification: 5
+2025/05/21 13:50:20 relativeLineIdx: 0
+2025/05/21 13:50:20 placing line 0
+2025/05/21 13:50:20 lines identical so skipping preview
+2025/05/21 13:50:20 diffStr: 
+2025/05/21 13:50:20 applying to buffer 34 (0..0)
+2025/05/21 13:50:21 starting stream
+2025/05/21 13:50:21 synced col: 17, row: 4
+2025/05/21 13:50:22 starting stream
+2025/05/21 13:50:22 synced col: 17, row: 5
+2025/05/21 13:50:22 stream finished:     <Application.StartupUri>
+        Views\MainWindow.xaml
+    </Application.Startup (17, 19)
+2025/05/21 13:50:22 stream error: canceled: context canceled
+2025/05/21 13:50:22 stream finished:     <Application.StartupUri>
+        <StartupUri>Views/MainWindow.xaml</StartupUri>
+    </Application.StartupUri>
+</Application> (17, 19)
+2025/05/21 13:50:22 editing lines: 17, 19
+2025/05/21 13:50:22 editing lines 17..19 in buffer 1
+2025/05/21 13:50:22 applied line modification: 5
+2025/05/21 13:50:22 relativeLineIdx: 0
+2025/05/21 13:50:22 placing line 0
+2025/05/21 13:50:22 lines different so adding preview
+2025/05/21 13:50:22 adding buffer extmark + hl to line 17
+2025/05/21 13:50:22 added buffer extmark + hl to line 17
+2025/05/21 13:50:22 relativeLineIdx: 1
+2025/05/21 13:50:22 placing line 1
+2025/05/21 13:50:22 lines different so adding preview
+2025/05/21 13:50:22 adding buffer extmark + hl to line 18
+2025/05/21 13:50:22 added buffer extmark + hl to line 18
+2025/05/21 13:50:22 relativeLineIdx: 2
+2025/05/21 13:50:22 placing line 2
+2025/05/21 13:50:22 lines different so adding preview
+2025/05/21 13:50:22 adding buffer extmark + hl to line 19
+2025/05/21 13:50:22 added buffer extmark + hl to line 19
+2025/05/21 13:50:22 diffStr: 18-|    <
+18+|    <Application.StartupUri>
+19-|
+19+|        <StartupUri>Views/MainWindow.xaml</StartupUri>
+20-|</Application>
+20+|    </Application.StartupUri>
+2025/05/21 13:50:22 applying to buffer 1 (17..19)
+2025/05/21 13:50:25 starting stream
+2025/05/21 13:50:25 synced col: 17, row: 6
+2025/05/21 13:50:26 stream finished: </Application> (17, 19)
+2025/05/21 13:50:26 editing lines: 17, 19
+2025/05/21 13:50:26 editing lines 17..19 in buffer 1
+2025/05/21 13:50:26 applied line modification: 5
+2025/05/21 13:50:26 relativeLineIdx: 0
+2025/05/21 13:50:26 placing line 0
+2025/05/21 13:50:26 lines different so adding preview
+2025/05/21 13:50:26 adding buffer extmark + hl to line 17
+2025/05/21 13:50:26 added buffer extmark + hl to line 17
+2025/05/21 13:50:26 relativeLineIdx: 1
+2025/05/21 13:50:26 removing line from preview
+2025/05/21 13:50:26 nothing to preview
+2025/05/21 13:50:26 relativeLineIdx: 2
+2025/05/21 13:50:26 removing line from preview
+2025/05/21 13:50:26 nothing to preview
+2025/05/21 13:50:26 diffStr: 18-|    <!
+18+|</Application>
+19-|
+20-|</Application>
+2025/05/21 13:50:26 applying to buffer 1 (17..19)
+2025/05/21 13:50:26 starting stream
+2025/05/21 13:50:26 synced col: 17, row: 5
+2025/05/21 13:50:26 starting stream
+2025/05/21 13:50:26 synced col: 17, row: 6
+2025/05/21 13:50:26 error starting stream: canceled: context canceled
+2025/05/21 13:50:27 stream finished: </Application> (17, 19)
+2025/05/21 13:50:27 editing lines: 17, 19
+2025/05/21 13:50:27 editing lines 17..19 in buffer 1
+2025/05/21 13:50:27 applied line modification: 5
+2025/05/21 13:50:27 relativeLineIdx: 0
+2025/05/21 13:50:27 placing line 0
+2025/05/21 13:50:27 lines different so adding preview
+2025/05/21 13:50:27 adding buffer extmark + hl to line 17
+2025/05/21 13:50:27 added buffer extmark + hl to line 17
+2025/05/21 13:50:27 relativeLineIdx: 1
+2025/05/21 13:50:27 removing line from preview
+2025/05/21 13:50:27 nothing to preview
+2025/05/21 13:50:27 relativeLineIdx: 2
+2025/05/21 13:50:27 removing line from preview
+2025/05/21 13:50:27 nothing to preview
+2025/05/21 13:50:27 diffStr: 18-|    <!
+18+|</Application>
+19-|
+20-|</Application>
+2025/05/21 13:50:27 applying to buffer 1 (17..19)
+2025/05/21 13:50:27 starting stream
+2025/05/21 13:50:27 synced col: 17, row: 7
+2025/05/21 13:50:27 starting stream
+2025/05/21 13:50:27 synced col: 17, row: 8
+2025/05/21 13:50:27 stream finished:  (0, 0)
+2025/05/21 13:50:27 stream error: canceled: context canceled
+2025/05/21 13:50:27 stream finished: </Application> (17, 19)
+2025/05/21 13:50:27 editing lines: 17, 19
+2025/05/21 13:50:27 editing lines 17..19 in buffer 1
+2025/05/21 13:50:27 applied line modification: 5
+2025/05/21 13:50:27 relativeLineIdx: 0
+2025/05/21 13:50:27 placing line 0
+2025/05/21 13:50:27 lines different so adding preview
+2025/05/21 13:50:27 adding buffer extmark + hl to line 17
+2025/05/21 13:50:27 added buffer extmark + hl to line 17
+2025/05/21 13:50:27 relativeLineIdx: 1
+2025/05/21 13:50:27 removing line from preview
+2025/05/21 13:50:27 nothing to preview
+2025/05/21 13:50:27 relativeLineIdx: 2
+2025/05/21 13:50:27 removing line from preview
+2025/05/21 13:50:27 nothing to preview
+2025/05/21 13:50:27 diffStr: 18-|    <!--
+18+|</Application>
+19-|
+20-|</Application>
+2025/05/21 13:50:27 applying to buffer 1 (17..19)
+2025/05/21 13:50:28 aquiring tab key lock
+2025/05/21 13:50:28 predicting
+2025/05/21 13:50:28 aquiring cursor prediction lock
+2025/05/21 13:50:28 starting stream
+2025/05/21 13:50:28 applyBatch is already in use
+2025/05/21 13:50:28 synced col: 17, row: 13
+2025/05/21 13:50:28 predicting next cursor prediction
+2025/05/21 13:50:28 predicted line number: 1
+2025/05/21 13:50:28 starting stream
+2025/05/21 13:50:28 synced col: 17, row: 13
+2025/05/21 13:50:28 stream finished: </Application>
+ (17, 18)
+2025/05/21 13:50:28 editing lines: 17, 18
+2025/05/21 13:50:28 editing lines 17..18 in buffer 1
+2025/05/21 13:50:28 applied line modification: 5
+2025/05/21 13:50:28 relativeLineIdx: 0
+2025/05/21 13:50:28 placing line 0
+2025/05/21 13:50:28 lines identical so skipping preview
+2025/05/21 13:50:28 relativeLineIdx: 1
+2025/05/21 13:50:28 placing line 1
+2025/05/21 13:50:28 lines different so adding preview
+2025/05/21 13:50:28 adding buffer extmark + hl to line 18
+2025/05/21 13:50:28 added buffer extmark + hl to line 18
+2025/05/21 13:50:28 diffStr: 19-|</Application>
+19+|
+2025/05/21 13:50:28 applying to buffer 1 (17..18)
+2025/05/21 13:50:29 starting stream
+2025/05/21 13:50:29 synced col: 17, row: 12
+2025/05/21 13:50:29 starting stream
+2025/05/21 13:50:29 synced col: 17, row: 12
+2025/05/21 13:50:29 stream finished: </Application> (17, 17)
+2025/05/21 13:50:29 stream error: canceled: context canceled
+2025/05/21 13:50:30 stream finished: </Application>
+</Application> (17, 18)
+2025/05/21 13:50:30 editing lines: 17, 18
+2025/05/21 13:50:30 editing lines 17..18 in buffer 1
+2025/05/21 13:50:30 applied line modification: 5
+2025/05/21 13:50:30 relativeLineIdx: 0
+2025/05/21 13:50:30 placing line 0
+2025/05/21 13:50:30 lines identical so skipping preview
+2025/05/21 13:50:30 relativeLineIdx: 1
+2025/05/21 13:50:30 placing line 1
+2025/05/21 13:50:30 lines identical so skipping preview
+2025/05/21 13:50:30 diffStr: 
+2025/05/21 13:50:30 applying to buffer 1 (17..18)
+2025/05/21 13:50:30 starting stream
+2025/05/21 13:50:30 synced col: 16, row: 0
+2025/05/21 13:50:30 stream finished:             </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application> (14, 18)
+2025/05/21 13:50:30 editing lines: 14, 18
+2025/05/21 13:50:30 editing lines 14..18 in buffer 1
+2025/05/21 13:50:30 applied line modification: 5
+2025/05/21 13:50:30 relativeLineIdx: 0
+2025/05/21 13:50:30 placing line 0
+2025/05/21 13:50:30 lines identical so skipping preview
+2025/05/21 13:50:30 relativeLineIdx: 1
+2025/05/21 13:50:30 placing line 1
+2025/05/21 13:50:30 lines identical so skipping preview
+2025/05/21 13:50:30 relativeLineIdx: 2
+2025/05/21 13:50:30 placing line 2
+2025/05/21 13:50:30 lines identical so skipping preview
+2025/05/21 13:50:30 relativeLineIdx: 3
+2025/05/21 13:50:30 placing line 3
+2025/05/21 13:50:30 lines different so adding preview
+2025/05/21 13:50:30 adding buffer extmark + hl to line 17
+2025/05/21 13:50:30 added buffer extmark + hl to line 17
+2025/05/21 13:50:30 relativeLineIdx: 4
+2025/05/21 13:50:30 removing line from preview
+2025/05/21 13:50:30 nothing to preview
+2025/05/21 13:50:30 diffStr: 18-|
+18+|</Application>
+19-|</Application>
+2025/05/21 13:50:30 applying to buffer 1 (14..18)
+2025/05/21 13:50:33 starting stream
+2025/05/21 13:50:33 synced col: 17, row: 4
+2025/05/21 13:50:34 stream finished: </Application> (17, 19)
+2025/05/21 13:50:34 editing lines: 17, 19
+2025/05/21 13:50:34 editing lines 17..19 in buffer 1
+2025/05/21 13:50:34 applied line modification: 5
+2025/05/21 13:50:34 relativeLineIdx: 0
+2025/05/21 13:50:34 placing line 0
+2025/05/21 13:50:34 lines different so adding preview
+2025/05/21 13:50:34 adding buffer extmark + hl to line 17
+2025/05/21 13:50:34 added buffer extmark + hl to line 17
+2025/05/21 13:50:34 relativeLineIdx: 1
+2025/05/21 13:50:34 removing line from preview
+2025/05/21 13:50:34 nothing to preview
+2025/05/21 13:50:34 relativeLineIdx: 2
+2025/05/21 13:50:34 removing line from preview
+2025/05/21 13:50:34 nothing to preview
+2025/05/21 13:50:34 diffStr: 18-|    
+18+|</Application>
+19-|
+20-|</Application>
+2025/05/21 13:50:34 applying to buffer 1 (17..19)
+2025/05/21 13:50:35 starting stream
+2025/05/21 13:50:35 synced col: 17, row: 5
+2025/05/21 13:50:35 stream finished:     <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+</Application> (17, 19)
+2025/05/21 13:50:35 editing lines: 17, 19
+2025/05/21 13:50:35 editing lines 17..19 in buffer 1
+2025/05/21 13:50:35 applied line modification: 5
+2025/05/21 13:50:35 relativeLineIdx: 0
+2025/05/21 13:50:35 placing line 0
+2025/05/21 13:50:35 lines different so adding preview
+2025/05/21 13:50:35 adding buffer extmark + hl to line 17
+2025/05/21 13:50:35 added buffer extmark + hl to line 17
+2025/05/21 13:50:35 relativeLineIdx: 1
+2025/05/21 13:50:35 placing line 1
+2025/05/21 13:50:35 lines different so adding preview
+2025/05/21 13:50:35 adding buffer extmark + hl to line 18
+2025/05/21 13:50:35 added buffer extmark + hl to line 18
+2025/05/21 13:50:35 relativeLineIdx: 2
+2025/05/21 13:50:35 placing line 2
+2025/05/21 13:50:35 lines different so adding preview
+2025/05/21 13:50:35 adding buffer extmark + hl to line 19
+2025/05/21 13:50:35 added buffer extmark + hl to line 19
+2025/05/21 13:50:35 diffStr: 18-|    <
+18+|    <Application.Properties>
+19-|
+19+|        <PropertyGroup>
+20-|</Application>
+20+|            <Property Name="IsInDesignMode" Value="True" />
+2025/05/21 13:50:35 applying to buffer 1 (17..19)
+2025/05/21 13:50:39 starting stream
+2025/05/21 13:50:39 synced col: 17, row: 6
+2025/05/21 13:50:39 stream finished:     <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+</Application> (17, 19)
+2025/05/21 13:50:39 editing lines: 17, 19
+2025/05/21 13:50:39 editing lines 17..19 in buffer 1
+2025/05/21 13:50:39 applied line modification: 5
+2025/05/21 13:50:39 relativeLineIdx: 0
+2025/05/21 13:50:39 placing line 0
+2025/05/21 13:50:39 lines different so adding preview
+2025/05/21 13:50:39 adding buffer extmark + hl to line 17
+2025/05/21 13:50:39 added buffer extmark + hl to line 17
+2025/05/21 13:50:39 relativeLineIdx: 1
+2025/05/21 13:50:39 placing line 1
+2025/05/21 13:50:39 lines different so adding preview
+2025/05/21 13:50:39 adding buffer extmark + hl to line 18
+2025/05/21 13:50:39 added buffer extmark + hl to line 18
+2025/05/21 13:50:39 relativeLineIdx: 2
+2025/05/21 13:50:39 placing line 2
+2025/05/21 13:50:39 lines different so adding preview
+2025/05/21 13:50:39 adding buffer extmark + hl to line 19
+2025/05/21 13:50:39 added buffer extmark + hl to line 19
+2025/05/21 13:50:39 diffStr: 18-|    <!
+18+|    <Application.Properties>
+19-|
+19+|        <PropertyGroup>
+20-|</Application>
+20+|            <Property Name="IsInDesignMode" Value="True" />
+2025/05/21 13:50:39 applying to buffer 1 (17..19)
+2025/05/21 13:50:39 starting stream
+2025/05/21 13:50:39 synced col: 17, row: 7
+2025/05/21 13:50:40 starting stream
+2025/05/21 13:50:40 synced col: 17, row: 8
+2025/05/21 13:50:40 stream finished:     <Application.Properties>
+        <PropertyGroup>
+            (17, 19)
+2025/05/21 13:50:40 stream error: canceled: context canceled
+2025/05/21 13:50:40 stream finished:     <!--
+    <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+    -->
+</Application> (17, 19)
+2025/05/21 13:50:40 editing lines: 17, 19
+2025/05/21 13:50:40 editing lines 17..19 in buffer 1
+2025/05/21 13:50:40 applied line modification: 5
+2025/05/21 13:50:40 relativeLineIdx: 0
+2025/05/21 13:50:40 placing line 0
+2025/05/21 13:50:40 lines identical so skipping preview
+2025/05/21 13:50:40 relativeLineIdx: 1
+2025/05/21 13:50:40 placing line 1
+2025/05/21 13:50:40 lines different so adding preview
+2025/05/21 13:50:40 adding buffer extmark + hl to line 18
+2025/05/21 13:50:40 added buffer extmark + hl to line 18
+2025/05/21 13:50:40 relativeLineIdx: 2
+2025/05/21 13:50:40 placing line 2
+2025/05/21 13:50:40 lines different so adding preview
+2025/05/21 13:50:40 adding buffer extmark + hl to line 19
+2025/05/21 13:50:40 added buffer extmark + hl to line 19
+2025/05/21 13:50:40 diffStr: 19-|
+19+|    <Application.Properties>
+20-|</Application>
+20+|        <PropertyGroup>
+2025/05/21 13:50:40 applying to buffer 1 (17..19)
+2025/05/21 13:50:44 aquiring tab key lock
+2025/05/21 13:50:44 predicting
+2025/05/21 13:50:44 aquiring cursor prediction lock
+2025/05/21 13:50:44 starting stream
+2025/05/21 13:50:44 applyBatch is already in use
+2025/05/21 13:50:44 synced col: 24, row: 13
+2025/05/21 13:50:44 predicting next cursor prediction
+2025/05/21 13:50:44 predicted line number: 1
+2025/05/21 13:50:44 starting stream
+2025/05/21 13:50:44 synced col: 24, row: 13
+2025/05/21 13:50:45 stream finished: </Application>
+ (24, 25)
+2025/05/21 13:50:45 editing lines: 24, 25
+2025/05/21 13:50:45 editing lines 24..25 in buffer 1
+2025/05/21 13:50:45 applied line modification: 5
+2025/05/21 13:50:45 relativeLineIdx: 0
+2025/05/21 13:50:45 placing line 0
+2025/05/21 13:50:45 lines identical so skipping preview
+2025/05/21 13:50:45 relativeLineIdx: 1
+2025/05/21 13:50:45 placing line 1
+2025/05/21 13:50:45 lines different so adding preview
+2025/05/21 13:50:45 adding buffer extmark + hl to line 25
+2025/05/21 13:50:45 added buffer extmark + hl to line 25
+2025/05/21 13:50:45 diffStr: 26-|</Application>
+26+|
+2025/05/21 13:50:45 applying to buffer 1 (24..25)
+2025/05/21 13:50:49 starting stream
+2025/05/21 13:50:49 synced col: 16, row: 0
+2025/05/21 13:50:50 stream finished:             </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+</Application> (14, 18)
+2025/05/21 13:50:50 editing lines: 14, 18
+2025/05/21 13:50:50 editing lines 14..18 in buffer 1
+2025/05/21 13:50:50 applied line modification: 5
+2025/05/21 13:50:50 relativeLineIdx: 0
+2025/05/21 13:50:50 placing line 0
+2025/05/21 13:50:50 lines identical so skipping preview
+2025/05/21 13:50:50 relativeLineIdx: 1
+2025/05/21 13:50:50 placing line 1
+2025/05/21 13:50:50 lines identical so skipping preview
+2025/05/21 13:50:50 relativeLineIdx: 2
+2025/05/21 13:50:50 placing line 2
+2025/05/21 13:50:50 lines identical so skipping preview
+2025/05/21 13:50:50 relativeLineIdx: 3
+2025/05/21 13:50:50 placing line 3
+2025/05/21 13:50:50 lines different so adding preview
+2025/05/21 13:50:50 adding buffer extmark + hl to line 17
+2025/05/21 13:50:50 added buffer extmark + hl to line 17
+2025/05/21 13:50:50 relativeLineIdx: 4
+2025/05/21 13:50:50 placing line 4
+2025/05/21 13:50:50 lines different so adding preview
+2025/05/21 13:50:50 adding buffer extmark + hl to line 18
+2025/05/21 13:50:50 added buffer extmark + hl to line 18
+2025/05/21 13:50:50 diffStr: 18-|
+18+|    <Application.Properties>
+19-|</Application>
+19+|        <PropertyGroup>
+2025/05/21 13:50:50 applying to buffer 1 (14..18)
+2025/05/21 13:50:52 starting stream
+2025/05/21 13:50:52 starting stream
+2025/05/21 13:50:52 synced col: 0, row: 2
+2025/05/21 13:50:52 synced col: 0, row: 2
+2025/05/21 13:50:52 error starting stream: canceled: context canceled
+2025/05/21 13:50:52 stream finished: >  (0, 0)
+2025/05/21 13:50:52 editing lines: 0, 0
+2025/05/21 13:50:52 editing lines 0..0 in buffer 42
+2025/05/21 13:50:52 applied line modification: 5
+2025/05/21 13:50:52 relativeLineIdx: 0
+2025/05/21 13:50:52 placing line 0
+2025/05/21 13:50:52 lines identical so skipping preview
+2025/05/21 13:50:52 diffStr: 
+2025/05/21 13:50:52 applying to buffer 42 (0..0)
+2025/05/21 13:50:52 starting stream
+2025/05/21 13:50:52 synced col: 0, row: 3
+2025/05/21 13:50:52 starting stream
+2025/05/21 13:50:52 synced col: 0, row: 4
+2025/05/21 13:50:52 error starting stream: canceled: context canceled
+2025/05/21 13:50:52 starting stream
+2025/05/21 13:50:52 synced col: 0, row: 5
+2025/05/21 13:50:52 stream finished:  (0, 0)
+2025/05/21 13:50:52 stream error: canceled: context canceled
+2025/05/21 13:50:53 stream finished: > App (0, 0)
+2025/05/21 13:50:53 editing lines: 0, 0
+2025/05/21 13:50:53 editing lines 0..0 in buffer 42
+2025/05/21 13:50:53 applied line modification: 5
+2025/05/21 13:50:53 relativeLineIdx: 0
+2025/05/21 13:50:53 placing line 0
+2025/05/21 13:50:53 lines identical so skipping preview
+2025/05/21 13:50:53 diffStr: 
+2025/05/21 13:50:53 applying to buffer 42 (0..0)
+2025/05/21 13:50:56 starting stream
+2025/05/21 13:50:56 synced col: 18, row: 4
+2025/05/21 13:50:56 starting stream
+2025/05/21 13:50:56 synced col: 18, row: 5
+2025/05/21 13:50:56 stream finished:     
+</Application> (18, 19)
+2025/05/21 13:50:56 stream error: canceled: context canceled
+2025/05/21 13:50:56 stream finished: </Application> (18, 19)
+2025/05/21 13:50:56 editing lines: 18, 19
+2025/05/21 13:50:56 editing lines 18..19 in buffer 18
+2025/05/21 13:50:56 applied line modification: 5
+2025/05/21 13:50:56 relativeLineIdx: 0
+2025/05/21 13:50:56 placing line 0
+2025/05/21 13:50:56 lines different so adding preview
+2025/05/21 13:50:56 adding buffer extmark + hl to line 18
+2025/05/21 13:50:56 added buffer extmark + hl to line 18
+2025/05/21 13:50:56 relativeLineIdx: 1
+2025/05/21 13:50:56 removing line from preview
+2025/05/21 13:50:56 nothing to preview
+2025/05/21 13:50:56 diffStr: 19-|    <
+19+|</Application>
+20-|</Application>
+2025/05/21 13:50:56 applying to buffer 18 (18..19)
+2025/05/21 13:50:56 starting stream
+2025/05/21 13:50:56 synced col: 18, row: 6
+2025/05/21 13:50:57 stream finished: </Application> (18, 19)
+2025/05/21 13:50:57 editing lines: 18, 19
+2025/05/21 13:50:57 editing lines 18..19 in buffer 18
+2025/05/21 13:50:57 applied line modification: 5
+2025/05/21 13:50:57 relativeLineIdx: 0
+2025/05/21 13:50:57 placing line 0
+2025/05/21 13:50:57 lines different so adding preview
+2025/05/21 13:50:57 adding buffer extmark + hl to line 18
+2025/05/21 13:50:57 added buffer extmark + hl to line 18
+2025/05/21 13:50:57 relativeLineIdx: 1
+2025/05/21 13:50:57 removing line from preview
+2025/05/21 13:50:57 nothing to preview
+2025/05/21 13:50:57 diffStr: 19-|    <!
+19+|</Application>
+20-|</Application>
+2025/05/21 13:50:57 applying to buffer 18 (18..19)
+2025/05/21 13:50:57 starting stream
+2025/05/21 13:50:57 synced col: 18, row: 5
+2025/05/21 13:50:57 starting stream
+2025/05/21 13:50:57 synced col: 18, row: 4
+2025/05/21 13:50:57 stream finished: </Application> (18, 19)
+2025/05/21 13:50:57 stream error: canceled: context canceled
+2025/05/21 13:50:57 stream finished:     
+</Application> (18, 19)
+2025/05/21 13:50:57 editing lines: 18, 19
+2025/05/21 13:50:57 editing lines 18..19 in buffer 18
+2025/05/21 13:50:57 applied line modification: 5
+2025/05/21 13:50:57 relativeLineIdx: 0
+2025/05/21 13:50:57 placing line 0
+2025/05/21 13:50:57 lines identical so skipping preview
+2025/05/21 13:50:57 relativeLineIdx: 1
+2025/05/21 13:50:57 placing line 1
+2025/05/21 13:50:57 lines identical so skipping preview
+2025/05/21 13:50:57 diffStr: 
+2025/05/21 13:50:57 applying to buffer 18 (18..19)
+2025/05/21 13:51:14 starting stream
+2025/05/21 13:51:14 starting stream
+2025/05/21 13:51:14 synced col: 0, row: 2
+2025/05/21 13:51:14 synced col: 0, row: 2
+2025/05/21 13:51:14 error starting stream: canceled: context canceled
+2025/05/21 13:51:14 stream finished: >  (0, 0)
+2025/05/21 13:51:14 editing lines: 0, 0
+2025/05/21 13:51:14 editing lines 0..0 in buffer 52
+2025/05/21 13:51:14 applied line modification: 5
+2025/05/21 13:51:14 relativeLineIdx: 0
+2025/05/21 13:51:14 placing line 0
+2025/05/21 13:51:14 lines identical so skipping preview
+2025/05/21 13:51:14 diffStr: 
+2025/05/21 13:51:14 applying to buffer 52 (0..0)
+2025/05/21 13:51:20 starting stream
+2025/05/21 13:51:20 synced col: 0, row: 0
+2025/05/21 13:51:21 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:21 editing lines: 0, 4
+2025/05/21 13:51:21 editing lines 0..4 in buffer 55
+2025/05/21 13:51:21 applied line modification: 5
+2025/05/21 13:51:21 relativeLineIdx: 0
+2025/05/21 13:51:21 placing line 0
+2025/05/21 13:51:21 lines identical so skipping preview
+2025/05/21 13:51:21 relativeLineIdx: 1
+2025/05/21 13:51:21 placing line 1
+2025/05/21 13:51:21 lines identical so skipping preview
+2025/05/21 13:51:21 relativeLineIdx: 2
+2025/05/21 13:51:21 placing line 2
+2025/05/21 13:51:21 lines identical so skipping preview
+2025/05/21 13:51:21 relativeLineIdx: 3
+2025/05/21 13:51:21 placing line 3
+2025/05/21 13:51:21 lines identical so skipping preview
+2025/05/21 13:51:21 relativeLineIdx: 4
+2025/05/21 13:51:21 placing line 4
+2025/05/21 13:51:21 lines identical so skipping preview
+2025/05/21 13:51:21 diffStr: 
+2025/05/21 13:51:21 applying to buffer 55 (0..4)
+2025/05/21 13:51:21 starting stream
+2025/05/21 13:51:21 synced col: 0, row: 0
+2025/05/21 13:51:22 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:22 editing lines: 0, 4
+2025/05/21 13:51:22 editing lines 0..4 in buffer 55
+2025/05/21 13:51:22 applied line modification: 5
+2025/05/21 13:51:22 relativeLineIdx: 0
+2025/05/21 13:51:22 placing line 0
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 1
+2025/05/21 13:51:22 placing line 1
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 2
+2025/05/21 13:51:22 placing line 2
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 3
+2025/05/21 13:51:22 placing line 3
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 4
+2025/05/21 13:51:22 placing line 4
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 diffStr: 
+2025/05/21 13:51:22 applying to buffer 55 (0..4)
+2025/05/21 13:51:22 starting stream
+2025/05/21 13:51:22 synced col: 0, row: 0
+2025/05/21 13:51:22 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:22 editing lines: 0, 4
+2025/05/21 13:51:22 editing lines 0..4 in buffer 55
+2025/05/21 13:51:22 applied line modification: 5
+2025/05/21 13:51:22 relativeLineIdx: 0
+2025/05/21 13:51:22 placing line 0
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 1
+2025/05/21 13:51:22 placing line 1
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 2
+2025/05/21 13:51:22 placing line 2
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 3
+2025/05/21 13:51:22 placing line 3
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 relativeLineIdx: 4
+2025/05/21 13:51:22 placing line 4
+2025/05/21 13:51:22 lines identical so skipping preview
+2025/05/21 13:51:22 diffStr: 
+2025/05/21 13:51:22 applying to buffer 55 (0..4)
+2025/05/21 13:51:22 starting stream
+2025/05/21 13:51:22 synced col: 0, row: 0
+2025/05/21 13:51:23 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:23 editing lines: 0, 4
+2025/05/21 13:51:23 editing lines 0..4 in buffer 55
+2025/05/21 13:51:23 applied line modification: 5
+2025/05/21 13:51:23 relativeLineIdx: 0
+2025/05/21 13:51:23 placing line 0
+2025/05/21 13:51:23 lines identical so skipping preview
+2025/05/21 13:51:23 relativeLineIdx: 1
+2025/05/21 13:51:23 placing line 1
+2025/05/21 13:51:23 lines identical so skipping preview
+2025/05/21 13:51:23 relativeLineIdx: 2
+2025/05/21 13:51:23 placing line 2
+2025/05/21 13:51:23 lines identical so skipping preview
+2025/05/21 13:51:23 relativeLineIdx: 3
+2025/05/21 13:51:23 placing line 3
+2025/05/21 13:51:23 lines identical so skipping preview
+2025/05/21 13:51:23 relativeLineIdx: 4
+2025/05/21 13:51:23 placing line 4
+2025/05/21 13:51:23 lines identical so skipping preview
+2025/05/21 13:51:23 diffStr: 
+2025/05/21 13:51:23 applying to buffer 55 (0..4)
+2025/05/21 13:51:23 starting stream
+2025/05/21 13:51:23 synced col: 0, row: 0
+2025/05/21 13:51:23 starting stream
+2025/05/21 13:51:23 synced col: 0, row: 0
+2025/05/21 13:51:23 stream finished:  (0, 0)
+2025/05/21 13:51:23 stream error: canceled: context canceled
+2025/05/21 13:51:24 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:24 editing lines: 0, 4
+2025/05/21 13:51:24 editing lines 0..4 in buffer 55
+2025/05/21 13:51:24 applied line modification: 5
+2025/05/21 13:51:24 relativeLineIdx: 0
+2025/05/21 13:51:24 placing line 0
+2025/05/21 13:51:24 lines identical so skipping preview
+2025/05/21 13:51:24 relativeLineIdx: 1
+2025/05/21 13:51:24 placing line 1
+2025/05/21 13:51:24 lines identical so skipping preview
+2025/05/21 13:51:24 relativeLineIdx: 2
+2025/05/21 13:51:24 placing line 2
+2025/05/21 13:51:24 lines identical so skipping preview
+2025/05/21 13:51:24 relativeLineIdx: 3
+2025/05/21 13:51:24 placing line 3
+2025/05/21 13:51:24 lines identical so skipping preview
+2025/05/21 13:51:24 relativeLineIdx: 4
+2025/05/21 13:51:24 placing line 4
+2025/05/21 13:51:24 lines identical so skipping preview
+2025/05/21 13:51:24 diffStr: 
+2025/05/21 13:51:24 applying to buffer 55 (0..4)
+2025/05/21 13:51:24 starting stream
+2025/05/21 13:51:24 synced col: 0, row: 0
+2025/05/21 13:51:24 starting stream
+2025/05/21 13:51:24 synced col: 0, row: 0
+2025/05/21 13:51:24 error starting stream: canceled: context canceled
+2025/05/21 13:51:25 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:25 editing lines: 0, 4
+2025/05/21 13:51:25 editing lines 0..4 in buffer 55
+2025/05/21 13:51:25 applied line modification: 5
+2025/05/21 13:51:25 relativeLineIdx: 0
+2025/05/21 13:51:25 placing line 0
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 1
+2025/05/21 13:51:25 placing line 1
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 2
+2025/05/21 13:51:25 placing line 2
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 3
+2025/05/21 13:51:25 placing line 3
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 4
+2025/05/21 13:51:25 placing line 4
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 diffStr: 
+2025/05/21 13:51:25 starting stream
+2025/05/21 13:51:25 applying to buffer 55 (0..4)
+2025/05/21 13:51:25 synced col: 0, row: 0
+2025/05/21 13:51:25 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:25 editing lines: 0, 4
+2025/05/21 13:51:25 editing lines 0..4 in buffer 55
+2025/05/21 13:51:25 applied line modification: 5
+2025/05/21 13:51:25 relativeLineIdx: 0
+2025/05/21 13:51:25 placing line 0
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 1
+2025/05/21 13:51:25 placing line 1
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 2
+2025/05/21 13:51:25 placing line 2
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 3
+2025/05/21 13:51:25 placing line 3
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 4
+2025/05/21 13:51:25 placing line 4
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 diffStr: 
+2025/05/21 13:51:25 applying to buffer 55 (0..4)
+2025/05/21 13:51:25 starting stream
+2025/05/21 13:51:25 synced col: 0, row: 0
+2025/05/21 13:51:25 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:25 editing lines: 0, 4
+2025/05/21 13:51:25 editing lines 0..4 in buffer 55
+2025/05/21 13:51:25 applied line modification: 5
+2025/05/21 13:51:25 relativeLineIdx: 0
+2025/05/21 13:51:25 placing line 0
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 1
+2025/05/21 13:51:25 placing line 1
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 2
+2025/05/21 13:51:25 placing line 2
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 3
+2025/05/21 13:51:25 placing line 3
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 4
+2025/05/21 13:51:25 placing line 4
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 diffStr: 
+2025/05/21 13:51:25 applying to buffer 55 (0..4)
+2025/05/21 13:51:25 starting stream
+2025/05/21 13:51:25 synced col: 0, row: 0
+2025/05/21 13:51:25 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:25 editing lines: 0, 4
+2025/05/21 13:51:25 editing lines 0..4 in buffer 55
+2025/05/21 13:51:25 applied line modification: 5
+2025/05/21 13:51:25 relativeLineIdx: 0
+2025/05/21 13:51:25 placing line 0
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 1
+2025/05/21 13:51:25 placing line 1
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 2
+2025/05/21 13:51:25 placing line 2
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 3
+2025/05/21 13:51:25 placing line 3
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 relativeLineIdx: 4
+2025/05/21 13:51:25 placing line 4
+2025/05/21 13:51:25 lines identical so skipping preview
+2025/05/21 13:51:25 diffStr: 
+2025/05/21 13:51:25 applying to buffer 55 (0..4)
+2025/05/21 13:51:26 starting stream
+2025/05/21 13:51:26 synced col: 0, row: 0
+2025/05/21 13:51:26 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:26 editing lines: 0, 4
+2025/05/21 13:51:26 editing lines 0..4 in buffer 55
+2025/05/21 13:51:26 applied line modification: 5
+2025/05/21 13:51:26 relativeLineIdx: 0
+2025/05/21 13:51:26 placing line 0
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 1
+2025/05/21 13:51:26 placing line 1
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 2
+2025/05/21 13:51:26 placing line 2
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 3
+2025/05/21 13:51:26 placing line 3
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 4
+2025/05/21 13:51:26 placing line 4
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 diffStr: 
+2025/05/21 13:51:26 applying to buffer 55 (0..4)
+2025/05/21 13:51:26 starting stream
+2025/05/21 13:51:26 synced col: 0, row: 0
+2025/05/21 13:51:26 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:26 editing lines: 0, 4
+2025/05/21 13:51:26 editing lines 0..4 in buffer 55
+2025/05/21 13:51:26 applied line modification: 5
+2025/05/21 13:51:26 relativeLineIdx: 0
+2025/05/21 13:51:26 placing line 0
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 1
+2025/05/21 13:51:26 placing line 1
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 2
+2025/05/21 13:51:26 placing line 2
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 3
+2025/05/21 13:51:26 placing line 3
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 relativeLineIdx: 4
+2025/05/21 13:51:26 placing line 4
+2025/05/21 13:51:26 lines identical so skipping preview
+2025/05/21 13:51:26 diffStr: 
+2025/05/21 13:51:26 applying to buffer 55 (0..4)
+2025/05/21 13:51:26 starting stream
+2025/05/21 13:51:26 synced col: 0, row: 0
+2025/05/21 13:51:27 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:27 editing lines: 0, 4
+2025/05/21 13:51:27 editing lines 0..4 in buffer 55
+2025/05/21 13:51:27 applied line modification: 5
+2025/05/21 13:51:27 relativeLineIdx: 0
+2025/05/21 13:51:27 placing line 0
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 1
+2025/05/21 13:51:27 placing line 1
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 2
+2025/05/21 13:51:27 placing line 2
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 3
+2025/05/21 13:51:27 placing line 3
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 4
+2025/05/21 13:51:27 placing line 4
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 diffStr: 
+2025/05/21 13:51:27 applying to buffer 55 (0..4)
+2025/05/21 13:51:27 starting stream
+2025/05/21 13:51:27 synced col: 0, row: 0
+2025/05/21 13:51:27 starting stream
+2025/05/21 13:51:27 synced col: 0, row: 0
+2025/05/21 13:51:27 error starting stream: canceled: context canceled
+2025/05/21 13:51:27 starting stream
+2025/05/21 13:51:27 synced col: 0, row: 0
+2025/05/21 13:51:27 stream finished:  (0, 0)
+2025/05/21 13:51:27 stream error: canceled: context canceled
+2025/05/21 13:51:27 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:27 editing lines: 0, 4
+2025/05/21 13:51:27 editing lines 0..4 in buffer 55
+2025/05/21 13:51:27 applied line modification: 5
+2025/05/21 13:51:27 relativeLineIdx: 0
+2025/05/21 13:51:27 placing line 0
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 1
+2025/05/21 13:51:27 placing line 1
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 2
+2025/05/21 13:51:27 placing line 2
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 3
+2025/05/21 13:51:27 placing line 3
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 relativeLineIdx: 4
+2025/05/21 13:51:27 placing line 4
+2025/05/21 13:51:27 lines identical so skipping preview
+2025/05/21 13:51:27 diffStr: 
+2025/05/21 13:51:27 applying to buffer 55 (0..4)
+2025/05/21 13:51:27 starting stream
+2025/05/21 13:51:27 synced col: 0, row: 0
+2025/05/21 13:51:28 starting stream
+2025/05/21 13:51:28 synced col: 0, row: 0
+2025/05/21 13:51:28 stream finished:  (0, 0)
+2025/05/21 13:51:28 stream error: canceled: context canceled
+2025/05/21 13:51:28 starting stream
+2025/05/21 13:51:28 synced col: 0, row: 0
+2025/05/21 13:51:28 stream finished:  (0, 0)
+2025/05/21 13:51:28 stream error: canceled: context canceled
+2025/05/21 13:51:28 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:28 editing lines: 0, 4
+2025/05/21 13:51:28 editing lines 0..4 in buffer 55
+2025/05/21 13:51:28 applied line modification: 5
+2025/05/21 13:51:28 relativeLineIdx: 0
+2025/05/21 13:51:28 placing line 0
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 1
+2025/05/21 13:51:28 placing line 1
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 2
+2025/05/21 13:51:28 placing line 2
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 3
+2025/05/21 13:51:28 placing line 3
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 4
+2025/05/21 13:51:28 placing line 4
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 diffStr: 
+2025/05/21 13:51:28 applying to buffer 55 (0..4)
+2025/05/21 13:51:28 starting stream
+2025/05/21 13:51:28 synced col: 0, row: 0
+2025/05/21 13:51:28 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:28 editing lines: 0, 4
+2025/05/21 13:51:28 editing lines 0..4 in buffer 55
+2025/05/21 13:51:28 applied line modification: 5
+2025/05/21 13:51:28 relativeLineIdx: 0
+2025/05/21 13:51:28 placing line 0
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 1
+2025/05/21 13:51:28 placing line 1
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 2
+2025/05/21 13:51:28 placing line 2
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 3
+2025/05/21 13:51:28 placing line 3
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 relativeLineIdx: 4
+2025/05/21 13:51:28 placing line 4
+2025/05/21 13:51:28 lines identical so skipping preview
+2025/05/21 13:51:28 diffStr: 
+2025/05/21 13:51:28 applying to buffer 55 (0..4)
+2025/05/21 13:51:29 starting stream
+2025/05/21 13:51:29 synced col: 0, row: 0
+2025/05/21 13:51:29 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:29 editing lines: 0, 4
+2025/05/21 13:51:29 editing lines 0..4 in buffer 55
+2025/05/21 13:51:29 applied line modification: 5
+2025/05/21 13:51:29 relativeLineIdx: 0
+2025/05/21 13:51:29 placing line 0
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 1
+2025/05/21 13:51:29 placing line 1
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 2
+2025/05/21 13:51:29 placing line 2
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 3
+2025/05/21 13:51:29 placing line 3
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 4
+2025/05/21 13:51:29 placing line 4
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 diffStr: 
+2025/05/21 13:51:29 applying to buffer 55 (0..4)
+2025/05/21 13:51:29 starting stream
+2025/05/21 13:51:29 synced col: 0, row: 0
+2025/05/21 13:51:29 stream finished:                                                                             mason.nvim v2.0.0 
+                                                                            press g? for help
+                                                                 https://github.com/mason-org/mason.nvim
+   (1) All   (2) LSP   (3) DAP   (4) Linter   (5) Formatter  
+ (0, 4)
+2025/05/21 13:51:29 editing lines: 0, 4
+2025/05/21 13:51:29 editing lines 0..4 in buffer 55
+2025/05/21 13:51:29 applied line modification: 5
+2025/05/21 13:51:29 relativeLineIdx: 0
+2025/05/21 13:51:29 placing line 0
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 1
+2025/05/21 13:51:29 placing line 1
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 2
+2025/05/21 13:51:29 placing line 2
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 3
+2025/05/21 13:51:29 placing line 3
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 relativeLineIdx: 4
+2025/05/21 13:51:29 placing line 4
+2025/05/21 13:51:29 lines identical so skipping preview
+2025/05/21 13:51:29 diffStr: 
+2025/05/21 13:51:29 applying to buffer 55 (0..4)
+2025/05/21 13:51:33 starting stream
+2025/05/21 13:51:33 synced col: 104, row: 199
+2025/05/21 13:51:34 stream finished:     ◍ sonarlint-language-server (keywords: azureresourcemanager, c, c++, c#, cloudformation, css, docker, go, html, ipython, java, javascript, kubernetes, typescript, python, php, terraform, text, xml, yaml)
+    ◍ sphinx-lint (keywords: restructuredtext, python)
+    ◍ sqlfluff (keywords: sql)
+    ◍ sqruff (keywords: sql)
+    ◍ standardjs (keywords: javascript) (104, 108)
+2025/05/21 13:51:34 editing lines: 104, 108
+2025/05/21 13:51:34 editing lines 104..108 in buffer 55
+2025/05/21 13:51:34 applied line modification: 5
+2025/05/21 13:51:34 relativeLineIdx: 0
+2025/05/21 13:51:34 placing line 0
+2025/05/21 13:51:34 lines identical so skipping preview
+2025/05/21 13:51:34 relativeLineIdx: 1
+2025/05/21 13:51:34 placing line 1
+2025/05/21 13:51:34 lines identical so skipping preview
+2025/05/21 13:51:34 relativeLineIdx: 2
+2025/05/21 13:51:34 placing line 2
+2025/05/21 13:51:34 lines identical so skipping preview
+2025/05/21 13:51:34 relativeLineIdx: 3
+2025/05/21 13:51:34 placing line 3
+2025/05/21 13:51:34 lines identical so skipping preview
+2025/05/21 13:51:34 relativeLineIdx: 4
+2025/05/21 13:51:34 placing line 4
+2025/05/21 13:51:34 lines identical so skipping preview
+2025/05/21 13:51:34 diffStr: 
+2025/05/21 13:51:34 applying to buffer 55 (104..108)
+2025/05/21 13:56:17 starting cursor tab...
+2025/05/21 13:56:17 service created
+2025/05/21 13:56:17 nvim created
+2025/05/21 13:56:17 creating new buffer
+2025/05/21 13:56:17 buffer created: &{[] 0 0  0 0 []}
+2025/05/21 13:56:17 starting stream
+2025/05/21 13:56:17 starting stream
+2025/05/21 13:56:17 synced col: 0, row: 2
+2025/05/21 13:56:17 synced col: 0, row: 2
+2025/05/21 13:56:17 error starting stream: canceled: context canceled
+2025/05/21 13:56:18 stream finished: >  (0, 0)
+2025/05/21 13:56:18 editing lines: 0, 0
+2025/05/21 13:56:18 editing lines 0..0 in buffer 6
+2025/05/21 13:56:18 applied line modification: 5
+2025/05/21 13:56:18 relativeLineIdx: 0
+2025/05/21 13:56:18 placing line 0
+2025/05/21 13:56:18 lines identical so skipping preview
+2025/05/21 13:56:18 diffStr: 
+2025/05/21 13:56:18 applying to buffer 6 (0..0)
+2025/05/21 13:56:18 starting stream
+2025/05/21 13:56:18 synced col: 0, row: 3
+2025/05/21 13:56:18 starting stream
+2025/05/21 13:56:18 synced col: 0, row: 4
+2025/05/21 13:56:18 error starting stream: canceled: context canceled
+2025/05/21 13:56:18 starting stream
+2025/05/21 13:56:18 synced col: 0, row: 5
+2025/05/21 13:56:18 error starting stream: canceled: context canceled
+2025/05/21 13:56:18 stream finished: > Pap (0, 0)
+2025/05/21 13:56:18 editing lines: 0, 0
+2025/05/21 13:56:18 editing lines 0..0 in buffer 6
+2025/05/21 13:56:18 applied line modification: 5
+2025/05/21 13:56:18 relativeLineIdx: 0
+2025/05/21 13:56:18 placing line 0
+2025/05/21 13:56:18 lines identical so skipping preview
+2025/05/21 13:56:18 diffStr: 
+2025/05/21 13:56:18 applying to buffer 6 (0..0)
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 4
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 3
+2025/05/21 13:56:19 stream finished:  (0, 0)
+2025/05/21 13:56:19 stream error: canceled: context canceled
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 2
+2025/05/21 13:56:19 error starting stream: canceled: context canceled
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 3
+2025/05/21 13:56:19 error starting stream: canceled: context canceled
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 4
+2025/05/21 13:56:19 error starting stream: canceled: context canceled
+2025/05/21 13:56:19 starting stream
+2025/05/21 13:56:19 synced col: 0, row: 5
+2025/05/21 13:56:19 stream finished:  (0, 0)
+2025/05/21 13:56:19 stream error: canceled: context canceled
+2025/05/21 13:56:19 stream finished: > App (0, 0)
+2025/05/21 13:56:19 editing lines: 0, 0
+2025/05/21 13:56:19 editing lines 0..0 in buffer 6
+2025/05/21 13:56:19 applied line modification: 5
+2025/05/21 13:56:19 relativeLineIdx: 0
+2025/05/21 13:56:19 placing line 0
+2025/05/21 13:56:19 lines identical so skipping preview
+2025/05/21 13:56:19 diffStr: 
+2025/05/21 13:56:19 applying to buffer 6 (0..0)
+2025/05/21 13:56:22 starting stream
+2025/05/21 13:56:22 synced col: 2, row: 0
+2025/05/21 13:56:22 starting stream
+2025/05/21 13:56:22 synced col: 2, row: 1
+2025/05/21 13:56:22 stream finished: 
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (2, 8)
+2025/05/21 13:56:22 stream error: canceled: context canceled
+2025/05/21 13:56:23 stream finished: <
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (2, 8)
+2025/05/21 13:56:23 editing lines: 2, 8
+2025/05/21 13:56:23 editing lines 2..8 in buffer 1
+2025/05/21 13:56:23 applied line modification: 5
+2025/05/21 13:56:23 relativeLineIdx: 0
+2025/05/21 13:56:23 placing line 0
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 1
+2025/05/21 13:56:23 placing line 1
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 2
+2025/05/21 13:56:23 placing line 2
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 3
+2025/05/21 13:56:23 placing line 3
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 4
+2025/05/21 13:56:23 placing line 4
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 5
+2025/05/21 13:56:23 placing line 5
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 relativeLineIdx: 6
+2025/05/21 13:56:23 placing line 6
+2025/05/21 13:56:23 lines identical so skipping preview
+2025/05/21 13:56:23 diffStr: 
+2025/05/21 13:56:23 applying to buffer 1 (2..8)
+2025/05/21 13:56:23 starting stream
+2025/05/21 13:56:23 synced col: 2, row: 0
+2025/05/21 13:56:23 starting stream
+2025/05/21 13:56:23 synced col: 1, row: 0
+2025/05/21 13:56:23 stream finished:  (0, 0)
+2025/05/21 13:56:23 stream error: canceled: context canceled
+2025/05/21 13:56:24 stream finished: 
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (1, 7)
+2025/05/21 13:56:24 editing lines: 1, 7
+2025/05/21 13:56:24 editing lines 1..7 in buffer 1
+2025/05/21 13:56:24 applied line modification: 5
+2025/05/21 13:56:24 relativeLineIdx: 0
+2025/05/21 13:56:24 placing line 0
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 1
+2025/05/21 13:56:24 placing line 1
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 2
+2025/05/21 13:56:24 placing line 2
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 3
+2025/05/21 13:56:24 placing line 3
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 4
+2025/05/21 13:56:24 placing line 4
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 5
+2025/05/21 13:56:24 placing line 5
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 6
+2025/05/21 13:56:24 placing line 6
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 diffStr: 
+2025/05/21 13:56:24 applying to buffer 1 (1..7)
+2025/05/21 13:56:24 starting stream
+2025/05/21 13:56:24 synced col: 0, row: 12
+2025/05/21 13:56:24 stream finished: <Application
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (0, 6)
+2025/05/21 13:56:24 editing lines: 0, 6
+2025/05/21 13:56:24 editing lines 0..6 in buffer 1
+2025/05/21 13:56:24 applied line modification: 5
+2025/05/21 13:56:24 relativeLineIdx: 0
+2025/05/21 13:56:24 placing line 0
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 1
+2025/05/21 13:56:24 placing line 1
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 2
+2025/05/21 13:56:24 placing line 2
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 3
+2025/05/21 13:56:24 placing line 3
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 4
+2025/05/21 13:56:24 placing line 4
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 5
+2025/05/21 13:56:24 placing line 5
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 6
+2025/05/21 13:56:24 placing line 6
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 diffStr: 
+2025/05/21 13:56:24 applying to buffer 1 (0..6)
+2025/05/21 13:56:24 starting stream
+2025/05/21 13:56:24 synced col: 1, row: 0
+2025/05/21 13:56:24 stream finished: 
+    x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (1, 7)
+2025/05/21 13:56:24 editing lines: 1, 7
+2025/05/21 13:56:24 editing lines 1..7 in buffer 1
+2025/05/21 13:56:24 applied line modification: 5
+2025/05/21 13:56:24 relativeLineIdx: 0
+2025/05/21 13:56:24 placing line 0
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 1
+2025/05/21 13:56:24 placing line 1
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 2
+2025/05/21 13:56:24 placing line 2
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 3
+2025/05/21 13:56:24 placing line 3
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 4
+2025/05/21 13:56:24 placing line 4
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 5
+2025/05/21 13:56:24 placing line 5
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 relativeLineIdx: 6
+2025/05/21 13:56:24 placing line 6
+2025/05/21 13:56:24 lines identical so skipping preview
+2025/05/21 13:56:24 diffStr: 
+2025/05/21 13:56:24 applying to buffer 1 (1..7)
+2025/05/21 13:56:25 starting stream
+2025/05/21 13:56:25 synced col: 2, row: 0
+2025/05/21 13:56:26 stream finished:     x:Class="MyGraph.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGraph"
+    StartupUri="Views/MainWindow.xaml">
+    <Application.Resources> (2, 7)
+2025/05/21 13:56:26 editing lines: 2, 7
+2025/05/21 13:56:26 editing lines 2..7 in buffer 1
+2025/05/21 13:56:26 applied line modification: 5
+2025/05/21 13:56:26 relativeLineIdx: 0
+2025/05/21 13:56:26 placing line 0
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 relativeLineIdx: 1
+2025/05/21 13:56:26 placing line 1
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 relativeLineIdx: 2
+2025/05/21 13:56:26 placing line 2
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 relativeLineIdx: 3
+2025/05/21 13:56:26 placing line 3
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 relativeLineIdx: 4
+2025/05/21 13:56:26 placing line 4
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 relativeLineIdx: 5
+2025/05/21 13:56:26 placing line 5
+2025/05/21 13:56:26 lines identical so skipping preview
+2025/05/21 13:56:26 diffStr: 
+2025/05/21 13:56:26 applying to buffer 1 (2..7)
+2025/05/21 13:56:27 starting stream
+2025/05/21 13:56:27 synced col: 18, row: 4
+2025/05/21 13:56:27 starting stream
+2025/05/21 13:56:27 synced col: 18, row: 5
+2025/05/21 13:56:27 stream finished:     
+    <Application.StartupUri (18, 20)
+2025/05/21 13:56:27 stream error: canceled: context canceled
+2025/05/21 13:56:28 starting stream
+2025/05/21 13:56:28 synced col: 18, row: 6
+2025/05/21 13:56:28 stream finished:     <Application.StartupUri>
+        <Uri>Views/MainWindow.xaml</Uri>
+    (18, 20)
+2025/05/21 13:56:28 stream error: canceled: context canceled
+2025/05/21 13:56:28 stream finished: </Application> (18, 20)
+2025/05/21 13:56:28 editing lines: 18, 20
+2025/05/21 13:56:28 editing lines 18..20 in buffer 1
+2025/05/21 13:56:28 applied line modification: 5
+2025/05/21 13:56:28 relativeLineIdx: 0
+2025/05/21 13:56:28 placing line 0
+2025/05/21 13:56:28 lines different so adding preview
+2025/05/21 13:56:28 adding buffer extmark + hl to line 18
+2025/05/21 13:56:28 added buffer extmark + hl to line 18
+2025/05/21 13:56:28 relativeLineIdx: 1
+2025/05/21 13:56:28 removing line from preview
+2025/05/21 13:56:28 nothing to preview
+2025/05/21 13:56:28 relativeLineIdx: 2
+2025/05/21 13:56:28 removing line from preview
+2025/05/21 13:56:28 nothing to preview
+2025/05/21 13:56:28 diffStr: 19-|    </
+19+|</Application>
+20-|    
+21-|</Application>
+2025/05/21 13:56:28 applying to buffer 1 (18..20)
+2025/05/21 13:56:28 starting stream
+2025/05/21 13:56:28 synced col: 18, row: 5
+2025/05/21 13:56:28 starting stream
+2025/05/21 13:56:28 synced col: 18, row: 6
+2025/05/21 13:56:28 stream finished:     <Application.Properties>
+        <Property (18, 20)
+2025/05/21 13:56:28 stream error: canceled: context canceled
+2025/05/21 13:56:28 starting stream
+2025/05/21 13:56:28 synced col: 18, row: 7
+2025/05/21 13:56:28 stream finished:  (0, 0)
+2025/05/21 13:56:28 stream error: canceled: context canceled
+2025/05/21 13:56:28 starting stream
+2025/05/21 13:56:28 synced col: 18, row: 8
+2025/05/21 13:56:28 stream finished:     <Application (18, 20)
+2025/05/21 13:56:28 stream error: canceled: context canceled
+2025/05/21 13:56:29 stream finished:     <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+</Application> (18, 20)
+2025/05/21 13:56:29 editing lines: 18, 20
+2025/05/21 13:56:29 editing lines 18..20 in buffer 1
+2025/05/21 13:56:29 applied line modification: 5
+2025/05/21 13:56:29 relativeLineIdx: 0
+2025/05/21 13:56:29 placing line 0
+2025/05/21 13:56:29 lines different so adding preview
+2025/05/21 13:56:29 adding buffer extmark + hl to line 18
+2025/05/21 13:56:29 added buffer extmark + hl to line 18
+2025/05/21 13:56:29 relativeLineIdx: 1
+2025/05/21 13:56:29 placing line 1
+2025/05/21 13:56:29 lines different so adding preview
+2025/05/21 13:56:29 adding buffer extmark + hl to line 19
+2025/05/21 13:56:29 added buffer extmark + hl to line 19
+2025/05/21 13:56:29 relativeLineIdx: 2
+2025/05/21 13:56:29 placing line 2
+2025/05/21 13:56:29 lines different so adding preview
+2025/05/21 13:56:29 adding buffer extmark + hl to line 20
+2025/05/21 13:56:29 added buffer extmark + hl to line 20
+2025/05/21 13:56:29 diffStr: 19-|    <App
+19+|    <Application.Properties>
+20-|    
+20+|        <PropertyGroup>
+21-|</Application>
+21+|            <Property Name="IsInDesignMode" Value="True" />
+2025/05/21 13:56:29 applying to buffer 1 (18..20)
+2025/05/21 13:56:31 aquiring tab key lock
+2025/05/21 13:56:31 predicting
+2025/05/21 13:56:31 aquiring cursor prediction lock
+2025/05/21 13:56:31 starting stream
+2025/05/21 13:56:31 applyBatch is already in use
+2025/05/21 13:56:31 synced col: 23, row: 13
+2025/05/21 13:56:31 predicting next cursor prediction
+2025/05/21 13:56:32 predicted line number: 1
+2025/05/21 13:56:32 starting stream
+2025/05/21 13:56:32 synced col: 23, row: 13
+2025/05/21 13:56:32 stream finished: </Application>
+</Application> (23, 24)
+2025/05/21 13:56:32 editing lines: 23, 24
+2025/05/21 13:56:32 editing lines 23..24 in buffer 1
+2025/05/21 13:56:32 applied line modification: 5
+2025/05/21 13:56:32 relativeLineIdx: 0
+2025/05/21 13:56:32 placing line 0
+2025/05/21 13:56:32 lines identical so skipping preview
+2025/05/21 13:56:32 relativeLineIdx: 1
+2025/05/21 13:56:32 placing line 1
+2025/05/21 13:56:32 lines identical so skipping preview
+2025/05/21 13:56:32 diffStr: 
+2025/05/21 13:56:32 applying to buffer 1 (23..24)
+2025/05/21 13:56:32 starting stream
+2025/05/21 13:56:32 synced col: 22, row: 12
+2025/05/21 13:56:35 stream finished:             <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties>
+</Application> (20, 24)
+2025/05/21 13:56:35 editing lines: 20, 24
+2025/05/21 13:56:35 editing lines 20..24 in buffer 1
+2025/05/21 13:56:35 applied line modification: 5
+2025/05/21 13:56:35 relativeLineIdx: 0
+2025/05/21 13:56:35 placing line 0
+2025/05/21 13:56:35 lines identical so skipping preview
+2025/05/21 13:56:35 relativeLineIdx: 1
+2025/05/21 13:56:35 placing line 1
+2025/05/21 13:56:35 lines identical so skipping preview
+2025/05/21 13:56:35 relativeLineIdx: 2
+2025/05/21 13:56:35 placing line 2
+2025/05/21 13:56:35 lines identical so skipping preview
+2025/05/21 13:56:35 relativeLineIdx: 3
+2025/05/21 13:56:35 placing line 3
+2025/05/21 13:56:35 lines identical so skipping preview
+2025/05/21 13:56:35 relativeLineIdx: 4
+2025/05/21 13:56:35 removing line from preview
+2025/05/21 13:56:35 nothing to preview
+2025/05/21 13:56:35 diffStr: 25-|</Application>
+2025/05/21 13:56:35 applying to buffer 1 (20..24)
+2025/05/21 13:56:36 starting stream
+2025/05/21 13:56:36 synced col: 18, row: 12
+2025/05/21 13:56:37 starting stream
+2025/05/21 13:56:37 synced col: 18, row: 12
+2025/05/21 13:56:37 stream finished:     <Application.Properties>
+        <PropertyGroup>
+            <Property Name="IsInDesignMode" Value="True" />
+        </PropertyGroup>
+    </Application.Properties (18, 22)
+2025/05/21 13:56:37 stream error: canceled: context canceled
+2025/05/21 13:56:37 starting stream
+2025/05/21 13:56:37 synced col: 18, row: 12
+2025/05/21 13:56:37 stream finished: </Application>
+</Application> (18, 22)
+2025/05/21 13:56:37 stream error: canceled: context canceled
+2025/05/21 13:56:37 stream finished:     </Application.Resources>
+</Application>
+ (17, 21)
+2025/05/21 13:56:37 editing lines: 17, 21
+2025/05/21 13:56:37 editing lines 17..21 in buffer 1
+2025/05/21 13:56:37 applied line modification: 5
+2025/05/21 13:56:37 relativeLineIdx: 0
+2025/05/21 13:56:37 placing line 0
+2025/05/21 13:56:37 lines identical so skipping preview
+2025/05/21 13:56:37 relativeLineIdx: 1
+2025/05/21 13:56:37 placing line 1
+2025/05/21 13:56:37 lines different so adding preview
+2025/05/21 13:56:37 adding buffer extmark + hl to line 18
+2025/05/21 13:56:37 added buffer extmark + hl to line 18
+2025/05/21 13:56:37 relativeLineIdx: 2
+2025/05/21 13:56:37 placing line 2
+2025/05/21 13:56:37 lines different so adding preview
+2025/05/21 13:56:37 adding buffer extmark + hl to line 19
+2025/05/21 13:56:37 added buffer extmark + hl to line 19
+2025/05/21 13:56:37 relativeLineIdx: 3
+2025/05/21 13:56:37 removing line from preview
+2025/05/21 13:56:37 nothing to preview
+2025/05/21 13:56:37 relativeLineIdx: 4
+2025/05/21 13:56:37 removing line from preview
+2025/05/21 13:56:37 nothing to preview
+2025/05/21 13:56:37 diffStr: 19-|        </PropertyGroup>
+19+|</Application>
+20-|    </Application.Properties>
+20+|
+21-|</Application>
+22-|</Application>
+2025/05/21 13:56:37 applying to buffer 1 (17..21)
+2025/05/21 13:56:37 starting stream
+2025/05/21 13:56:37 synced col: 18, row: 12
+2025/05/21 13:56:37 stream finished:         </ResourceDictionary>
+    </Application.Resources>
+</Application> (16, 20)
+2025/05/21 13:56:37 editing lines: 16, 20
+2025/05/21 13:56:37 editing lines 16..20 in buffer 1
+2025/05/21 13:56:37 applied line modification: 5
+2025/05/21 13:56:37 relativeLineIdx: 0
+2025/05/21 13:56:37 placing line 0
+2025/05/21 13:56:37 lines identical so skipping preview
+2025/05/21 13:56:37 relativeLineIdx: 1
+2025/05/21 13:56:37 placing line 1
+2025/05/21 13:56:37 lines identical so skipping preview
+2025/05/21 13:56:37 relativeLineIdx: 2
+2025/05/21 13:56:37 placing line 2
+2025/05/21 13:56:37 lines different so adding preview
+2025/05/21 13:56:37 adding buffer extmark + hl to line 18
+2025/05/21 13:56:37 added buffer extmark + hl to line 18
+2025/05/21 13:56:37 relativeLineIdx: 3
+2025/05/21 13:56:37 removing line from preview
+2025/05/21 13:56:37 nothing to preview
+2025/05/21 13:56:37 relativeLineIdx: 4
+2025/05/21 13:56:37 removing line from preview
+2025/05/21 13:56:37 nothing to preview
+2025/05/21 13:56:37 diffStr: 19-|    </Application.Properties>
+19+|</Application>
+20-|</Application>
+21-|</Application>
+2025/05/21 13:56:37 applying to buffer 1 (16..20)
+2025/05/21 13:56:37 starting stream
+2025/05/21 13:56:37 synced col: 18, row: 12
+2025/05/21 13:56:38 stream finished: </Application>
+</Application> (18, 19)
+2025/05/21 13:56:38 editing lines: 18, 19
+2025/05/21 13:56:38 editing lines 18..19 in buffer 1
+2025/05/21 13:56:38 applied line modification: 5
+2025/05/21 13:56:38 relativeLineIdx: 0
+2025/05/21 13:56:38 placing line 0
+2025/05/21 13:56:38 lines identical so skipping preview
+2025/05/21 13:56:38 relativeLineIdx: 1
+2025/05/21 13:56:38 placing line 1
+2025/05/21 13:56:38 lines identical so skipping preview
+2025/05/21 13:56:38 diffStr: 
+2025/05/21 13:56:38 applying to buffer 1 (18..19)
+2025/05/21 13:56:39 starting stream
+2025/05/21 13:56:39 starting stream
+2025/05/21 13:56:39 synced col: 0, row: 2
+2025/05/21 13:56:39 synced col: 0, row: 2
+2025/05/21 13:56:39 error starting stream: canceled: context canceled
+2025/05/21 13:56:39 stream finished: >  (0, 0)
+2025/05/21 13:56:39 editing lines: 0, 0
+2025/05/21 13:56:39 editing lines 0..0 in buffer 18
+2025/05/21 13:56:39 applied line modification: 5
+2025/05/21 13:56:39 relativeLineIdx: 0
+2025/05/21 13:56:39 placing line 0
+2025/05/21 13:56:39 lines identical so skipping preview
+2025/05/21 13:56:39 diffStr: 
+2025/05/21 13:56:39 applying to buffer 18 (0..0)
+2025/05/21 13:56:39 starting stream
+2025/05/21 13:56:39 synced col: 17, row: 12
+2025/05/21 13:56:39 stream finished:             </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application> (15, 19)
+2025/05/21 13:56:39 editing lines: 15, 19
+2025/05/21 13:56:39 editing lines 15..19 in buffer 1
+2025/05/21 13:56:39 applied line modification: 5
+2025/05/21 13:56:39 relativeLineIdx: 0
+2025/05/21 13:56:39 placing line 0
+2025/05/21 13:56:39 lines identical so skipping preview
+2025/05/21 13:56:39 relativeLineIdx: 1
+2025/05/21 13:56:39 placing line 1
+2025/05/21 13:56:39 lines identical so skipping preview
+2025/05/21 13:56:39 relativeLineIdx: 2
+2025/05/21 13:56:39 placing line 2
+2025/05/21 13:56:39 lines identical so skipping preview
+2025/05/21 13:56:39 relativeLineIdx: 3
+2025/05/21 13:56:39 placing line 3
+2025/05/21 13:56:39 lines identical so skipping preview
+2025/05/21 13:56:39 relativeLineIdx: 4
+2025/05/21 13:56:39 removing line from preview
+2025/05/21 13:56:39 nothing to preview
+2025/05/21 13:56:39 diffStr: 20-|</Application>
+2025/05/21 13:56:39 applying to buffer 1 (15..19)
+2025/05/21 13:56:40 starting stream
+2025/05/21 13:56:40 synced col: 18, row: 12
+2025/05/21 13:56:40 stream finished: </Application> (18, 18)
+2025/05/21 13:56:40 editing lines: 18, 18
+2025/05/21 13:56:40 editing lines 18..18 in buffer 1
+2025/05/21 13:56:40 applied line modification: 5
+2025/05/21 13:56:40 relativeLineIdx: 0
+2025/05/21 13:56:40 placing line 0
+2025/05/21 13:56:40 lines identical so skipping preview
+2025/05/21 13:56:40 diffStr: 
+2025/05/21 13:56:40 applying to buffer 1 (18..18)
+2025/05/21 13:56:41 starting stream
+2025/05/21 13:56:41 starting stream
+2025/05/21 13:56:41 synced col: 0, row: 2
+2025/05/21 13:56:41 synced col: 0, row: 2
+2025/05/21 13:56:41 error starting stream: canceled: context canceled
+2025/05/21 13:56:41 stream finished: >  (0, 0)
+2025/05/21 13:56:41 editing lines: 0, 0
+2025/05/21 13:56:41 editing lines 0..0 in buffer 25
+2025/05/21 13:56:41 applied line modification: 5
+2025/05/21 13:56:41 relativeLineIdx: 0
+2025/05/21 13:56:41 placing line 0
+2025/05/21 13:56:41 lines identical so skipping preview
+2025/05/21 13:56:41 diffStr: 
+2025/05/21 13:56:41 applying to buffer 25 (0..0)
+2025/05/21 13:56:43 starting stream
+2025/05/21 13:56:43 synced col: 0, row: 3
+2025/05/21 13:56:43 starting stream
+2025/05/21 13:56:43 synced col: 0, row: 4
+2025/05/21 13:56:43 stream finished:  (0, 0)
+2025/05/21 13:56:43 stream error: canceled: context canceled
+2025/05/21 13:56:43 starting stream
+2025/05/21 13:56:43 synced col: 0, row: 5
+2025/05/21 13:56:43 error starting stream: canceled: context canceled
+2025/05/21 13:56:43 starting stream
+2025/05/21 13:56:43 synced col: 0, row: 6
+2025/05/21 13:56:43 stream finished: > Men (0, 0)
+2025/05/21 13:56:43 stream error: canceled: context canceled
+2025/05/21 13:56:43 stream finished: > Menu (0, 0)
+2025/05/21 13:56:43 editing lines: 0, 0
+2025/05/21 13:56:43 editing lines 0..0 in buffer 25
+2025/05/21 13:56:43 applied line modification: 5
+2025/05/21 13:56:43 relativeLineIdx: 0
+2025/05/21 13:56:43 placing line 0
+2025/05/21 13:56:43 lines identical so skipping preview
+2025/05/21 13:56:43 diffStr: 
+2025/05/21 13:56:43 applying to buffer 25 (0..0)
+2025/05/21 13:56:58 starting stream
+2025/05/21 13:56:58 synced col: 273, row: 6
+2025/05/21 13:56:58 starting stream
+2025/05/21 13:56:58 synced col: 273, row: 7
+2025/05/21 13:56:58 stream finished:       
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true; (273, 279)
+2025/05/21 13:56:58 stream error: canceled: context canceled
+2025/05/21 13:56:58 starting stream
+2025/05/21 13:56:58 synced col: 273, row: 8
+2025/05/21 13:56:58 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 9
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 10
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 11
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 12
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 13
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 15
+2025/05/21 13:56:59 synced col: 273, row: 15
+2025/05/21 13:56:59 stream finished:  (0, 0)
+2025/05/21 13:56:59 stream error: canceled: context canceled
+2025/05/21 13:56:59 error starting stream: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 14
+2025/05/21 13:56:59 stream finished:       foreach (var node in Canvas.Nodes)
+      {
+        node.IsLocked = true;
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSide (273, 279)
+2025/05/21 13:56:59 stream error: canceled: context canceled
+2025/05/21 13:56:59 starting stream
+2025/05/21 13:56:59 synced col: 273, row: 13
+2025/05/21 13:56:59 stream finished:  (0, 0)
+2025/05/21 13:56:59 stream error: canceled: context canceled
+2025/05/21 13:57:00 starting stream
+2025/05/21 13:57:00 synced col: 273, row: 14
+2025/05/21 13:57:00 stream finished:  (0, 0)
+2025/05/21 13:57:00 stream error: canceled: context canceled
+2025/05/21 13:57:00 starting stream
+2025/05/21 13:57:00 synced col: 273, row: 15
+2025/05/21 13:57:00 stream finished:       foreach (var dict in App.Current.Resources.MergedDictionaries)
+      {
+        if (dict.Source != null && dict.Source.OriginalString.Contains("LightMode.xaml"))
+        {
+          lightTheme = dict;
+        }
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      (273, 279)
+2025/05/21 13:57:00 stream error: canceled: context canceled
+2025/05/21 13:57:01 starting stream
+2025/05/21 13:57:01 synced col: 273, row: 16
+2025/05/21 13:57:01 stream finished:  (0, 0)
+2025/05/21 13:57:01 stream error: canceled: context canceled
+2025/05/21 13:57:01 stream finished:       foreach(NodeVM node in Canvas.Nodes)
+      {
+        node.IsLocked = true;
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true; (273, 279)
+2025/05/21 13:57:01 editing lines: 273, 279
+2025/05/21 13:57:01 editing lines 273..279 in buffer 31
+2025/05/21 13:57:01 applied line modification: 5
+2025/05/21 13:57:01 relativeLineIdx: 0
+2025/05/21 13:57:01 placing line 0
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 273
+2025/05/21 13:57:01 added buffer extmark + hl to line 273
+2025/05/21 13:57:01 relativeLineIdx: 1
+2025/05/21 13:57:01 placing line 1
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 274
+2025/05/21 13:57:01 added buffer extmark + hl to line 274
+2025/05/21 13:57:01 relativeLineIdx: 2
+2025/05/21 13:57:01 placing line 2
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 275
+2025/05/21 13:57:01 added buffer extmark + hl to line 275
+2025/05/21 13:57:01 relativeLineIdx: 3
+2025/05/21 13:57:01 placing line 3
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 276
+2025/05/21 13:57:01 added buffer extmark + hl to line 276
+2025/05/21 13:57:01 relativeLineIdx: 4
+2025/05/21 13:57:01 placing line 4
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 277
+2025/05/21 13:57:01 added buffer extmark + hl to line 277
+2025/05/21 13:57:01 relativeLineIdx: 5
+2025/05/21 13:57:01 placing line 5
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 278
+2025/05/21 13:57:01 added buffer extmark + hl to line 278
+2025/05/21 13:57:01 relativeLineIdx: 6
+2025/05/21 13:57:01 placing line 6
+2025/05/21 13:57:01 lines different so adding preview
+2025/05/21 13:57:01 adding buffer extmark + hl to line 279
+2025/05/21 13:57:01 added buffer extmark + hl to line 279
+2025/05/21 13:57:01 diffStr: 274-|      foreach(No)
+274+|      foreach(NodeVM node in Canvas.Nodes)
+275-|
+275+|      {
+276-|      currentTheme = darkTheme;
+276+|        node.IsLocked = true;
+277-|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+277+|      }
+278-|      DarkMode = true;
+278+|
+279-|      IsSidebarCollapsed = true;
+279+|      currentTheme = darkTheme;
+280-|      EditMode = true;
+280+|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+2025/05/21 13:57:01 applying to buffer 31 (273..279)
+2025/05/21 13:57:01 starting stream
+2025/05/21 13:57:01 synced col: 273, row: 15
+2025/05/21 13:57:01 starting stream
+2025/05/21 13:57:01 synced col: 273, row: 14
+2025/05/21 13:57:01 stream finished:  (0, 0)
+2025/05/21 13:57:01 stream error: canceled: context canceled
+2025/05/21 13:57:02 stream finished:       foreach(NodeVM node in Canvas.Nodes)
+      {
+        node.IsLocked = true;
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true; (273, 279)
+2025/05/21 13:57:02 editing lines: 273, 279
+2025/05/21 13:57:02 editing lines 273..279 in buffer 31
+2025/05/21 13:57:02 applied line modification: 5
+2025/05/21 13:57:02 relativeLineIdx: 0
+2025/05/21 13:57:02 placing line 0
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 273
+2025/05/21 13:57:02 added buffer extmark + hl to line 273
+2025/05/21 13:57:02 relativeLineIdx: 1
+2025/05/21 13:57:02 placing line 1
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 274
+2025/05/21 13:57:02 added buffer extmark + hl to line 274
+2025/05/21 13:57:02 relativeLineIdx: 2
+2025/05/21 13:57:02 placing line 2
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 275
+2025/05/21 13:57:02 added buffer extmark + hl to line 275
+2025/05/21 13:57:02 relativeLineIdx: 3
+2025/05/21 13:57:02 placing line 3
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 276
+2025/05/21 13:57:02 added buffer extmark + hl to line 276
+2025/05/21 13:57:02 relativeLineIdx: 4
+2025/05/21 13:57:02 placing line 4
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 277
+2025/05/21 13:57:02 added buffer extmark + hl to line 277
+2025/05/21 13:57:02 relativeLineIdx: 5
+2025/05/21 13:57:02 placing line 5
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 278
+2025/05/21 13:57:02 added buffer extmark + hl to line 278
+2025/05/21 13:57:02 relativeLineIdx: 6
+2025/05/21 13:57:02 placing line 6
+2025/05/21 13:57:02 lines different so adding preview
+2025/05/21 13:57:02 adding buffer extmark + hl to line 279
+2025/05/21 13:57:02 added buffer extmark + hl to line 279
+2025/05/21 13:57:02 diffStr: 274-|      foreach()
+274+|      foreach(NodeVM node in Canvas.Nodes)
+275-|
+275+|      {
+276-|      currentTheme = darkTheme;
+276+|        node.IsLocked = true;
+277-|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+277+|      }
+278-|      DarkMode = true;
+278+|
+279-|      IsSidebarCollapsed = true;
+279+|      currentTheme = darkTheme;
+280-|      EditMode = true;
+280+|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+2025/05/21 13:57:02 applying to buffer 31 (273..279)
+2025/05/21 13:57:03 aquiring tab key lock
+2025/05/21 13:57:03 predicting
+2025/05/21 13:57:03 aquiring cursor prediction lock
+2025/05/21 13:57:03 starting stream
+2025/05/21 13:57:03 applyBatch is already in use
+2025/05/21 13:57:03 synced col: 282, row: 21
+2025/05/21 13:57:03 predicting next cursor prediction
+2025/05/21 13:57:03 predicted line number: 0
+2025/05/21 13:57:03 starting stream
+2025/05/21 13:57:03 synced col: 282, row: 21
+2025/05/21 13:57:04 stream finished:       IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true;
+ (281, 284)
+2025/05/21 13:57:04 editing lines: 281, 284
+2025/05/21 13:57:04 editing lines 281..284 in buffer 31
+2025/05/21 13:57:04 applied line modification: 5
+2025/05/21 13:57:04 relativeLineIdx: 0
+2025/05/21 13:57:04 placing line 0
+2025/05/21 13:57:04 lines identical so skipping preview
+2025/05/21 13:57:04 relativeLineIdx: 1
+2025/05/21 13:57:04 placing line 1
+2025/05/21 13:57:04 lines identical so skipping preview
+2025/05/21 13:57:04 relativeLineIdx: 2
+2025/05/21 13:57:04 placing line 2
+2025/05/21 13:57:04 lines identical so skipping preview
+2025/05/21 13:57:04 relativeLineIdx: 3
+2025/05/21 13:57:04 placing line 3
+2025/05/21 13:57:04 lines identical so skipping preview
+2025/05/21 13:57:04 diffStr: 
+2025/05/21 13:57:04 applying to buffer 31 (281..284)
+2025/05/21 13:57:11 starting stream
+2025/05/21 13:57:11 synced col: 275, row: 7
+2025/05/21 13:57:11 starting stream
+2025/05/21 13:57:11 synced col: 275, row: 8
+2025/05/21 13:57:11 stream finished:       {
+        node.IsLocked = true;
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme); (274, 282)
+2025/05/21 13:57:11 stream error: canceled: context canceled
+2025/05/21 13:57:11 starting stream
+2025/05/21 13:57:11 synced col: 275, row: 9
+2025/05/21 13:57:11 stream finished:  (0, 0)
+2025/05/21 13:57:11 stream error: canceled: context canceled
+2025/05/21 13:57:11 starting stream
+2025/05/21 13:57:11 synced col: 275, row: 10
+2025/05/21 13:57:11 error starting stream: canceled: context canceled
+2025/05/21 13:57:12 starting stream
+2025/05/21 13:57:12 synced col: 275, row: 11
+2025/05/21 13:57:12 error starting stream: canceled: context canceled
+2025/05/21 13:57:12 starting stream
+2025/05/21 13:57:12 synced col: 275, row: 12
+2025/05/21 13:57:12 error starting stream: canceled: context canceled
+2025/05/21 13:57:12 stream finished:       {
+        node.IsLocked = true;
+      }
+ (274, 278)
+2025/05/21 13:57:12 editing lines: 274, 278
+2025/05/21 13:57:12 editing lines 274..278 in buffer 31
+2025/05/21 13:57:12 applied line modification: 5
+2025/05/21 13:57:12 relativeLineIdx: 0
+2025/05/21 13:57:12 placing line 0
+2025/05/21 13:57:12 lines identical so skipping preview
+2025/05/21 13:57:12 relativeLineIdx: 1
+2025/05/21 13:57:12 placing line 1
+2025/05/21 13:57:12 lines different so adding preview
+2025/05/21 13:57:12 adding buffer extmark + hl to line 275
+2025/05/21 13:57:12 added buffer extmark + hl to line 275
+2025/05/21 13:57:12 relativeLineIdx: 2
+2025/05/21 13:57:12 placing line 2
+2025/05/21 13:57:12 lines different so adding preview
+2025/05/21 13:57:12 adding buffer extmark + hl to line 276
+2025/05/21 13:57:12 added buffer extmark + hl to line 276
+2025/05/21 13:57:12 relativeLineIdx: 3
+2025/05/21 13:57:12 placing line 3
+2025/05/21 13:57:12 lines different so adding preview
+2025/05/21 13:57:12 adding buffer extmark + hl to line 277
+2025/05/21 13:57:12 added buffer extmark + hl to line 277
+2025/05/21 13:57:12 relativeLineIdx: 4
+2025/05/21 13:57:12 removing line from preview
+2025/05/21 13:57:12 nothing to preview
+2025/05/21 13:57:12 diffStr: 276-|	      node.
+276+|        node.IsLocked = true;
+277-|        node.IsLocked = true;
+277+|      }
+278-|      }
+278+|
+279-|
+2025/05/21 13:57:12 applying to buffer 31 (274..278)
+2025/05/21 13:57:14 starting stream
+2025/05/21 13:57:14 synced col: 275, row: 11
+2025/05/21 13:57:14 starting stream
+2025/05/21 13:57:14 synced col: 275, row: 18
+2025/05/21 13:57:14 stream finished:  (0, 0)
+2025/05/21 13:57:14 stream error: canceled: context canceled
+2025/05/21 13:57:14 stream finished:       {
+        node.IsLocked = true;
+      }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true; (274, 282)
+2025/05/21 13:57:14 editing lines: 274, 282
+2025/05/21 13:57:14 editing lines 274..282 in buffer 31
+2025/05/21 13:57:14 applied line modification: 5
+2025/05/21 13:57:14 relativeLineIdx: 0
+2025/05/21 13:57:14 placing line 0
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 1
+2025/05/21 13:57:14 placing line 1
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 2
+2025/05/21 13:57:14 placing line 2
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 3
+2025/05/21 13:57:14 placing line 3
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 4
+2025/05/21 13:57:14 placing line 4
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 5
+2025/05/21 13:57:14 placing line 5
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 6
+2025/05/21 13:57:14 placing line 6
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 7
+2025/05/21 13:57:14 placing line 7
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 relativeLineIdx: 8
+2025/05/21 13:57:14 placing line 8
+2025/05/21 13:57:14 lines identical so skipping preview
+2025/05/21 13:57:14 diffStr: 
+2025/05/21 13:57:14 applying to buffer 31 (274..282)
+2025/05/21 13:57:16 starting stream
+2025/05/21 13:57:16 synced col: 275, row: 26
+2025/05/21 13:57:16 stream finished:             {
+                node.IsLocked = true;
+            }
+
+            currentTheme = darkTheme;
+            App.Current.Resources.MergedDictionaries.Add(currentTheme);
+            DarkMode = true;
+            IsSidebarCollapsed = true;
+            EditMode = true; (274, 282)
+2025/05/21 13:57:16 editing lines: 274, 282
+2025/05/21 13:57:16 editing lines 274..282 in buffer 31
+2025/05/21 13:57:16 applied line modification: 5
+2025/05/21 13:57:16 relativeLineIdx: 0
+2025/05/21 13:57:16 placing line 0
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 1
+2025/05/21 13:57:16 placing line 1
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 2
+2025/05/21 13:57:16 placing line 2
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 3
+2025/05/21 13:57:16 placing line 3
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 4
+2025/05/21 13:57:16 placing line 4
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 5
+2025/05/21 13:57:16 placing line 5
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 6
+2025/05/21 13:57:16 placing line 6
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 7
+2025/05/21 13:57:16 placing line 7
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 relativeLineIdx: 8
+2025/05/21 13:57:16 placing line 8
+2025/05/21 13:57:16 lines identical so skipping preview
+2025/05/21 13:57:16 diffStr: 
+2025/05/21 13:57:16 applying to buffer 31 (274..282)
+2025/05/21 13:57:16 starting stream
+2025/05/21 13:57:16 synced col: 16, row: 18
+2025/05/21 13:57:17 stream finished:   class MenuVM : NotifyObject
+  {
+    #region Properties
+    private static ResourceDictionary lightTheme;
+    private static ResourceDictionary darkTheme;
+    private ResourceDictionary currentTheme; (16, 21)
+2025/05/21 13:57:17 editing lines: 16, 21
+2025/05/21 13:57:17 editing lines 16..21 in buffer 31
+2025/05/21 13:57:17 applied line modification: 5
+2025/05/21 13:57:17 relativeLineIdx: 0
+2025/05/21 13:57:17 placing line 0
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 relativeLineIdx: 1
+2025/05/21 13:57:17 placing line 1
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 relativeLineIdx: 2
+2025/05/21 13:57:17 placing line 2
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 relativeLineIdx: 3
+2025/05/21 13:57:17 placing line 3
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 relativeLineIdx: 4
+2025/05/21 13:57:17 placing line 4
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 relativeLineIdx: 5
+2025/05/21 13:57:17 placing line 5
+2025/05/21 13:57:17 lines identical so skipping preview
+2025/05/21 13:57:17 diffStr: 
+2025/05/21 13:57:17 applying to buffer 31 (16..21)
+2025/05/21 13:57:24 starting stream
+2025/05/21 13:57:24 synced col: 273, row: 6
+2025/05/21 13:57:24 starting stream
+2025/05/21 13:57:24 synced col: 273, row: 6
+2025/05/21 13:57:24 stream finished:         darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
+      }
+ (271, 276)
+2025/05/21 13:57:24 stream error: canceled: context canceled
+2025/05/21 13:57:25 starting stream
+2025/05/21 13:57:25 synced col: 273, row: 6
+2025/05/21 13:57:25 stream finished: 
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      Edit (273, 280)
+2025/05/21 13:57:25 stream error: canceled: context canceled
+2025/05/21 13:57:25 stream finished:       }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true; (273, 280)
+2025/05/21 13:57:25 editing lines: 273, 280
+2025/05/21 13:57:25 editing lines 273..280 in buffer 31
+2025/05/21 13:57:25 applied line modification: 5
+2025/05/21 13:57:25 relativeLineIdx: 0
+2025/05/21 13:57:25 placing line 0
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 1
+2025/05/21 13:57:25 placing line 1
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 2
+2025/05/21 13:57:25 placing line 2
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 3
+2025/05/21 13:57:25 placing line 3
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 4
+2025/05/21 13:57:25 placing line 4
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 5
+2025/05/21 13:57:25 placing line 5
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 6
+2025/05/21 13:57:25 placing line 6
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 7
+2025/05/21 13:57:25 placing line 7
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 diffStr: 
+2025/05/21 13:57:25 applying to buffer 31 (273..280)
+2025/05/21 13:57:25 starting stream
+2025/05/21 13:57:25 synced col: 273, row: 0
+2025/05/21 13:57:25 stream finished: 
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true; (273, 279)
+2025/05/21 13:57:25 editing lines: 273, 279
+2025/05/21 13:57:25 editing lines 273..279 in buffer 31
+2025/05/21 13:57:25 applied line modification: 5
+2025/05/21 13:57:25 relativeLineIdx: 0
+2025/05/21 13:57:25 placing line 0
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 1
+2025/05/21 13:57:25 placing line 1
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 2
+2025/05/21 13:57:25 placing line 2
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 3
+2025/05/21 13:57:25 placing line 3
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 4
+2025/05/21 13:57:25 placing line 4
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 5
+2025/05/21 13:57:25 placing line 5
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 relativeLineIdx: 6
+2025/05/21 13:57:25 placing line 6
+2025/05/21 13:57:25 lines identical so skipping preview
+2025/05/21 13:57:25 diffStr: 
+2025/05/21 13:57:25 applying to buffer 31 (273..279)
+2025/05/21 15:14:44 starting stream
+2025/05/21 15:14:44 synced col: 273, row: 6
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 7
+2025/05/21 15:14:45 stream finished:  (0, 0)
+2025/05/21 15:14:45 stream error: canceled: context canceled
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 8
+2025/05/21 15:14:45 error starting stream: canceled: context canceled
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 9
+2025/05/21 15:14:45 error starting stream: canceled: context canceled
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 10
+2025/05/21 15:14:45 error starting stream: canceled: context canceled
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 11
+2025/05/21 15:14:45 error starting stream: canceled: context canceled
+2025/05/21 15:14:45 starting stream
+2025/05/21 15:14:45 synced col: 273, row: 12
+2025/05/21 15:14:45 stream finished:  (0, 0)
+2025/05/21 15:14:45 stream error: canceled: context canceled
+2025/05/21 15:14:46 starting stream
+2025/05/21 15:14:46 synced col: 273, row: 13
+2025/05/21 15:14:46 stream finished:       foreach (var dict in App.Current.Resources.MergedDictionaries)
+      {
+        if (dict.Source != null && dict.Source.OriginalString (273, 280)
+2025/05/21 15:14:46 stream error: canceled: context canceled
+2025/05/21 15:14:46 stream finished:       foreach (var dict in App.Current.Resources.MergedDictionaries)
+      {
+        if (dict.Source != null && dict.Source.OriginalString.Contains("LightMode.xaml"))
+        {
+          currentTheme = dict;
+          break;
+        }
+      }
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true; (273, 280)
+2025/05/21 15:14:46 editing lines: 273, 280
+2025/05/21 15:14:46 editing lines 273..280 in buffer 31
+2025/05/21 15:14:46 applied line modification: 5
+2025/05/21 15:14:46 relativeLineIdx: 0
+2025/05/21 15:14:46 placing line 0
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 273
+2025/05/21 15:14:46 added buffer extmark + hl to line 273
+2025/05/21 15:14:46 relativeLineIdx: 1
+2025/05/21 15:14:46 placing line 1
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 274
+2025/05/21 15:14:46 added buffer extmark + hl to line 274
+2025/05/21 15:14:46 relativeLineIdx: 2
+2025/05/21 15:14:46 placing line 2
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 275
+2025/05/21 15:14:46 added buffer extmark + hl to line 275
+2025/05/21 15:14:46 relativeLineIdx: 3
+2025/05/21 15:14:46 placing line 3
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 276
+2025/05/21 15:14:46 added buffer extmark + hl to line 276
+2025/05/21 15:14:46 relativeLineIdx: 4
+2025/05/21 15:14:46 placing line 4
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 277
+2025/05/21 15:14:46 added buffer extmark + hl to line 277
+2025/05/21 15:14:46 relativeLineIdx: 5
+2025/05/21 15:14:46 placing line 5
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 278
+2025/05/21 15:14:46 added buffer extmark + hl to line 278
+2025/05/21 15:14:46 relativeLineIdx: 6
+2025/05/21 15:14:46 placing line 6
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 279
+2025/05/21 15:14:46 added buffer extmark + hl to line 279
+2025/05/21 15:14:46 relativeLineIdx: 7
+2025/05/21 15:14:46 placing line 7
+2025/05/21 15:14:46 lines different so adding preview
+2025/05/21 15:14:46 adding buffer extmark + hl to line 280
+2025/05/21 15:14:46 added buffer extmark + hl to line 280
+2025/05/21 15:14:46 diffStr: 274-|      foreach
+274+|      foreach (var dict in App.Current.Resources.MergedDictionaries)
+275-|
+275+|      {
+276-|      currentTheme = darkTheme;
+276+|        if (dict.Source != null && dict.Source.OriginalString.Contains("LightMode.xaml"))
+277-|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+277+|        {
+278-|      DarkMode = true;
+278+|          currentTheme = dict;
+279-|      IsSidebarCollapsed = true;
+279+|          break;
+280-|      EditMode = true;
+280+|        }
+281-|      EditMode = true;
+281+|      }
+2025/05/21 15:14:46 applying to buffer 31 (273..280)
+2025/05/21 15:14:46 starting stream
+2025/05/21 15:14:46 synced col: 273, row: 14
+2025/05/21 15:14:47 stream finished:       foreach (var dict in App.Current.Resources.MergedDictionaries)
+      {
+        if (dict.Source != null && dict.Source.OriginalString.Contains("LightMode.xaml"))
+        {
+          currentTheme = dict;
+          break;
+        }
+      }
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true; (273, 280)
+2025/05/21 15:14:47 editing lines: 273, 280
+2025/05/21 15:14:47 editing lines 273..280 in buffer 31
+2025/05/21 15:14:47 applied line modification: 5
+2025/05/21 15:14:47 relativeLineIdx: 0
+2025/05/21 15:14:47 placing line 0
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 273
+2025/05/21 15:14:47 added buffer extmark + hl to line 273
+2025/05/21 15:14:47 relativeLineIdx: 1
+2025/05/21 15:14:47 placing line 1
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 274
+2025/05/21 15:14:47 added buffer extmark + hl to line 274
+2025/05/21 15:14:47 relativeLineIdx: 2
+2025/05/21 15:14:47 placing line 2
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 275
+2025/05/21 15:14:47 added buffer extmark + hl to line 275
+2025/05/21 15:14:47 relativeLineIdx: 3
+2025/05/21 15:14:47 placing line 3
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 276
+2025/05/21 15:14:47 added buffer extmark + hl to line 276
+2025/05/21 15:14:47 relativeLineIdx: 4
+2025/05/21 15:14:47 placing line 4
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 277
+2025/05/21 15:14:47 added buffer extmark + hl to line 277
+2025/05/21 15:14:47 relativeLineIdx: 5
+2025/05/21 15:14:47 placing line 5
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 278
+2025/05/21 15:14:47 added buffer extmark + hl to line 278
+2025/05/21 15:14:47 relativeLineIdx: 6
+2025/05/21 15:14:47 placing line 6
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 279
+2025/05/21 15:14:47 added buffer extmark + hl to line 279
+2025/05/21 15:14:47 relativeLineIdx: 7
+2025/05/21 15:14:47 placing line 7
+2025/05/21 15:14:47 lines different so adding preview
+2025/05/21 15:14:47 adding buffer extmark + hl to line 280
+2025/05/21 15:14:47 added buffer extmark + hl to line 280
+2025/05/21 15:14:47 diffStr: 274-|      foreach()
+274+|      foreach (var dict in App.Current.Resources.MergedDictionaries)
+275-|
+275+|      {
+276-|      currentTheme = darkTheme;
+276+|        if (dict.Source != null && dict.Source.OriginalString.Contains("LightMode.xaml"))
+277-|      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+277+|        {
+278-|      DarkMode = true;
+278+|          currentTheme = dict;
+279-|      IsSidebarCollapsed = true;
+279+|          break;
+280-|      EditMode = true;
+280+|        }
+281-|      EditMode = true;
+281+|      }
+2025/05/21 15:14:47 applying to buffer 31 (273..280)
+2025/05/21 15:14:53 aquiring tab key lock
+2025/05/21 15:14:53 predicting
+2025/05/21 15:14:53 aquiring cursor prediction lock
+2025/05/21 15:14:53 starting stream
+2025/05/21 15:14:53 applyBatch is already in use
+2025/05/21 15:14:53 synced col: 286, row: 21
+2025/05/21 15:14:53 predicting next cursor prediction
+2025/05/21 15:14:54 predicted line number: 285
+2025/05/21 15:14:54 starting stream
+2025/05/21 15:14:54 synced col: 286, row: 21
+2025/05/21 15:14:54 stream finished:       EditMode = true;
+      EditMode = true;
+      EditMode = true;
+ (285, 288)
+2025/05/21 15:14:54 editing lines: 285, 288
+2025/05/21 15:14:54 editing lines 285..288 in buffer 31
+2025/05/21 15:14:54 applied line modification: 5
+2025/05/21 15:14:54 relativeLineIdx: 0
+2025/05/21 15:14:54 placing line 0
+2025/05/21 15:14:54 lines identical so skipping preview
+2025/05/21 15:14:54 relativeLineIdx: 1
+2025/05/21 15:14:54 placing line 1
+2025/05/21 15:14:54 lines identical so skipping preview
+2025/05/21 15:14:54 relativeLineIdx: 2
+2025/05/21 15:14:54 placing line 2
+2025/05/21 15:14:54 lines identical so skipping preview
+2025/05/21 15:14:54 relativeLineIdx: 3
+2025/05/21 15:14:54 placing line 3
+2025/05/21 15:14:54 lines identical so skipping preview
+2025/05/21 15:14:54 diffStr: 
+2025/05/21 15:14:54 applying to buffer 31 (285..288)
+2025/05/21 15:14:58 starting stream
+2025/05/21 15:14:58 synced col: 286, row: 22
+2025/05/21 15:14:59 stream finished:       EditMode = true;
+      EditMode = true;
+      EditMode = true;
+ (285, 288)
+2025/05/21 15:14:59 editing lines: 285, 288
+2025/05/21 15:14:59 editing lines 285..288 in buffer 31
+2025/05/21 15:14:59 applied line modification: 5
+2025/05/21 15:14:59 relativeLineIdx: 0
+2025/05/21 15:14:59 placing line 0
+2025/05/21 15:14:59 lines identical so skipping preview
+2025/05/21 15:14:59 relativeLineIdx: 1
+2025/05/21 15:14:59 placing line 1
+2025/05/21 15:14:59 lines different so adding preview
+2025/05/21 15:14:59 adding buffer extmark + hl to line 286
+2025/05/21 15:14:59 added buffer extmark + hl to line 286
+2025/05/21 15:14:59 relativeLineIdx: 2
+2025/05/21 15:14:59 placing line 2
+2025/05/21 15:14:59 lines identical so skipping preview
+2025/05/21 15:14:59 relativeLineIdx: 3
+2025/05/21 15:14:59 placing line 3
+2025/05/21 15:14:59 lines identical so skipping preview
+2025/05/21 15:14:59 diffStr: 287-|      EditMode = trueu;
+287+|      EditMode = true;
+2025/05/21 15:14:59 applying to buffer 31 (285..288)
+2025/05/21 15:14:59 starting stream
+2025/05/21 15:14:59 starting stream
+2025/05/21 15:14:59 synced col: 272, row: 6
+2025/05/21 15:14:59 synced col: 272, row: 6
+2025/05/21 15:14:59 error starting stream: canceled: context canceled
+2025/05/21 15:15:00 stream finished:       }
+
+      currentTheme = darkTheme;
+      App.Current.Resources.MergedDictionaries.Add(currentTheme);
+      DarkMode = true;
+      IsSidebarCollapsed = true;
+      EditMode = true;
+      EditMode = true; (272, 279)
+2025/05/21 15:15:00 editing lines: 272, 279
+2025/05/21 15:15:00 editing lines 272..279 in buffer 31
+2025/05/21 15:15:00 applied line modification: 5
+2025/05/21 15:15:00 relativeLineIdx: 0
+2025/05/21 15:15:00 placing line 0
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 1
+2025/05/21 15:15:00 placing line 1
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 2
+2025/05/21 15:15:00 placing line 2
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 3
+2025/05/21 15:15:00 placing line 3
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 4
+2025/05/21 15:15:00 placing line 4
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 5
+2025/05/21 15:15:00 placing line 5
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 6
+2025/05/21 15:15:00 placing line 6
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 relativeLineIdx: 7
+2025/05/21 15:15:00 placing line 7
+2025/05/21 15:15:00 lines identical so skipping preview
+2025/05/21 15:15:00 diffStr: 
+2025/05/21 15:15:00 applying to buffer 31 (272..279)

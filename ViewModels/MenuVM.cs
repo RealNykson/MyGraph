@@ -80,21 +80,11 @@ namespace MyGraph.ViewModels
       get => Get<string>();
       set
       {
-
-        if (SearchText == "" && value != "")
-        {
-          scaleBeforeSearch = Canvas.Scale;
-          positionBeforeSearch = new Point(Canvas.CanvasTransformMatrix.Matrix.OffsetX / Canvas.Scale, Canvas.CanvasTransformMatrix.Matrix.OffsetY / Canvas.Scale);
-        }
-
         Set(value);
 
         if (value == "")
         {
-          if (Canvas.SearchedNode != null)
-          {
-            backToSearchStart();
-          }
+
           SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.OrderBy(n => n.Name));
           return;
         }
@@ -102,10 +92,6 @@ namespace MyGraph.ViewModels
 
 
         SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.Where(m => m.Name.ToLower().Contains(value.ToLower())).ToList().OrderBy(n => n.Name));
-        if (SearchedNodes.Count() == 0)
-        {
-          backToSearchStart();
-        }
         if (SearchedNodes.Count() != 0 && SearchedNodes[0] != Canvas.SearchedNode)
           searchNode(SearchedNodes[0]);
 
@@ -202,58 +188,6 @@ namespace MyGraph.ViewModels
       Canvas.sortNodes();
     }
 
-    private Point positionBeforeSearch;
-    private double scaleBeforeSearch;
-    private void backToSearchStart()
-    {
-      if (positionBeforeSearch != null)
-      {
-        Matrix currentMatrix = Canvas.CanvasTransformMatrix.Matrix;
-        double startOffsetX = currentMatrix.OffsetX;
-        double startOffsetY = currentMatrix.OffsetY;
-        double endOffsetX = positionBeforeSearch.X * Canvas.Scale;
-        double endOffsetY = positionBeforeSearch.Y * Canvas.Scale;
-
-        Canvas.SearchedNode = null;
-
-        DispatcherTimer timer = new DispatcherTimer();
-        timer.Interval = TimeSpan.FromMilliseconds(10); 
-
-        int totalSteps = 20; 
-        int currentStep = 0;
-
-        timer.Tick += (sender, e) =>
-        {
-          currentStep++;
-          if (currentStep > totalSteps)
-          {
-            Matrix finalMatrix = currentMatrix;
-            finalMatrix.OffsetX = endOffsetX;
-            finalMatrix.OffsetY = endOffsetY;
-            Canvas.CanvasTransformMatrix.Matrix = finalMatrix;
-
-            timer.Stop();
-            return;
-          }
-
-          double progress = (double)currentStep / totalSteps;
-          double easedProgress = EaseOutQuad(progress);
-
-          Matrix animatedMatrix = currentMatrix;
-          animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
-          animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
-
-          Canvas.CanvasTransformMatrix.Matrix = animatedMatrix;
-        };
-
-        timer.Start();
-      }
-    }
-    private double EaseOutQuad(double t)
-    {
-      return t * (2 - t);
-    }
-
     public void changeTheme()
     {
 
@@ -298,6 +232,7 @@ namespace MyGraph.ViewModels
         node.IsLocked = !select;
       }
 
+
       OnPropertyChanged(nameof(AreSelectedNodesLocked));
     }
     private void connectNodes()
@@ -337,10 +272,11 @@ namespace MyGraph.ViewModels
         darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
       }
 
-      currentTheme = darkTheme;
+      currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
-      DarkMode = true;
+      DarkMode = false;
       IsSidebarCollapsed = true;
+      EditMode = true;
       EditMode = true;
 
       createCommands();

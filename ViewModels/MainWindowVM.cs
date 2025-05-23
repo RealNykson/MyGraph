@@ -70,6 +70,7 @@ namespace MyGraph.ViewModels
       Height = 600;
       createCommands();
 
+
     }
     #endregion
 

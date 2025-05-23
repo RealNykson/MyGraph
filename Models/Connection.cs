@@ -9,16 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace MyGraph.Models
 {
-  abstract class Connection : CanvasItem
+  abstract class Connection : NotifyObject
   {
+    public CanvasVM Canvas { get; set; }
     public double MarginStrength = 125;
     public double OffsetInput = 2.5;
     public double OffsetOutput = 3;
     public double spacing = 23;
+    public ObservableCollection<TransferUnitVM> TransferUnits { get; set; } = new ObservableCollection<TransferUnitVM>();
 
     private NodeVM _Start;
     public NodeVM Start
@@ -68,10 +71,68 @@ namespace MyGraph.Models
       }
     }
 
+    public void updateTransferUnit(TransferUnitVM transferUnit)
+    {
+      int index = TransferUnits.IndexOf(transferUnit);
+      if (index != -1)
+      {
+        //CurvePoints[index + 1] = new Point(transferUnit.Position.X, transferUnit.Position.Y);
+        //CurvePoints[index + 2] = new Point(transferUnit.Position.X + 100, transferUnit.Position.Y);
+        forceRerenderConnection();
+      }
+    }
+
+    public void addTransferUnit(TransferUnitVM transferUnit)
+    {
+      TransferUnits.Add(transferUnit);
+      CurvePoints.Clear();
+      CurvePoints.Add(new Point());
+      startPos = new Point(startPos.X, startPos.Y);
+
+      foreach (TransferUnitVM currentTransferUnit in TransferUnits)
+      {
+        CurvePoints.Add(new Point(currentTransferUnit.Position.X, currentTransferUnit.Position.Y));
+        CurvePoints.Add(new Point(currentTransferUnit.Position.X + 100, currentTransferUnit.Position.Y));
+      }
+
+      CurvePoints.Add(new Point());
+      CurvePoints.Add(new Point());
+      endPos = new Point(endPos.X, endPos.Y);
+    }
+
+
+
     public Point startPos
     {
       get => Get<Point>();
-      set { Set(value); }
+      set
+      {
+        Set(value);
+        if (CurvePoints.Count > 0)
+          CurvePoints[0] = new Point(value.X + MarginStrength, value.Y);
+        else
+          CurvePoints.Add(new Point(value.X + MarginStrength, value.Y));
+      }
+    }
+
+    public Point endPos
+    {
+      get => Get<Point>();
+      set
+      {
+        Set(value);
+        if (CurvePoints.Count >= 3)
+        {
+          CurvePoints[CurvePoints.Count - 2] = new Point(value.X - MarginStrength, value.Y);
+          CurvePoints[CurvePoints.Count - 1] = new Point(value.X, value.Y);
+        }
+        else
+        {
+          CurvePoints.Add(new Point(value.X - MarginStrength, value.Y));
+          CurvePoints.Add(new Point(value.X, value.Y));
+        }
+        forceRerenderConnection();
+      }
     }
 
     public PointCollection CurvePoints
@@ -80,9 +141,9 @@ namespace MyGraph.Models
       get => Get<PointCollection>();
       set => Set(value);
     }
- 
-   
- 
+
+
+
 
     /// <summary>
     /// Updates the position of the connection when a new input/output is added
@@ -92,7 +153,7 @@ namespace MyGraph.Models
     public double getNewYPosition(NodeVM node, ObservableCollection<Connection> connectionList)
     {
       int index = connectionList.IndexOf(this) + 1;
-      Debug.Assert(CurvePoints.Count == 3);
+      Debug.Assert(CurvePoints.Count >= 3);
 
       double middlePoint = (double)(connectionList.Count() + 1) / 2;
       int modifier = middlePoint > index ? -1 : +1;
@@ -110,13 +171,14 @@ namespace MyGraph.Models
 
       double PositionX = End.Position.X - OffsetInput;
       double PositionY = getNewYPosition(End, End.Inputs);
-      CurvePoints[1] = new Point(PositionX - MarginStrength, PositionY);
-      CurvePoints[2] = new Point(PositionX, PositionY);
+      endPos = new Point(PositionX, PositionY);
 
+    }
+    public void forceRerenderConnection()
+    {
       Point _startPos = startPos;
       startPos = new Point();
       startPos = _startPos;
-
     }
     public void updateOutput()
     {
@@ -125,11 +187,11 @@ namespace MyGraph.Models
       double PositionOutputY = getNewYPosition(Start, Start.Outputs);
 
       startPos = new Point(PositionOutputX, PositionOutputY);
-      CurvePoints[0] = new Point(PositionOutputX + MarginStrength, PositionOutputY);
     }
 
     public Connection(NodeVM output, NodeVM input)
     {
+      Canvas = CanvasVM.currentCanvas;
       Debug.Assert(output != null);
 
       CurvePoints = new PointCollection();

@@ -50,7 +50,7 @@
                 Width="{Binding SelectRangeWidth}"
                 Height="{Binding SelectRangeHeight}"
                 Fill="{DynamicResource SelectorBackground}"
-                Opacity="0.2"
+                Opacity="0.3"
                 Stroke="{DynamicResource SelectorBorder}"
                 StrokeThickness="2" />
 
@@ -64,6 +64,26 @@
                 <ItemsControl.ItemTemplate>
                     <ItemContainerTemplate>
                         <views:Connection DataContext="{Binding}" />
+                    </ItemContainerTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding TransferUnits}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Path=Position.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Path=Position.Y}" />
+                        <Setter Property="Canvas.ZIndex" Value="{Binding Path=ZIndex}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <views:TransferUnit DataContext="{Binding}" />
                     </ItemContainerTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

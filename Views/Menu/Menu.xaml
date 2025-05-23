@@ -621,6 +621,7 @@
             Margin="50,100,50,50"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
+            <!--
             <TextBlock
                 FontSize="20"
                 Foreground="{DynamicResource DebugText}"
@@ -637,7 +638,7 @@
                 FontSize="20"
                 Foreground="{DynamicResource DebugText}"
                 Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
-
+            -->
         </StackPanel>
 
         </Grid>
