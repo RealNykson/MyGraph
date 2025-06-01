@@ -52,6 +52,7 @@
                     <BeginStoryboard>
                         <Storyboard RepeatBehavior="Forever">
 
+<!--
                             <DoubleAnimation
                                 AutoReverse="False"
                                 FillBehavior="Stop"
@@ -61,6 +62,7 @@
                                 From="0"
                                 To="-15"
                                 Duration="0:0:1" />
+-->
 
                         </Storyboard>
                     </BeginStoryboard>
@@ -84,11 +86,15 @@
                             <Setter Property="StrokeDashArray" Value="4,0" />
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundGhost}" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Canvas.EnableConnectionAnimations}" Value="False">
+                            <Setter Property="StrokeDashOffset" Value="0" />
+                        </DataTrigger>
                     </Style.Triggers>
                     <Setter Property="Panel.ZIndex" Value="1" />
                     <Setter Property="StrokeDashArray" Value="4,1" />
                     <Setter Property="Stroke" Value="{DynamicResource ConnectionBackground}" />
                     <Setter Property="StrokeThickness" Value="4" />
+                    <Setter Property="StrokeDashOffset" Value="{Binding Canvas.GlobalAnimationOffset}" />
                 </Style>
             </Path.Style>
         </Path>

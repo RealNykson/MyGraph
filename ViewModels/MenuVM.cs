@@ -252,7 +252,6 @@ namespace MyGraph.ViewModels
     public void switchMode()
     {
       EditMode = !EditMode;
-      // Add any additional logic needed when switching modes
     }
 
     public void toggleSidebar()
@@ -265,18 +264,14 @@ namespace MyGraph.ViewModels
     #region Constructor
     public MenuVM()
     {
-      // Initialize themes if not already done
-      if (lightTheme == null)
-      {
-        lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
-        darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
-      }
+
+      lightTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/LightMode.xaml", UriKind.Relative) };
+      darkTheme = new ResourceDictionary() { Source = new Uri("/Resources/Colors/DarkMode.xaml", UriKind.Relative) };
 
       currentTheme = lightTheme;
       App.Current.Resources.MergedDictionaries.Add(currentTheme);
       DarkMode = false;
       IsSidebarCollapsed = true;
-      EditMode = true;
       EditMode = true;
 
       createCommands();

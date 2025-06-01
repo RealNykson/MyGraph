@@ -180,6 +180,18 @@ namespace MyGraph.ViewModels
       get => SelectedNodes.Where(n => n.IsLocked).Count() != 0;
     }
 
+    public double GlobalAnimationOffset
+    {
+      get => Get<double>();
+      set => Set(value);
+    }
+
+    public bool EnableConnectionAnimations
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
+
     #endregion
 
     #region Lists
@@ -206,6 +218,18 @@ namespace MyGraph.ViewModels
       get => SelectedNodes.Count > 0;
     }
 
+    public ObservableCollection<CanvasItem> CanvasItems
+    {
+      get
+      {
+        return new ObservableCollection<CanvasItem>(
+        Nodes.Cast<CanvasItem>().Concat(
+        TransferUnits.Cast<CanvasItem>()
+        ));
+      }
+    }
+
+
     public ObservableCollection<CanvasItem> SelectedCanvasItems
     {
       get { return new ObservableCollection<CanvasItem>(CanvasItems.Where(c => c.IsSelected).ToList()); }
@@ -217,17 +241,6 @@ namespace MyGraph.ViewModels
       set
       {
         Set(value);
-      }
-    }
-
-    public ObservableCollection<CanvasItem> CanvasItems
-    {
-      get
-      {
-        return new ObservableCollection<CanvasItem>(
-        Nodes.Cast<CanvasItem>().Concat(
-        TransferUnits.Cast<CanvasItem>()
-        ));
       }
     }
 
@@ -252,6 +265,10 @@ namespace MyGraph.ViewModels
     private DispatcherTimer currentPanTimer;
     private DateTime _lastPanRequest = DateTime.MinValue;
     private NodeVM _targetNode = null;
+
+    // Global animation timer for connection dash offset animation
+    private DispatcherTimer globalAnimationTimer;
+    private DateTime animationStartTime;
 
     private void loadObjectsFromDatabase()
     {
@@ -1046,10 +1063,44 @@ namespace MyGraph.ViewModels
     #endregion
 
     #region Constructor 
+
+    double newOffset = 0.25;
+    Timer timer;
+    public void AnimateConnections()
+    {
+      if (!EnableConnectionAnimations)
+        return;
+
+      timer = new Timer((o) =>
+      {
+        Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
+        {
+          GlobalAnimationOffset += -newOffset;
+        }));
+      }, null, 0, 30);
+
+    }
+
+
+    public void PauseAnimation()
+    {
+      if (globalAnimationTimer != null)
+        globalAnimationTimer.Stop();
+    }
+
+    public void ResumeAnimation()
+    {
+      if (globalAnimationTimer != null)
+      {
+        globalAnimationTimer.Start();
+        // Reset animation start time to prevent sudden jumps
+        animationStartTime = DateTime.Now;
+      }
+    }
+
+
     public CanvasVM()
     {
-
-
 
       currentCanvas = this;
       CleanScale = 100;
@@ -1065,6 +1116,9 @@ namespace MyGraph.ViewModels
       SelectedNodesInputs = new ObservableCollection<NodeVM>();
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
+
+      EnableConnectionAnimations = true;
+      AnimateConnections();
 
       NodeVM node1 = new NodeVM("Node 1", 1);
       NodeVM node2 = new NodeVM("Node 2", 2);
@@ -1087,6 +1141,7 @@ namespace MyGraph.ViewModels
       loadObjectsFromDatabase();
 
     }
+    
 
     #endregion
 

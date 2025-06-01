@@ -36,7 +36,19 @@ namespace MyGraph.ViewModels
     public override Point Position
     {
       get => Get<Point>();
-      set { Set(value); updateInputs(); updateOutputs(); }
+      set
+      {
+        Set(value);
+        updateInputs(); updateOutputs();
+        foreach (ConnectionVM connection in Outputs)
+        {
+          connection.End.orderConnections();
+        }
+        foreach (ConnectionVM connection in Inputs)
+        {
+          connection.Start.orderConnections();
+        }
+      }
     }
 
     public double MinWidth
@@ -64,10 +76,12 @@ namespace MyGraph.ViewModels
     public override void handleConnection()
     {
       if (Canvas.GhostConnection.Start != this
+        && Canvas.GhostConnection.Start != null
         && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
       {
+        NodeVM start = Canvas.GhostConnection.Start;
         Canvas.GhostConnection.Delete();
-        Canvas.GhostConnection.Start.connectNode(this);
+        start.connectNode(this);
         Canvas.CurrentAction = ViewModels.Action.None;
       }
     }
@@ -294,11 +308,8 @@ namespace MyGraph.ViewModels
         && Canvas.GhostConnection.End == this)
       {
         Canvas.GhostConnection.End = null;
-
         Inputs.Remove(Canvas.GhostConnection);
-
         Canvas.GhostConnection.moveEndToMouse();
-
       }
 
     }

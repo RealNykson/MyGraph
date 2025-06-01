@@ -20,8 +20,13 @@ namespace MyGraph.Views
     {
       DataContext = new CanvasVM();
       InitializeComponent();
+
     }
 
+    private void CompositionTarget_Rendering(object sender, EventArgs e)
+    {
+      ((ViewModels.CanvasVM)DataContext).AnimateConnections();
+    }
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
       ((ViewModels.CanvasVM)DataContext).MouseWheelZoom(e.Delta);

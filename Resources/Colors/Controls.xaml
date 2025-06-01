@@ -51,9 +51,10 @@
     <SolidColorBrush x:Key="NodeLock" Color="{DynamicResource Border-2}" />
 
     <!--  TransferUnit  -->
-    <SolidColorBrush x:Key="TransferUnitBackground" Color="{DynamicResource Border-1}" />
+    <SolidColorBrush x:Key="TransferUnitBackground" Color="{DynamicResource Border-1}" Opacity="0" />
     <SolidColorBrush x:Key="TransferUnitBackgroundSearched" Color="{DynamicResource Background-1}" />
-    <SolidColorBrush x:Key="TransferUnitBackgroundHover" Color="{DynamicResource Primary-3}" />
+    <SolidColorBrush x:Key="TransferUnitBackgroundHover" Color="{DynamicResource Primary-3}" Opacity="0.2" />
+    <SolidColorBrush x:Key="TransferUnitBackgroundSelected" Color="{DynamicResource Primary-2}" Opacity="0.2" />
     <SolidColorBrush x:Key="TransferUnitBorder" Color="{DynamicResource Border-2}" />
     <SolidColorBrush x:Key="TransferUnitBorderHover" Color="{DynamicResource Primary-3}" />
     <SolidColorBrush x:Key="TransferUnitBorderSelected" Color="{DynamicResource Primary-1}" />

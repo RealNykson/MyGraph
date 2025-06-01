@@ -17,10 +17,12 @@ namespace MyGraph.ViewModels
       CurvePoints[1] = Canvas.MousePositionOnCanvas;
       CurvePoints[2] = Canvas.MousePositionOnCanvas;
       Start.updateOutputs();
+
       if (Canvas.GhostConnection != null)
       {
         Canvas.GhostConnection.Delete();
       }
+
       Canvas.GhostConnection = this;
     }
 
@@ -29,8 +31,6 @@ namespace MyGraph.ViewModels
       Start = null;
       End = null;
       Canvas.GhostConnection = null;
-
-
     }
     public void moveEndToMouse()
     {
@@ -44,6 +44,6 @@ namespace MyGraph.ViewModels
     }
 
 
-  
+
   }
 }

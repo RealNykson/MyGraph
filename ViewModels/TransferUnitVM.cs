@@ -12,16 +12,16 @@ namespace MyGraph.ViewModels
     public override Point Position
     {
       get => Get<Point>();
-      set { Set(value); foreach (ConnectionVM connection in Connections) { connection.updateTransferUnit(this); } }
+      set { Set(value); foreach (Connection connection in Connections) { connection.updateTransferUnit(this); } }
     }
 
-    public ObservableCollection<ConnectionVM> Connections { get; set; } = new ObservableCollection<ConnectionVM>();
+    public ObservableCollection<Connection> Connections { get; set; } = new ObservableCollection<Connection>();
 
     public TransferUnitVM(string name, int id = -1)
     {
 
-      Width = 100;
-      Height = 100;
+      Width = 250;
+      Height = 250;
       Canvas.TransferUnits.Add(this);
       Name = name;
       Id = id;
