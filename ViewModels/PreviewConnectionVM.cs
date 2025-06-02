@@ -11,7 +11,7 @@ namespace MyGraph.ViewModels
 {
   class PreviewConnectionVM : Connection
   {
-    public PreviewConnectionVM(NodeVM output) : base(output, null)
+    public PreviewConnectionVM(Connectable output) : base(output, null)
     {
 
       CurvePoints[1] = Canvas.MousePositionOnCanvas;

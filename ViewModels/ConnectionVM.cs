@@ -20,20 +20,8 @@ namespace MyGraph.ViewModels
   {
 
 
-    public enum State
-    {
-      None,
-      PartOfHover,
-      PartOfSelection
-    }
 
-    public State CurrentState
-    {
-      get => Get<State>();
-      set => Set(value);
-    }
-
-    public ConnectionVM(NodeVM output, NodeVM input) : base(output, input)
+    public ConnectionVM(Connectable output, Connectable input) : base(output, input)
     {
       Canvas.Connections.Add(this);
     }
@@ -41,9 +29,8 @@ namespace MyGraph.ViewModels
 
     public override void Delete()
     {
-      NodeVM start = Start;
-      NodeVM end = End;
-      CurrentState = State.None;
+      Connectable start = Start;
+      Connectable end = End;
       End = null;
       Start = null;
       Canvas.Connections.Remove(this);
@@ -56,8 +43,8 @@ namespace MyGraph.ViewModels
 
     public void MouseDown()
     {
-      NodeVM start = Start;
-      Start.disconnectNode(End);
+      Connectable start = Start;
+      Start.disconnect(End);
       new PreviewConnectionVM(start);
 
       Canvas.CurrentAction = Action.ConnectingOutput;

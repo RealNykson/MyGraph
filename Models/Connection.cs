@@ -24,8 +24,8 @@ namespace MyGraph.Models
     public double OffsetOutput = 3;
     public double spacing = 23;
 
-    private NodeVM _Start;
-    public NodeVM Start
+    private Connectable _Start;
+    public Connectable Start
     {
       get
       {
@@ -48,8 +48,8 @@ namespace MyGraph.Models
     }
 
 
-    private NodeVM _End;
-    public NodeVM End
+    private Connectable _End;
+    public Connectable End
     {
       get
       {
@@ -238,7 +238,7 @@ namespace MyGraph.Models
       startPos = new Point(PositionOutputX, PositionOutputY);
     }
 
-    public Connection(NodeVM output, NodeVM input)
+    public Connection(Connectable output, Connectable input)
     {
       Canvas = CanvasVM.currentCanvas;
       Debug.Assert(output != null);

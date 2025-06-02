@@ -244,15 +244,15 @@ namespace MyGraph.ViewModels
       }
     }
 
-    public ObservableCollection<NodeVM> SelectedNodesOutputs
+    public ObservableCollection<Connectable> SelectedNodesOutputs
     {
-      get { return Get<ObservableCollection<NodeVM>>(); }
+      get { return Get<ObservableCollection<Connectable>>(); }
       set { Set(value); }
     }
 
-    public ObservableCollection<NodeVM> SelectedNodesInputs
+    public ObservableCollection<Connectable> SelectedNodesInputs
     {
-      get { return Get<ObservableCollection<NodeVM>>(); }
+      get { return Get<ObservableCollection<Connectable>>(); }
       set { Set(value); }
     }
 
@@ -295,9 +295,9 @@ namespace MyGraph.ViewModels
           var destinationUnit = Nodes.FirstOrDefault(n => n.Id == connection.DestinationUnitId);
           if (sourceUnit != null && destinationUnit != null && transfer != null)
           {
-            sourceUnit.connectNode(transfer);
+            sourceUnit.connect(transfer);
             transfer.IsTransfer = true;
-            transfer.connectNode(destinationUnit);
+            transfer.connect(destinationUnit);
           }
         }
 
@@ -588,7 +588,7 @@ namespace MyGraph.ViewModels
     /// </summary>
     public void sortNodes()
     {
-      List<List<NodeVM>> sortedGroups = getTopologicallySortedGroups();
+      List<List<Connectable>> sortedGroups = getTopologicallySortedGroups();
 
       double initialStartX = 50;
       double startX = initialStartX;
@@ -598,12 +598,12 @@ namespace MyGraph.ViewModels
 
       double groupVerticalSpacing = 200;
 
-      foreach (List<NodeVM> group in sortedGroups)
+      foreach (List<Connectable> group in sortedGroups)
       {
         if (group.Count == 0)
           continue;
 
-        Dictionary<NodeVM, int> nodeLevels = new Dictionary<NodeVM, int>();
+        Dictionary<Connectable, int> nodeLevels = new Dictionary<Connectable, int>();
         CalculateLevels(group, nodeLevels);
 
         var nodesByLevel = group.GroupBy(node => nodeLevels[node])
@@ -612,11 +612,11 @@ namespace MyGraph.ViewModels
 
         // Two-pass algorithm for better vertical alignment
         // First pass: Determine positions with a bottom-up approach
-        Dictionary<NodeVM, double> nodeYPositions = new Dictionary<NodeVM, double>();
+        Dictionary<Connectable, double> nodeYPositions = new Dictionary<Connectable, double>();
         Dictionary<int, double> levelWidths = new Dictionary<int, double>();
         Dictionary<int, double> levelHeights = new Dictionary<int, double>();
-        Dictionary<NodeVM, List<NodeVM>> parentToChildren = new Dictionary<NodeVM, List<NodeVM>>();
-        Dictionary<NodeVM, List<NodeVM>> childToParents = new Dictionary<NodeVM, List<NodeVM>>();
+        Dictionary<Connectable, List<Connectable>> parentToChildren = new Dictionary<Connectable, List<Connectable>>();
+        Dictionary<Connectable, List<Connectable>> childToParents = new Dictionary<Connectable, List<Connectable>>();
 
         // Build parent-child relationships
         foreach (var levelGroup in nodesByLevel)
@@ -624,21 +624,21 @@ namespace MyGraph.ViewModels
           int level = levelGroup.Key;
           if (level > 0 && nodesByLevel.ContainsKey(level - 1))
           {
-            foreach (NodeVM parent in nodesByLevel[level - 1])
+            foreach (Connectable parent in nodesByLevel[level - 1])
             {
               foreach (Connection output in parent.Outputs)
               {
-                NodeVM child = output.End;
+                Connectable child = output.End;
                 if (nodeLevels.ContainsKey(child) && nodeLevels[child] == level)
                 {
                   // Add to parent->children mapping
                   if (!parentToChildren.ContainsKey(parent))
-                    parentToChildren[parent] = new List<NodeVM>();
+                    parentToChildren[parent] = new List<Connectable>();
                   parentToChildren[parent].Add(child);
 
                   // Add to child->parents mapping
                   if (!childToParents.ContainsKey(child))
-                    childToParents[child] = new List<NodeVM>();
+                    childToParents[child] = new List<Connectable>();
                   childToParents[child].Add(parent);
                 }
               }
@@ -650,7 +650,7 @@ namespace MyGraph.ViewModels
         foreach (var levelGroup in nodesByLevel)
         {
           int level = levelGroup.Key;
-          List<NodeVM> levelNodes = levelGroup.Value;
+          List<Connectable> levelNodes = levelGroup.Value;
 
           double levelWidth = levelNodes.Max(node => node.Width);
           levelWidths[level] = levelWidth;
@@ -788,14 +788,14 @@ namespace MyGraph.ViewModels
       }
     }
 
-    private void ResolveOverlaps(List<NodeVM> nodes, Dictionary<NodeVM, double> positions, double spacing)
+    private void ResolveOverlaps(List<Connectable> nodes, Dictionary<Connectable, double> positions, double spacing)
     {
       var orderedNodes = nodes.OrderBy(n => positions[n]).ToList();
 
       for (int i = 0; i < orderedNodes.Count - 1; i++)
       {
-        NodeVM current = orderedNodes[i];
-        NodeVM next = orderedNodes[i + 1];
+        Connectable current = orderedNodes[i];
+        Connectable next = orderedNodes[i + 1];
 
         double currentBottom = positions[current] + current.Height;
         double nextTop = positions[next];
@@ -813,7 +813,7 @@ namespace MyGraph.ViewModels
       }
     }
 
-    private void CalculateLevels(List<NodeVM> nodes, Dictionary<NodeVM, int> levels)
+    private void CalculateLevels(List<Connectable> nodes, Dictionary<Connectable, int> levels)
     {
       foreach (var node in nodes)
       {
@@ -840,23 +840,23 @@ namespace MyGraph.ViewModels
       }
     }
 
-    private List<List<NodeVM>> findConnectedComponents()
+    private List<List<Connectable>> findConnectedComponents()
     {
-      HashSet<NodeVM> visited = new HashSet<NodeVM>();
-      List<List<NodeVM>> components = new List<List<NodeVM>>();
+      HashSet<Connectable> visited = new HashSet<Connectable>();
+      List<List<Connectable>> components = new List<List<Connectable>>();
 
       foreach (NodeVM node in Nodes)
       {
         if (!visited.Contains(node))
         {
-          List<NodeVM> component = new List<NodeVM>();
-          Queue<NodeVM> queue = new Queue<NodeVM>();
+          List<Connectable> component = new List<Connectable>();
+          Queue<Connectable> queue = new Queue<Connectable>();
           queue.Enqueue(node);
           visited.Add(node);
 
           while (queue.Count > 0)
           {
-            NodeVM current = queue.Dequeue();
+            Connectable current = queue.Dequeue();
             component.Add(current);
 
             // Add all unvisited neighbors (both incoming and outgoing connections)
@@ -883,18 +883,18 @@ namespace MyGraph.ViewModels
       return components;
     }
 
-    private List<NodeVM> topologicalSortComponent(List<NodeVM> component)
+    private List<Connectable> topologicalSortComponent(List<Connectable> component)
     {
       // Calculate in-degrees for each node
-      Dictionary<NodeVM, int> inDegree = new Dictionary<NodeVM, int>();
-      foreach (NodeVM node in component)
+      Dictionary<Connectable, int> inDegree = new Dictionary<Connectable, int>();
+      foreach (Connectable node in component)
       {
         inDegree[node] = node.Inputs.Count;
       }
 
       // Find nodes with no incoming edges
-      Queue<NodeVM> queue = new Queue<NodeVM>();
-      foreach (NodeVM node in component)
+      Queue<Connectable> queue = new Queue<Connectable>();
+      foreach (Connectable node in component)
       {
         if (inDegree[node] == 0)
         {
@@ -902,18 +902,18 @@ namespace MyGraph.ViewModels
         }
       }
 
-      List<NodeVM> sortedNodes = new List<NodeVM>();
+      List<Connectable> sortedNodes = new List<Connectable>();
       int visitedCount = 0;
 
       while (queue.Count > 0)
       {
-        NodeVM current = queue.Dequeue();
+        Connectable current = queue.Dequeue();
         sortedNodes.Add(current);
         visitedCount++;
 
         foreach (Connection output in current.Outputs)
         {
-          NodeVM neighbor = output.End;
+          Connectable neighbor = output.End;
           inDegree[neighbor]--;
           if (inDegree[neighbor] == 0)
           {
@@ -931,14 +931,14 @@ namespace MyGraph.ViewModels
       return sortedNodes;
     }
 
-    public List<List<NodeVM>> getTopologicallySortedGroups()
+    public List<List<Connectable>> getTopologicallySortedGroups()
     {
-      List<List<NodeVM>> result = new List<List<NodeVM>>();
-      List<List<NodeVM>> components = findConnectedComponents();
+      List<List<Connectable>> result = new List<List<Connectable>>();
+      List<List<Connectable>> components = findConnectedComponents();
 
-      foreach (List<NodeVM> component in components)
+      foreach (List<Connectable> component in components)
       {
-        List<NodeVM> sortedComponent = topologicalSortComponent(component);
+        List<Connectable> sortedComponent = topologicalSortComponent(component);
         if (sortedComponent != null) // Only add if no cycle was found
         {
           result.Add(sortedComponent);
@@ -1112,8 +1112,8 @@ namespace MyGraph.ViewModels
 
 
       Nodes = new ObservableCollection<NodeVM>();
-      SelectedNodesOutputs = new ObservableCollection<NodeVM>();
-      SelectedNodesInputs = new ObservableCollection<NodeVM>();
+      SelectedNodesOutputs = new ObservableCollection<Connectable>();
+      SelectedNodesInputs = new ObservableCollection<Connectable>();
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
 
@@ -1127,7 +1127,7 @@ namespace MyGraph.ViewModels
       TransferUnitVM transferUnit2 = new TransferUnitVM("Transfer Unit 2", 2);
       TransferUnitVM transferUnit3 = new TransferUnitVM("Transfer Unit 3", 3);
 
-      node1.connectNode(node2, new List<TransferUnitVM> { transferUnit3 });
+      node1.connect(node2, new List<TransferUnitVM> { transferUnit3 });
 
 
 
@@ -1141,7 +1141,7 @@ namespace MyGraph.ViewModels
       loadObjectsFromDatabase();
 
     }
-    
+
 
     #endregion
 

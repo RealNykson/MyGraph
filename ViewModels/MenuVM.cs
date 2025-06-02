@@ -154,7 +154,7 @@ namespace MyGraph.ViewModels
         {
           continue;
         }
-        node.disconnectNode(currentNode);
+        node.disconnect(currentNode);
       }
 
     }
@@ -167,7 +167,7 @@ namespace MyGraph.ViewModels
         {
           continue;
         }
-        currentNode.disconnectNode(node);
+        currentNode.disconnect(node);
       }
 
     }
