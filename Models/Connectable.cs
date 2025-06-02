@@ -68,18 +68,24 @@ namespace MyGraph.Models
             get => Get<Point>();
             set
             {
+                Point delta = new Point((value.X - Position.X), (value.Y - Position.Y));
+                moveOutputs(delta);
+                moveInputs(delta);
                 Set(value);
 
-                updateInputs();
-                updateOutputs();
-                foreach (ConnectionVM connection in Outputs)
-                {
-                    connection.End.orderConnections();
-                }
-                foreach (ConnectionVM connection in Inputs)
-                {
-                    connection.Start.orderConnections();
-                }
+
+                /*
+                * This orders the connections but the performance is really bad so currently disabled
+                */
+
+                //foreach (ConnectionVM connection in Outputs)
+                //{
+                //    connection.End.orderConnections();
+                //}
+                //foreach (ConnectionVM connection in Inputs)
+                //{
+                //    connection.Start.orderConnections();
+                //}
             }
         }
 
@@ -137,6 +143,21 @@ namespace MyGraph.Models
 
         }
 
+        public void moveOutputs(Point delta)
+        {
+            foreach (Connection connection in Outputs)
+            {
+                connection.moveStart(delta);
+            }
+        }
+
+        public void moveInputs(Point delta)
+        {
+            foreach (Connection connection in Inputs)
+            {
+                connection.moveEnd(delta);
+            }
+        }
 
         public void updateOutputs()
         {

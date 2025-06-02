@@ -26,9 +26,11 @@ namespace MyGraph.Models
           ZIndex = Canvas.CanvasItems.Max(n => n.ZIndex) + 1;
         }
 
+        Canvas.OnPropertyChanged(nameof(Canvas.SelectedCanvasItems));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodes));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
+        Canvas.OnPropertyChanged(nameof(Canvas.IsOneSelectedItemLocked));
 
         Set(value);
       }
@@ -37,7 +39,11 @@ namespace MyGraph.Models
     public bool IsLocked
     {
       get => Get<bool>();
-      set { Set(value); }
+      set
+      {
+        Set(value);
+        Canvas.OnPropertyChanged(nameof(Canvas.IsOneSelectedItemLocked));
+      }
     }
 
     public abstract void handleConnection();

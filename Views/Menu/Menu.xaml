@@ -144,7 +144,7 @@
 
                             <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Canvas.IsOneSelectedNodeLocked}" Value="True">
+                                    <DataTrigger Binding="{Binding Canvas.IsOneSelectedItemLocked}" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource MenuButtonBackgroundActivated}" />
                                     </DataTrigger>
                                 </Style.Triggers>

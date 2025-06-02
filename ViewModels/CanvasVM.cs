@@ -178,7 +178,7 @@ namespace MyGraph.ViewModels
 
     public bool IsOneSelectedNodeLocked
     {
-      get => SelectedNodes.Where(n => n.IsLocked).Count() != 0;
+      get => SelectedCanvasItems.Where(c => c.IsLocked).Count() != 0;
     }
 
     public double GlobalAnimationOffset
@@ -245,6 +245,11 @@ namespace MyGraph.ViewModels
     public ObservableCollection<Connectable> SelectedNodesInputs
     {
       get { return new ObservableCollection<Connectable>(SelectedNodes.SelectMany(n => n.Inputs.Select(i => i.Start)).ToList()); }
+    }
+
+    public bool IsOneSelectedItemLocked
+    {
+      get => SelectedCanvasItems.Where(c => c.IsLocked).Count() != 0;
     }
 
     #endregion

@@ -47,6 +47,16 @@ namespace MyGraph.Models
       }
     }
 
+    public void moveEnd(Point delta)
+    {
+      endPos = new Point(endPos.X + delta.X, endPos.Y + delta.Y);
+    }
+
+    public void moveStart(Point delta)
+    {
+      startPos = new Point(startPos.X + delta.X, startPos.Y + delta.Y);
+    }
+
 
     private Connectable _End;
     public Connectable End
