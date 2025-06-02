@@ -158,6 +158,44 @@ namespace MyGraph.Models
 
         #endregion
 
+        public override void handleConnection()
+        {
+            if (Canvas.GhostConnection.Start != this
+              && Canvas.GhostConnection.Start != null
+              && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
+            {
+                Connectable start = Canvas.GhostConnection.Start;
+                Canvas.GhostConnection.Delete();
+                start.connect(this);
+                Canvas.CurrentAction = ViewModels.Action.None;
+            }
+        }
+
+        #region Events
+        public void MouseEnter()
+        {
+            if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput
+                     && Canvas.GhostConnection.Start != this
+                     && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
+            {
+                Canvas.GhostConnection.End = this;
+                ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
+            }
+
+        }
+
+        public void MouseLeave()
+        {
+            if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput
+              && Canvas.GhostConnection.End == this)
+            {
+                Canvas.GhostConnection.End = null;
+                Inputs.Remove(Canvas.GhostConnection);
+                Canvas.GhostConnection.moveEndToMouse();
+            }
+
+        }
+
         private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             ObservableCollection<Connection> newInputs = (ObservableCollection<Connection>)sender;
@@ -183,7 +221,7 @@ namespace MyGraph.Models
             }
 
             updateInputs();
-            Canvas.SelectedNodes_Changed(this, null);
+            Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
 
         }
 
@@ -211,12 +249,12 @@ namespace MyGraph.Models
                 default:
                     break;
             }
-
             updateOutputs();
-            Canvas.SelectedNodes_Changed(this, null);
+            Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
 
         }
 
+        #endregion
 
     }
 }

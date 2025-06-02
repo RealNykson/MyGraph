@@ -213,10 +213,6 @@ namespace MyGraph.ViewModels
       get { return Get<ObservableCollection<TransferUnitVM>>(); }
       set { Set(value); }
     }
-    public bool isANodeSelected
-    {
-      get => SelectedNodes.Count > 0;
-    }
 
     public ObservableCollection<CanvasItem> CanvasItems
     {
@@ -238,22 +234,16 @@ namespace MyGraph.ViewModels
     public ObservableCollection<NodeVM> SelectedNodes
     {
       get { return new ObservableCollection<NodeVM>(Nodes.Where(n => n.IsSelected).ToList()); }
-      set
-      {
-        Set(value);
-      }
     }
 
     public ObservableCollection<Connectable> SelectedNodesOutputs
     {
-      get { return Get<ObservableCollection<Connectable>>(); }
-      set { Set(value); }
+      get { return new ObservableCollection<Connectable>(SelectedNodes.SelectMany(n => n.Outputs.Select(o => o.End)).ToList()); }
     }
 
     public ObservableCollection<Connectable> SelectedNodesInputs
     {
-      get { return Get<ObservableCollection<Connectable>>(); }
-      set { Set(value); }
+      get { return new ObservableCollection<Connectable>(SelectedNodes.SelectMany(n => n.Inputs.Select(i => i.Start)).ToList()); }
     }
 
     #endregion
@@ -952,40 +942,6 @@ namespace MyGraph.ViewModels
 
     #region Events
 
-    public void SelectedNodes_Changed(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      if (e != null && e.Action == NotifyCollectionChangedAction.Reset)
-      {
-        SelectedNodesOutputs.Clear();
-        SelectedNodesInputs.Clear();
-        return;
-      }
-
-      // This can be improved significantly by only removing/added outputs but this is the lazy way 
-      SelectedNodesOutputs.Clear();
-      SelectedNodesInputs.Clear();
-
-      foreach (NodeVM node in SelectedNodes)
-      {
-        foreach (Connection output in node.Outputs)
-        {
-          if (!SelectedNodesOutputs.Contains(output.End))
-          {
-            SelectedNodesOutputs.Add(output.End);
-          }
-        }
-
-        foreach (Connection inputs in node.Inputs)
-        {
-          if (inputs.End != null && !SelectedNodesInputs.Contains(inputs.Start))
-          {
-            SelectedNodesInputs.Add(inputs.Start);
-          }
-        }
-      }
-
-
-    }
     public void MouseDown(MouseButtonEventArgs ev)
     {
 
@@ -1112,8 +1068,6 @@ namespace MyGraph.ViewModels
 
 
       Nodes = new ObservableCollection<NodeVM>();
-      SelectedNodesOutputs = new ObservableCollection<Connectable>();
-      SelectedNodesInputs = new ObservableCollection<Connectable>();
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
 

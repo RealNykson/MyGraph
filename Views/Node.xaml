@@ -174,12 +174,12 @@
             </Border>
 
             <!--  Add new connection button  -->
-            <Grid HorizontalAlignment="Stretch" Background="Transparent">
+            <Grid  HorizontalAlignment="Stretch" Background="Transparent">
                 <Button
                     x:Name="AddNodeButton"
                     Width="30"
                     Height="30"
-                    Margin="10,0,10,0"
+                    Margin="10,0,10,10"
                     Padding="0"
                     BorderThickness="0"
                     Command="{Binding AddGhostOutputCommand}"
@@ -189,6 +189,9 @@
                     <Button.Style>
                         <Style BasedOn="{StaticResource IconButton}" TargetType="Button">
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding Outputs.Count}" Value="0">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsMouseOver, ElementName=NodeBody}" Value="True" />
@@ -197,6 +200,7 @@
                                     <Setter Property="Visibility" Value="Visible" />
                                 </MultiDataTrigger>
                             </Style.Triggers>
+                            <Setter Property="VerticalAlignment" Value="Bottom" />
                             <Setter Property="Visibility" Value="Collapsed" />
                         </Style>
                     </Button.Style>
@@ -217,7 +221,6 @@
                                             <Setter Property="Stroke" Value="{DynamicResource NodeAddOutputHover}" />
                                         </DataTrigger>
                                     </Style.Triggers>
-
                                     <Setter Property="Stroke" Value="{DynamicResource NodeAddOutput}" />
                                 </Style>
                             </Path.Style>

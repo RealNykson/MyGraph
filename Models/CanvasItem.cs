@@ -25,6 +25,11 @@ namespace MyGraph.Models
         {
           ZIndex = Canvas.CanvasItems.Max(n => n.ZIndex) + 1;
         }
+
+        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodes));
+        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
+        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
+
         Set(value);
       }
     }
@@ -125,10 +130,7 @@ namespace MyGraph.Models
 
       Position = new Point(Position.X + deltaX, Position.Y + deltaY);
 
-
-
     }
-
 
   }
 }
