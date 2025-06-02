@@ -1038,23 +1038,6 @@ namespace MyGraph.ViewModels
     }
 
 
-    public void PauseAnimation()
-    {
-      if (globalAnimationTimer != null)
-        globalAnimationTimer.Stop();
-    }
-
-    public void ResumeAnimation()
-    {
-      if (globalAnimationTimer != null)
-      {
-        globalAnimationTimer.Start();
-        // Reset animation start time to prevent sudden jumps
-        animationStartTime = DateTime.Now;
-      }
-    }
-
-
     public CanvasVM()
     {
 

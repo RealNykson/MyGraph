@@ -127,6 +127,8 @@ namespace MyGraph.ViewModels
     public IRelayCommand UnselectNodeCommand { get; private set; }
     public IRelayCommand RemoveInputCommand { get; private set; }
     public IRelayCommand RemoveOutputCommand { get; private set; }
+    public IRelayCommand ChangeAnimationCommand { get; private set; }
+
 
     private void createCommands()
     {
@@ -144,6 +146,7 @@ namespace MyGraph.ViewModels
       SwitchModeCommand = new RelayCommand(switchMode);
       AddNewNodeCommand = new RelayCommand(addNewNode);
       ToggleSidebarCommand = new RelayCommand(toggleSidebar);
+      ChangeAnimationCommand = new RelayCommand(changeAnimation);
     }
 
     private void removeInput(NodeVM node)
@@ -207,6 +210,13 @@ namespace MyGraph.ViewModels
 
       DarkMode = !DarkMode;
     }
+
+    public void changeAnimation()
+    {
+      Canvas.EnableConnectionAnimations = !Canvas.EnableConnectionAnimations;
+    }
+
+
 
     public void searchNode(NodeVM node)
     {

@@ -613,6 +613,14 @@
                                     Text="{Binding EditMode, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Edit Mode;View Mode'}" />
                             </Grid>
                         </Button>
+
+                        <Button Command="{Binding ChangeAnimationCommand}" ToolTip="Change Animation">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path
+                                    Data="M12,2 A10,10 0 0 1 12,22 A10,10 0 0 1 12,2"
+                                    StrokeEndLineCap="Round"/>
+                            </Grid>
+                        </Button>
                     </StackPanel>
                 </Border>
 
