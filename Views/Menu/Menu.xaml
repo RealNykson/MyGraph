@@ -574,6 +574,7 @@
                         <Button
                             Width="auto"
                             Height="auto"
+                            Margin="0,0,0,10"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Left"
                             Command="{Binding SwitchModeCommand}"
@@ -614,38 +615,60 @@
                             </Grid>
                         </Button>
 
-                        <Button Command="{Binding ChangeAnimationCommand}" ToolTip="Change Animation">
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Path
-                                    Data="M12,2 A10,10 0 0 1 12,22 A10,10 0 0 1 12,2"
-                                    StrokeEndLineCap="Round"/>
+                        <!--  Animation Switcher  -->
+                        <Button
+                            Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Command="{Binding ChangeAnimationCommand}"
+                            ToolTip="Toggle Connection Animation">
+                            <Grid Width="Auto" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid
+                                    Grid.Column="0"
+                                    Width="24"
+                                    Height="24"
+                                    Margin="0,0,10,0">
+                                         </Grid>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource MenuButtonForeground}"
+                                    Text="{Binding Canvas.EnableConnectionAnimations, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Disable Animation;Enable Animation'}" />
                             </Grid>
+
                         </Button>
                     </StackPanel>
                 </Border>
 
             </StackPanel>
             <StackPanel
-            Margin="50,100,50,50"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top">
-            <TextBlock
-                FontSize="20"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
-            <TextBlock
-                FontSize="20"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetY}" />
-            <TextBlock
-                FontSize="20"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding Canvas.MousePositionOnCanvas.X}" />
-            <TextBlock
-                FontSize="20"
-                Foreground="{DynamicResource DebugText}"
-                Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
-        </StackPanel>
+                Margin="50,100,50,50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top">
+                <TextBlock
+                    FontSize="20"
+                    Foreground="{DynamicResource DebugText}"
+                    Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetX}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="{DynamicResource DebugText}"
+                    Text="{Binding Canvas.CanvasTransformMatrix.Matrix.OffsetY}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="{DynamicResource DebugText}"
+                    Text="{Binding Canvas.MousePositionOnCanvas.X}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="{DynamicResource DebugText}"
+                    Text="{Binding Canvas.MousePositionOnCanvas.Y}" />
+            </StackPanel>
 
         </Grid>
         <Grid Grid.Column="1">
