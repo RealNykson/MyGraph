@@ -216,22 +216,21 @@ namespace MyGraph.ViewModels
       Canvas.EnableConnectionAnimations = !Canvas.EnableConnectionAnimations;
     }
 
-
-
     public void searchNode(NodeVM node)
     {
       Canvas.SearchedNode = node;
 
     }
+
     public void openSearch()
     {
       IsSearching = !IsSearching;
     }
+
     public void openSettings()
     {
       SettingsOpen = !SettingsOpen;
     }
-
 
     private void lockNodes()
     {

@@ -55,6 +55,8 @@ namespace MyGraph.Models
                     transferUnit.Connections.Add(connectionVM);
                 }
             }
+            connectable.orderConnections();
+            this.orderConnections();
         }
         public bool isAllreadyConnectedTo(Connectable input)
         {
@@ -67,7 +69,9 @@ namespace MyGraph.Models
             set
             {
                 Set(value);
-                updateInputs(); updateOutputs();
+
+                updateInputs();
+                updateOutputs();
                 foreach (ConnectionVM connection in Outputs)
                 {
                     connection.End.orderConnections();
@@ -222,7 +226,6 @@ namespace MyGraph.Models
 
             updateInputs();
             Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
-
         }
 
         private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -249,9 +252,9 @@ namespace MyGraph.Models
                 default:
                     break;
             }
+
             updateOutputs();
             Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
-
         }
 
         #endregion

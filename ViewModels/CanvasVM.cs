@@ -79,7 +79,8 @@ namespace MyGraph.ViewModels
             Mouse.OverrideCursor = Cursors.Arrow;
             break;
           case Action.Dragging:
-            Mouse.OverrideCursor = Cursors.Hand;
+            Mouse.OverrideCursor = Cursors.Arrow;
+            //Mouse.OverrideCursor = Cursors.Hand;
             break;
           case Action.Panning:
             Mouse.OverrideCursor = Cursors.ScrollAll;
