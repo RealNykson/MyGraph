@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
-// No `using MyGraph.Models;` to avoid ambiguity, qualify directly
-using MyGraph.Views;  // Assuming your Node view is here
+using MyGraph.Views;
 using System.Windows.Threading;
 
 namespace MyGraph.Behaviors
@@ -15,10 +18,14 @@ namespace MyGraph.Behaviors
 
     public class ConnectorPositionBehavior
     {
+        // Track monitored collections to avoid duplicate subscriptions
+        private static readonly Dictionary<INotifyCollectionChanged, HashSet<ItemsControl>> MonitoredCollections =
+            new Dictionary<INotifyCollectionChanged, HashSet<ItemsControl>>();
+
         public static readonly DependencyProperty ConnectionProperty =
             DependencyProperty.RegisterAttached(
                 "Connection",
-                typeof(MyGraph.Models.Connection), // Explicitly qualify
+                typeof(MyGraph.Models.Connection),
                 typeof(ConnectorPositionBehavior),
                 new PropertyMetadata(null, OnConnectionChanged));
 
@@ -30,11 +37,10 @@ namespace MyGraph.Behaviors
                 "Role",
                 typeof(ConnectorRole),
                 typeof(ConnectorPositionBehavior),
-                new PropertyMetadata(ConnectorRole.Output)); // Default to Output
+                new PropertyMetadata(ConnectorRole.Output));
 
         public static ConnectorRole GetRole(DependencyObject obj) => (ConnectorRole)obj.GetValue(RoleProperty);
         public static void SetRole(DependencyObject obj, ConnectorRole value) => obj.SetValue(RoleProperty, value);
-
 
         private static void OnConnectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -45,6 +51,7 @@ namespace MyGraph.Behaviors
             {
                 element.Loaded -= Element_Loaded_Or_LayoutUpdated;
                 element.LayoutUpdated -= Element_Loaded_Or_LayoutUpdated;
+                UnsubscribeFromCollection(element);
             }
 
             // Handle attachment to new connection
@@ -52,11 +59,110 @@ namespace MyGraph.Behaviors
             {
                 element.Loaded += Element_Loaded_Or_LayoutUpdated;
                 element.LayoutUpdated += Element_Loaded_Or_LayoutUpdated;
+                SubscribeToCollection(element);
 
-                if (element.IsLoaded && element.IsVisible) // Ensure visible for immediate update
+                if (element.IsLoaded && element.IsVisible)
                 {
                     UpdatePosition(element, newConnection);
                 }
+            }
+        }
+
+        private static void SubscribeToCollection(FrameworkElement element)
+        {
+            var itemsControl = FindAncestor<ItemsControl>(element);
+            if (itemsControl?.ItemsSource is INotifyCollectionChanged collection)
+            {
+                if (!MonitoredCollections.ContainsKey(collection))
+                {
+                    MonitoredCollections[collection] = new HashSet<ItemsControl>();
+                    collection.CollectionChanged += Collection_CollectionChanged;
+                }
+                MonitoredCollections[collection].Add(itemsControl);
+            }
+        }
+
+        private static void UnsubscribeFromCollection(FrameworkElement element)
+        {
+            var itemsControl = FindAncestor<ItemsControl>(element);
+            if (itemsControl?.ItemsSource is INotifyCollectionChanged collection)
+            {
+                if (MonitoredCollections.ContainsKey(collection))
+                {
+                    MonitoredCollections[collection].Remove(itemsControl);
+
+                    // If no more ItemsControls are using this collection, unsubscribe completely
+                    if (MonitoredCollections[collection].Count == 0)
+                    {
+                        collection.CollectionChanged -= Collection_CollectionChanged;
+                        MonitoredCollections.Remove(collection);
+                    }
+                }
+            }
+        }
+
+        private static void Collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (!(sender is INotifyCollectionChanged collection)) return;
+
+            if (MonitoredCollections.ContainsKey(collection))
+            {
+                // Update all connector elements in all ItemsControls using this collection
+                foreach (var itemsControl in MonitoredCollections[collection].ToList())
+                {
+                    UpdateAllConnectorsInItemsControl(itemsControl);
+                }
+            }
+        }
+
+        private static void UpdateAllConnectorsInItemsControl(ItemsControl itemsControl)
+        {
+            if (itemsControl == null) return;
+
+            // Use Dispatcher to ensure UI operations happen on the UI thread
+            itemsControl.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                var connectorElements = FindConnectorElements(itemsControl);
+                foreach (var element in connectorElements)
+                {
+                    var connection = GetConnection(element);
+                    if (connection != null && element.IsLoaded && element.IsVisible)
+                    {
+                        UpdatePosition(element, connection);
+                    }
+                }
+            }), DispatcherPriority.Loaded); // Use Loaded priority to ensure layout is complete
+        }
+
+        private static List<FrameworkElement> FindConnectorElements(ItemsControl itemsControl)
+        {
+            var connectorElements = new List<FrameworkElement>();
+
+            for (int i = 0; i < itemsControl.Items.Count; i++)
+            {
+                var container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+                if (container != null)
+                {
+                    // Find all elements with our behavior attached within this container
+                    FindConnectorElementsRecursive(container, connectorElements);
+                }
+            }
+
+            return connectorElements;
+        }
+
+        private static void FindConnectorElementsRecursive(DependencyObject parent, List<FrameworkElement> connectorElements)
+        {
+            if (parent is FrameworkElement element && GetConnection(element) != null)
+            {
+                connectorElements.Add(element);
+            }
+
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                FindConnectorElementsRecursive(child, connectorElements);
             }
         }
 

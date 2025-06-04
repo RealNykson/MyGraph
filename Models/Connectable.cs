@@ -19,7 +19,7 @@ namespace MyGraph.Models
             set
             {
                 Set(value);
-                value.CollectionChanged += Inputs_CollectionChanged;
+                //value.CollectionChanged += Inputs_CollectionChanged;
             }
         }
 
@@ -170,6 +170,7 @@ namespace MyGraph.Models
         public void updateOutputs()
         {
 
+            Debug.Assert(Outputs != null);
             if (Outputs == null)
                 return;
             foreach (Connection connection in Outputs)
@@ -180,6 +181,7 @@ namespace MyGraph.Models
 
         public void updateInputs()
         {
+            Debug.Assert(Inputs != null);
             if (Inputs == null)
                 return;
 

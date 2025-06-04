@@ -167,13 +167,13 @@ namespace MyGraph.Models
     public Point AbsoluteStart
     {
       get => Get<Point>();
-      set => Set(value);
+      set { Set(value); Start.updateOutputs(); Start.updateInputs(); }
     }
 
     public Point AbsoluteEnd
     {
       get => Get<Point>();
-      set => Set(value);
+      set { Set(value); End.updateInputs(); End.updateOutputs(); }
     }
 
     public Point startPos
@@ -244,6 +244,10 @@ namespace MyGraph.Models
 
     public void forceRerenderConnection()
     {
+      Debug.Assert(Start != null);
+      if (Start == null)
+        return;
+
       Point _startPos = startPos;
       startPos = new Point();
       startPos = _startPos;
@@ -251,6 +255,10 @@ namespace MyGraph.Models
 
     public void updateOutput()
     {
+      Debug.Assert(Start != null);
+      if (Start == null)
+        return;
+
       double PositionOutputX = AbsoluteStart.X + Start.Position.X;
       double PositionOutputY = AbsoluteStart.Y + Start.Position.Y;
       startPos = new Point(PositionOutputX, PositionOutputY);
