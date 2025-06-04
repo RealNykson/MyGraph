@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace MyGraph.ViewModels
 {
-  class PreviewConnectionVM : Connection
+  public class PreviewConnectionVM : Connection
   {
     public PreviewConnectionVM(Connectable output) : base(output, null)
     {

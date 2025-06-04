@@ -5,7 +5,7 @@ using MyGraph.Models;
 
 namespace MyGraph.ViewModels
 {
-  class TransferUnitVM : CanvasItem
+  public class TransferUnitVM : CanvasItem
   {
     public int Id { get => Get<int>(); set => Set(value); }
     public string Name { get => Get<string>(); set => Set(value); }

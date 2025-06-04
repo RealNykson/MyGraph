@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace MyGraph.Models
 {
-  abstract class Connection : NotifyObject
+  public abstract class Connection : NotifyObject
   {
 
     public ObservableCollection<TransferUnitVM> TransferUnits { get; set; } = new ObservableCollection<TransferUnitVM>();
@@ -164,7 +164,17 @@ namespace MyGraph.Models
       forceRerenderConnection();
     }
 
+    public Point AbsoluteStart
+    {
+      get => Get<Point>();
+      set => Set(value);
+    }
 
+    public Point AbsoluteEnd
+    {
+      get => Get<Point>();
+      set => Set(value);
+    }
 
     public Point startPos
     {
@@ -227,24 +237,22 @@ namespace MyGraph.Models
 
     public void updateInput()
     {
-
-      double PositionX = End.Position.X - OffsetInput;
-      double PositionY = getNewYPosition(End, End.Inputs);
-      endPos = new Point(PositionX, PositionY);
-
+      double PositionInputX = AbsoluteEnd.X + End.Position.X;
+      double PositionInputY = AbsoluteEnd.Y + End.Position.Y;
+      endPos = new Point(PositionInputX, PositionInputY);
     }
+
     public void forceRerenderConnection()
     {
       Point _startPos = startPos;
       startPos = new Point();
       startPos = _startPos;
     }
+
     public void updateOutput()
     {
-
-      double PositionOutputX = Start.Position.X + Start.Width + OffsetOutput;
-      double PositionOutputY = getNewYPosition(Start, Start.Outputs);
-
+      double PositionOutputX = AbsoluteStart.X + Start.Position.X;
+      double PositionOutputY = AbsoluteStart.Y + Start.Position.Y;
       startPos = new Point(PositionOutputX, PositionOutputY);
     }
 

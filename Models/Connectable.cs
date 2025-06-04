@@ -9,20 +9,28 @@ using MyGraph.ViewModels;
 
 namespace MyGraph.Models
 {
-    abstract class Connectable : CanvasItem
+    public abstract class Connectable : CanvasItem
     {
         private List<Type> allowConnectableTypes;
 
         public ObservableCollection<Connection> Inputs
         {
             get => Get<ObservableCollection<Connection>>();
-            set { Set(value); value.CollectionChanged += Inputs_CollectionChanged; }
+            set
+            {
+                Set(value);
+                value.CollectionChanged += Inputs_CollectionChanged;
+            }
         }
 
         public ObservableCollection<Connection> Outputs
         {
             get => Get<ObservableCollection<Connection>>();
-            set { Set(value); value.CollectionChanged += Outputs_CollectionChanged; }
+            set
+            {
+                Set(value);
+                //value.CollectionChanged += Outputs_CollectionChanged; 
+            }
         }
 
         #region Methods
@@ -68,10 +76,10 @@ namespace MyGraph.Models
             get => Get<Point>();
             set
             {
-                Point delta = new Point((value.X - Position.X), (value.Y - Position.Y));
-                moveOutputs(delta);
-                moveInputs(delta);
                 Set(value);
+
+                updateOutputs();
+                updateInputs();
 
 
                 /*

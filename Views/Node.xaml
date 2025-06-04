@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:MyGraph.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:MyGraph.ViewModels"
+    xmlns:behaviors="clr-namespace:MyGraph.Behaviors"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -24,8 +25,6 @@
 
             <!--  Node Body  -->
             <Border
-                Width="{Binding Width}"
-                Height="{Binding Height}"
                 CornerRadius="3"
                 MouseDown="Grid_MouseDown"
                 MouseRightButtonDown="Border_MouseRightButtonDown">
@@ -130,12 +129,16 @@
                         </ItemsControl.ItemContainerStyle>
                         <ItemsControl.ItemTemplate>
                             <ItemContainerTemplate>
+                                <StackPanel Orientation="Horizontal">
                                 <Ellipse
+                                    behaviors:ConnectorPositionBehavior.Connection="{Binding}"
+                                    behaviors:ConnectorPositionBehavior.Role="Output"
                                     Width="10"
-                                    Height="10"
-                                    Margin="0,0,-14,0"
-                                    Fill="{DynamicResource OutputBackground}"
-                                    Stroke="{DynamicResource OutputBorder}" />
+                                        Height="10"
+                                        Margin="0,0,-14,0"
+                                        Fill="{DynamicResource OutputBackground}"
+                                        Stroke="{DynamicResource OutputBorder}" />
+                                </StackPanel>
                             </ItemContainerTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -154,7 +157,8 @@
 
                             <ItemContainerTemplate>
                                 <Rectangle
-                                    x:Name="ConnectorShape1"
+                                    behaviors:ConnectorPositionBehavior.Connection="{Binding}"
+                                    behaviors:ConnectorPositionBehavior.Role="Input"
                                     Width="7"
                                     Height="14"
                                     Margin="-12,0,0,0"

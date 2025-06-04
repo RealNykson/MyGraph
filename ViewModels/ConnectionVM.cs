@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace MyGraph.ViewModels
 {
-  class ConnectionVM : Connection
+  public class ConnectionVM : Connection
   {
 
 

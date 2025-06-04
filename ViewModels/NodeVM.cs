@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace MyGraph.ViewModels
 {
-  class NodeVM : Connectable
+  public class NodeVM : Connectable
   {
     public int Id { get; set; }
 

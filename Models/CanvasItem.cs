@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace MyGraph.Models
 {
-  abstract class CanvasItem : NotifyObject
+  public abstract class CanvasItem : NotifyObject
   {
     public int ZIndex
     {

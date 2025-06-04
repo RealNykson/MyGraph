@@ -14,7 +14,7 @@ using System.Windows.Threading;
 
 namespace MyGraph.ViewModels
 {
-  class MenuVM : NotifyObject
+  public class MenuVM : NotifyObject
   {
     #region Properties
     private static ResourceDictionary lightTheme;

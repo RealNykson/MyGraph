@@ -24,6 +24,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace MyGraph.ViewModels
 {
+  /*
+    If any action is added to this enum, make sure to add the Action in CurrentAction to define behavior for that action.
+  */
   public enum Action
   {
     None,
@@ -33,7 +36,7 @@ namespace MyGraph.ViewModels
     DrawingSelect
   }
 
-  class CanvasVM : NotifyObject
+  public class CanvasVM : NotifyObject
   {
 
     public static CanvasVM currentCanvas = null;
@@ -66,6 +69,7 @@ namespace MyGraph.ViewModels
         {
           GhostConnection.Delete();
         }
+
         if (CurrentAction == Action.DrawingSelect && value != Action.DrawingSelect)
         {
           SelectRangeHeight = 0;
@@ -80,7 +84,6 @@ namespace MyGraph.ViewModels
             break;
           case Action.Dragging:
             Mouse.OverrideCursor = Cursors.Arrow;
-            //Mouse.OverrideCursor = Cursors.Hand;
             break;
           case Action.Panning:
             Mouse.OverrideCursor = Cursors.ScrollAll;
