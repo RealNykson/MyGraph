@@ -241,7 +241,6 @@ namespace MyGraph.ViewModels
         node.IsLocked = !select;
       }
 
-
       OnPropertyChanged(nameof(AreSelectedNodesLocked));
     }
     private void connectNodes()

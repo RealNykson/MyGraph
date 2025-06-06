@@ -275,23 +275,24 @@ namespace MyGraph.Models
       CurvePoints.Add(new Point());
 
       End = input;
-      
-      if(oldConnection == null) {
+
+      if (oldConnection == null)
+      {
         Start = output;
         return;
       }
 
-        _Start = output;
-        Canvas.Connections.Remove(oldConnection as ConnectionVM);
-        oldConnection.End.Inputs.Remove(oldConnection);
-        for (int i = 0; i < oldConnection.Start.Outputs.Count; i++)
+      _Start = output;
+      Canvas.Connections.Remove(oldConnection as ConnectionVM);
+      oldConnection.End.Inputs.Remove(oldConnection);
+      for (int i = 0; i < oldConnection.Start.Outputs.Count; i++)
+      {
+        if (oldConnection.Start.Outputs[i] == oldConnection)
         {
-          if (oldConnection.Start.Outputs[i] == oldConnection)
-          {
-            oldConnection.Start.Outputs[i] = this;
-            break;
-          }
+          oldConnection.Start.Outputs[i] = this;
+          break;
         }
+      }
 
 
     }

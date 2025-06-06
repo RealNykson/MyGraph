@@ -77,6 +77,14 @@ namespace MyGraph.ViewModels
           SelectorSelectedItems.Clear();
         }
 
+        if (CurrentAction == Action.Dragging && value != Action.Dragging)
+        {
+          foreach (NodeVM node in Nodes)
+          {
+            node.orderConnections();
+          }
+        }
+
         switch (value)
         {
           case Action.None:
@@ -784,6 +792,11 @@ namespace MyGraph.ViewModels
         // Reset X position for next group and move Y position down
         startX = initialStartX;
         startY = maxY + groupVerticalSpacing;
+      }
+
+      foreach (NodeVM node in Nodes)
+      {
+        node.orderConnections();
       }
     }
 

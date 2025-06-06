@@ -7,6 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using MyGraph.Views;
 using System.Windows.Threading;
+using MyGraph.ViewModels;
+using System.Collections.ObjectModel;
+using Action = System.Action;
+using MyGraph.Models;
+using System.Diagnostics;
 
 namespace MyGraph.Behaviors
 {
@@ -46,177 +51,99 @@ namespace MyGraph.Behaviors
         {
             if (!(d is FrameworkElement element)) return;
 
-            // Handle detachment from old connection
-            if (e.OldValue is MyGraph.Models.Connection)
-            {
-                element.Loaded -= Element_Loaded_Or_LayoutUpdated;
-                element.LayoutUpdated -= Element_Loaded_Or_LayoutUpdated;
-                //UnsubscribeFromCollection(element);
-            }
-
-            // Handle attachment to new connection
             if (e.NewValue is MyGraph.Models.Connection newConnection)
             {
-                element.Loaded += Element_Loaded_Or_LayoutUpdated;
-                element.LayoutUpdated += Element_Loaded_Or_LayoutUpdated;
-                ConnectorRole role = GetRole(element);
-                if (role == ConnectorRole.Output)
+                // Defer the setup until after the current WPF layout/render pass.
+                // This ensures that all properties (like 'Role') have been set from XAML.
+                element.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    newConnection.Start.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                    newConnection.Start.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                }
-                else
-                {
-                    newConnection.End.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                    newConnection.End.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                }
+                    // Check if the connection is still the same, in case it changed again
+                    // before this delegate was executed.
+                    if (GetConnection(element) != newConnection)
+                        return;
 
-                if (element.IsLoaded && element.IsVisible)
-                {
-                    UpdatePosition(element, newConnection);
-                }
-            }
-        }
-
-        private static void SubscribeToCollection(FrameworkElement element)
-        {
-            var itemsControl = FindAncestor<ItemsControl>(element);
-            if (itemsControl?.ItemsSource is INotifyCollectionChanged collection)
-            {
-                if (!MonitoredCollections.ContainsKey(collection))
-                {
-                    MonitoredCollections[collection] = new HashSet<ItemsControl>();
-                    collection.CollectionChanged += Collection_CollectionChanged;
-                }
-                MonitoredCollections[collection].Add(itemsControl);
-            }
-        }
-
-        private static void UnsubscribeFromCollection(FrameworkElement element)
-        {
-            var itemsControl = FindAncestor<ItemsControl>(element);
-            if (itemsControl?.ItemsSource is INotifyCollectionChanged collection)
-            {
-                if (MonitoredCollections.ContainsKey(collection))
-                {
-                    MonitoredCollections[collection].Remove(itemsControl);
-
-                    // If no more ItemsControls are using this collection, unsubscribe completely
-                    if (MonitoredCollections[collection].Count == 0)
+                    ConnectorRole role = GetRole(element);
+                    if (role == ConnectorRole.Output)
                     {
-                        collection.CollectionChanged -= Collection_CollectionChanged;
-                        MonitoredCollections.Remove(collection);
+                        newConnection.Start.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.Start.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
                     }
-                }
-            }
-        }
-
-        private static void Collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (!(sender is INotifyCollectionChanged collection)) return;
-
-            if (MonitoredCollections.ContainsKey(collection))
-            {
-                // Update all connector elements in all ItemsControls using this collection
-                foreach (var itemsControl in MonitoredCollections[collection].ToList())
-                {
-                    UpdateAllConnectorsInItemsControl(itemsControl);
-                }
-            }
-        }
-
-        private static void UpdateAllConnectorsInItemsControl(ItemsControl itemsControl)
-        {
-            if (itemsControl == null) return;
-
-            // Use Dispatcher to ensure UI operations happen on the UI thread
-            itemsControl.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                var connectorElements = FindConnectorElements(itemsControl);
-                foreach (var element in connectorElements)
-                {
-                    var connection = GetConnection(element);
-                    if (connection != null && element.IsLoaded && element.IsVisible)
+                    else // Input
                     {
-                        UpdatePosition(element, connection);
+                        newConnection.End.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.End.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
                     }
-                }
-            }), DispatcherPriority.Loaded); // Use Loaded priority to ensure layout is complete
-        }
 
-        private static List<FrameworkElement> FindConnectorElements(ItemsControl itemsControl)
-        {
-            var connectorElements = new List<FrameworkElement>();
+                    element.Loaded += Element_Loaded_Or_LayoutUpdated;
+                    element.LayoutUpdated += Element_Loaded_Or_LayoutUpdated;
 
-            for (int i = 0; i < itemsControl.Items.Count; i++)
-            {
-                var container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
-                if (container != null)
-                {
-                    // Find all elements with our behavior attached within this container
-                    FindConnectorElementsRecursive(container, connectorElements);
-                }
-            }
+                    if (element.IsLoaded && element.IsVisible)
+                    {
+                        UpdatePosition(element, newConnection);
+                    }
 
-            return connectorElements;
-        }
-
-        private static void FindConnectorElementsRecursive(DependencyObject parent, List<FrameworkElement> connectorElements)
-        {
-            if (parent is FrameworkElement element && GetConnection(element) != null)
-            {
-                connectorElements.Add(element);
-            }
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < childCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                FindConnectorElementsRecursive(child, connectorElements);
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
             }
         }
+
+
 
         // Shared handler for Loaded and LayoutUpdated events
         private static void Element_Loaded_Or_LayoutUpdated(object sender, EventArgs e)
         {
-            if (!(sender is FrameworkElement element)) return;
+            if (!(sender is FrameworkElement element))
+            {
+                return;
+            }
 
             var connection = GetConnection(element);
-            // Ensure the element is loaded, visible and still has a connection attached
             if (connection != null && element.IsLoaded && element.IsVisible)
             {
+
                 UpdatePosition(element, connection);
             }
         }
 
         private static void UpdatePosition(FrameworkElement element, MyGraph.Models.Connection connection)
         {
-            var nodeView = FindAncestor<Node>(element);
-            if (nodeView != null)
+            var connectableView = FindAncestor<UserControl>(element);
+            if (connectableView != null)
             {
                 try
                 {
-                    // Ensure ActualWidth/Height are available; LayoutUpdated should typically guarantee this.
                     if (element.ActualWidth == 0 && element.ActualHeight == 0 && element.IsVisible)
                     {
-                        // If still zero, TranslatePoint might use (0,0) or fail. Defer if necessary or log.
-                        // System.Diagnostics.Debug.WriteLine($"Warning: ActualWidth/Height are 0 for {element} in UpdatePosition.");
-                        // The existing InvalidOperationException catch might handle failures.
+                        return;
                     }
 
                     Point connectorCenter = new Point(element.ActualWidth / 2, element.ActualHeight / 2);
-                    Point absolutePositionInNode = element.TranslatePoint(connectorCenter, nodeView);
-
                     ConnectorRole role = GetRole(element);
+
+                    // ******************* DO NOT MOVE THIS CODE ***************************************
+                    // If the call is from ObservableCollection.CollectionChanged event we manually need to 
+                    // force a layoutUpdate for the Itemscontrol so that the collection change is visible and 
+                    // the calculation will yield the right point. For performance/latency reasons we need to 
+                    // update the layout at the last possible moment before calculating the position.
+                    // Updating the itemsControl layout too early results in visible flickering. 
+                    // ***************************************************************************************
+                    var itemsControl = FindAncestor<ItemsControl>(element);
+                    if (itemsControl != null)
+                    {
+                        itemsControl?.UpdateLayout();
+                    }
+                    Point absolutePositionInNode = element.TranslatePoint(connectorCenter, connectableView);
+                    // ***************************************************************************************
 
                     if (role == ConnectorRole.Output)
                     {
                         if (connection.AbsoluteStart != absolutePositionInNode)
                         {
+
+                            itemsControl?.UpdateLayout();
                             connection.AbsoluteStart = absolutePositionInNode;
                         }
                     }
-                    else // ConnectorRole.Input
+                    else
                     {
                         if (connection.AbsoluteEnd != absolutePositionInNode)
                         {

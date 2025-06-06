@@ -26,6 +26,9 @@
             <!--  Node Body  -->
             <Border
                 CornerRadius="3"
+                behaviors:ActualSizeBehavior.ObserveActualSize="True"
+                behaviors:ActualSizeBehavior.ActualWidth="{Binding Width, Mode=OneWayToSource}"
+                behaviors:ActualSizeBehavior.ActualHeight="{Binding Height, Mode=OneWayToSource}"
                 MouseDown="Grid_MouseDown"
                 MouseRightButtonDown="Border_MouseRightButtonDown">
                 <Border.Style>

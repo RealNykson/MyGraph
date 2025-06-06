@@ -115,7 +115,6 @@ namespace MyGraph.ViewModels
       Width = 350;
       Height = 70;
       Name = name;
-      //Position = Canvas.findNextFreeArea(MinWidth, MinHeight);
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
       createCommands();
