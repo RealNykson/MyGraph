@@ -23,6 +23,7 @@ namespace MyGraph.ViewModels
 
     public ConnectionVM(Connectable output, Connectable input) : base(output, input)
     {
+      Start = output;
       Canvas.Connections.Add(this);
     }
 
@@ -43,10 +44,7 @@ namespace MyGraph.ViewModels
 
     public void MouseDown()
     {
-      Connectable start = Start;
-      Start.disconnect(End);
-      new PreviewConnectionVM(start);
-
+      new PreviewConnectionVM(Start, this);
       Canvas.CurrentAction = Action.ConnectingOutput;
     }
   }

@@ -119,6 +119,7 @@
 
                     <!--  Outputs  -->
                     <ItemsControl
+                        Background="Red"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Outputs}">
@@ -145,6 +146,7 @@
 
                     <!--  Inputs  -->
                     <ItemsControl
+                        Background="Blue"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Inputs}">

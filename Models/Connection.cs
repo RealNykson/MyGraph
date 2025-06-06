@@ -264,7 +264,7 @@ namespace MyGraph.Models
       startPos = new Point(PositionOutputX, PositionOutputY);
     }
 
-    public Connection(Connectable output, Connectable input)
+    public Connection(Connectable output, Connectable input, Connection oldConnection = null)
     {
       Canvas = CanvasVM.currentCanvas;
       Debug.Assert(output != null);
@@ -274,8 +274,25 @@ namespace MyGraph.Models
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
 
-      Start = output;
       End = input;
+      
+      if(oldConnection == null) {
+        Start = output;
+        return;
+      }
+
+        _Start = output;
+        Canvas.Connections.Remove(oldConnection as ConnectionVM);
+        oldConnection.End.Inputs.Remove(oldConnection);
+        for (int i = 0; i < oldConnection.Start.Outputs.Count; i++)
+        {
+          if (oldConnection.Start.Outputs[i] == oldConnection)
+          {
+            oldConnection.Start.Outputs[i] = this;
+            break;
+          }
+        }
+
 
     }
 

@@ -11,12 +11,13 @@ namespace MyGraph.ViewModels
 {
   public class PreviewConnectionVM : Connection
   {
-    public PreviewConnectionVM(Connectable output) : base(output, null)
+    public PreviewConnectionVM(Connectable output, Connection oldConnection = null) : base(output, null, oldConnection)
     {
 
       CurvePoints[1] = Canvas.MousePositionOnCanvas;
       CurvePoints[2] = Canvas.MousePositionOnCanvas;
       Start.updateOutputs();
+      
 
       if (Canvas.GhostConnection != null)
       {

@@ -51,7 +51,7 @@ namespace MyGraph.Behaviors
             {
                 element.Loaded -= Element_Loaded_Or_LayoutUpdated;
                 element.LayoutUpdated -= Element_Loaded_Or_LayoutUpdated;
-                UnsubscribeFromCollection(element);
+                //UnsubscribeFromCollection(element);
             }
 
             // Handle attachment to new connection
@@ -59,7 +59,17 @@ namespace MyGraph.Behaviors
             {
                 element.Loaded += Element_Loaded_Or_LayoutUpdated;
                 element.LayoutUpdated += Element_Loaded_Or_LayoutUpdated;
-                SubscribeToCollection(element);
+                ConnectorRole role = GetRole(element);
+                if (role == ConnectorRole.Output)
+                {
+                    newConnection.Start.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                    newConnection.Start.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                }
+                else
+                {
+                    newConnection.End.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                    newConnection.End.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                }
 
                 if (element.IsLoaded && element.IsVisible)
                 {
