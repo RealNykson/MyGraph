@@ -215,6 +215,7 @@ namespace MyGraph.Models
             {
                 Canvas.GhostConnection.End = this;
                 ZIndex = Canvas.Nodes.Max(n => n.ZIndex) + 1;
+                this.orderConnections();
             }
 
         }

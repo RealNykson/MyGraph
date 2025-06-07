@@ -17,7 +17,7 @@ namespace MyGraph.ViewModels
       CurvePoints[1] = Canvas.MousePositionOnCanvas;
       CurvePoints[2] = Canvas.MousePositionOnCanvas;
       Start.updateOutputs();
-      
+
 
       if (Canvas.GhostConnection != null)
       {
