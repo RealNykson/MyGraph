@@ -34,7 +34,7 @@ namespace MyGraph.Models
         }
 
         #region Methods
-        public void connect(Connectable connectable, List<TransferUnitVM> transferUnits = null)
+        public void connect(Connectable connectable, List<TransferUnitVM> transferUnits = null, Connection oldConnection = null)
         {
             Debug.Assert(connectable != null);
             if (connectable == null)
@@ -47,14 +47,15 @@ namespace MyGraph.Models
                 return;
             }
 
-            if (Outputs.Where(n => n.End == connectable).FirstOrDefault() != null)
+            Connection connection = Outputs.Where(n => n.End == connectable).FirstOrDefault();
+            if (connection != null && connection != Canvas.GhostConnection)
             {
                 return;
             }
             Debug.Assert(Canvas.Connections.Where(c => c.End == connectable && c.Start == this).Count() == 0);
 
 
-            ConnectionVM connectionVM = new ConnectionVM(this, connectable);
+            ConnectionVM connectionVM = new ConnectionVM(this, connectable, oldConnection);
             if (transferUnits != null)
             {
                 foreach (TransferUnitVM transferUnit in transferUnits)
@@ -63,8 +64,6 @@ namespace MyGraph.Models
                     transferUnit.Connections.Add(connectionVM);
                 }
             }
-            connectable.orderConnections();
-            this.orderConnections();
         }
         public bool isAllreadyConnectedTo(Connectable input)
         {
@@ -200,8 +199,8 @@ namespace MyGraph.Models
               && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
             {
                 Connectable start = Canvas.GhostConnection.Start;
-                Canvas.GhostConnection.Delete();
-                start.connect(this);
+                start.connect(this, null, Canvas.GhostConnection);
+                Canvas.GhostConnection = null;
                 Canvas.CurrentAction = ViewModels.Action.None;
             }
         }
@@ -230,63 +229,6 @@ namespace MyGraph.Models
                 Canvas.GhostConnection.moveEndToMouse();
             }
 
-        }
-
-        private void Inputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            ObservableCollection<Connection> newInputs = (ObservableCollection<Connection>)sender;
-            switch (e.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    if (newInputs.Count() > Outputs.Count() && newInputs.Count() != 1)
-                    {
-                        Height += 15;
-                        updateOutputs();
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                    if (newInputs.Count() >= Outputs.Count() && newInputs.Count() != 0)
-                    {
-                        Height -= 15;
-                        updateOutputs();
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            updateInputs();
-            Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
-        }
-
-        private void Outputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-
-            ObservableCollection<Connection> newOutputs = (ObservableCollection<Connection>)sender;
-            switch (e.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    if (newOutputs.Count() > Inputs.Count() && newOutputs.Count() != 1)
-                    {
-                        Height += 23;
-                        updateInputs();
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                    if (newOutputs.Count() >= Inputs.Count() && newOutputs.Count() != 0)
-                    {
-                        Height -= 23;
-                        updateInputs();
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            updateOutputs();
-            Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
         }
 
         #endregion

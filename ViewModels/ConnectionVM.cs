@@ -21,9 +21,8 @@ namespace MyGraph.ViewModels
 
 
 
-    public ConnectionVM(Connectable output, Connectable input) : base(output, input)
+    public ConnectionVM(Connectable output, Connectable input, Connection oldConnection = null) : base(output, input, oldConnection)
     {
-      Start = output;
       Canvas.Connections.Add(this);
     }
 

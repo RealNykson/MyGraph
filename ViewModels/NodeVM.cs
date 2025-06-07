@@ -112,8 +112,6 @@ namespace MyGraph.ViewModels
     public NodeVM(string name = "", int id = -1)
     {
       Id = id;
-      Width = 350;
-      Height = 70;
       Name = name;
       Outputs = new ObservableCollection<Connection>();
       Inputs = new ObservableCollection<Connection>();
