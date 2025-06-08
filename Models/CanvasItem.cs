@@ -46,8 +46,6 @@ namespace MyGraph.Models
       }
     }
 
-    public abstract void handleConnection();
-
     bool justSet = false;
     public void MouseDown(MouseButtonEventArgs ev)
     {
@@ -57,9 +55,9 @@ namespace MyGraph.Models
         return;
       }
 
-      if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput && this is Connectable)
+      if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput && this is Connectable connectable)
       {
-        (this as Connectable).handleConnection();
+        connectable.handleConnection();
         return;
       }
 

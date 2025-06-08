@@ -34,7 +34,6 @@ namespace MyGraph.Views
 
     private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
     {
-
       ((NodeVM)DataContext).MouseDown(e);
       e.Handled = true;
     }

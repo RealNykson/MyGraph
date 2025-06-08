@@ -11,30 +11,33 @@ namespace MyGraph.Models
 {
     public abstract class Connectable : CanvasItem
     {
-        private List<Type> allowConnectableTypes;
+        public Connectable()
+        {
+            Outputs = new ObservableCollection<Connection>();
+            Inputs = new ObservableCollection<Connection>();
+        }
+
 
         public ObservableCollection<Connection> Inputs
         {
             get => Get<ObservableCollection<Connection>>();
-            set
-            {
-                Set(value);
-                //value.CollectionChanged += Inputs_CollectionChanged;
-            }
+            //This Collection should never be set outside of the constructor because 
+            //each Connector listens to the CollectionChanged event in ConnectorPositionBehavior
+            //and setting it will cause the listener to be removed
+            private set => Set(value);
         }
 
         public ObservableCollection<Connection> Outputs
         {
             get => Get<ObservableCollection<Connection>>();
-            set
-            {
-                Set(value);
-                //value.CollectionChanged += Outputs_CollectionChanged; 
-            }
+            //This Collection should never be set outside of the constructor because 
+            //each Connector listens to the CollectionChanged event in ConnectorPositionBehavior
+            //and setting it will cause the listener to be removed
+            private set => Set(value);
         }
 
         #region Methods
-        public void connect(Connectable connectable, List<TransferUnitVM> transferUnits = null, Connection oldConnection = null)
+        public void connect(Connectable connectable, Connection oldConnection = null)
         {
             Debug.Assert(connectable != null);
             if (connectable == null)
@@ -56,14 +59,7 @@ namespace MyGraph.Models
 
 
             ConnectionVM connectionVM = new ConnectionVM(this, connectable, oldConnection);
-            if (transferUnits != null)
-            {
-                foreach (TransferUnitVM transferUnit in transferUnits)
-                {
-                    connectionVM.addTransferUnit(transferUnit);
-                    transferUnit.Connections.Add(connectionVM);
-                }
-            }
+
             connectable.orderConnections();
             this.orderConnections();
         }
@@ -133,6 +129,7 @@ namespace MyGraph.Models
             }
         }
 
+
         public void orderConnections()
         {
 
@@ -140,14 +137,22 @@ namespace MyGraph.Models
 
             if (!Outputs.SequenceEqual(orderedOutputs))
             {
-                Outputs = new ObservableCollection<Connection>(orderedOutputs);
+                Outputs.Clear();
+                foreach (Connection connection in orderedOutputs)
+                {
+                    Outputs.Add(connection);
+                }
                 updateOutputs();
             }
 
             List<Connection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
-            if (!Outputs.SequenceEqual(orderedInputs))
+            if (!Inputs.SequenceEqual(orderedInputs))
             {
-                Inputs = new ObservableCollection<Connection>(orderedInputs);
+                Inputs.Clear();
+                foreach (Connection connection in orderedInputs)
+                {
+                    Inputs.Add(connection);
+                }
                 updateInputs();
             }
 
@@ -194,17 +199,23 @@ namespace MyGraph.Models
         }
 
         #endregion
+        //Can be overridden by subclasses to implement custom connection logic
+        public virtual void customConnectionLogic(Connection connection)
+        {
+            //Default connection logic
+            Connectable start = Canvas.GhostConnection.Start;
+            start.connect(this, Canvas.GhostConnection);
+            Canvas.GhostConnection = null;
+            Canvas.CurrentAction = ViewModels.Action.None;
+        }
 
-        public override void handleConnection()
+        public void handleConnection()
         {
             if (Canvas.GhostConnection.Start != this
               && Canvas.GhostConnection.Start != null
               && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
             {
-                Connectable start = Canvas.GhostConnection.Start;
-                start.connect(this, null, Canvas.GhostConnection);
-                Canvas.GhostConnection = null;
-                Canvas.CurrentAction = ViewModels.Action.None;
+                customConnectionLogic(Canvas.GhostConnection);
             }
         }
 

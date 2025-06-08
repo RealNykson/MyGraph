@@ -57,21 +57,23 @@ namespace MyGraph.Behaviors
                 // This ensures that all properties (like 'Role') have been set from XAML.
                 element.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    // Check if the connection is still the same, in case it changed again
-                    // before this delegate was executed.
                     if (GetConnection(element) != newConnection)
                         return;
 
                     ConnectorRole role = GetRole(element);
                     if (role == ConnectorRole.Output)
                     {
-                        newConnection.Start.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                        newConnection.Start.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.Start.Outputs.CollectionChanged += (s, ee) =>
+                            Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.Start.Inputs.CollectionChanged += (s, ee) =>
+                            Element_Loaded_Or_LayoutUpdated(element, ee);
                     }
                     else // Input
                     {
-                        newConnection.End.Inputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
-                        newConnection.End.Outputs.CollectionChanged += (s, ee) => Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.End.Inputs.CollectionChanged += (s, ee) =>
+                            Element_Loaded_Or_LayoutUpdated(element, ee);
+                        newConnection.End.Outputs.CollectionChanged += (s, ee) =>
+                            Element_Loaded_Or_LayoutUpdated(element, ee);
                     }
 
                     element.Loaded += Element_Loaded_Or_LayoutUpdated;
@@ -83,6 +85,10 @@ namespace MyGraph.Behaviors
                     }
 
                 }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+            else
+            {
+
             }
         }
 
@@ -99,7 +105,6 @@ namespace MyGraph.Behaviors
             var connection = GetConnection(element);
             if (connection != null && element.IsLoaded && element.IsVisible)
             {
-
                 UpdatePosition(element, connection);
             }
         }

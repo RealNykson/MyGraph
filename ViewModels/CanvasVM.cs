@@ -21,6 +21,7 @@ using MyGraph.Models;
 using System.Collections.Specialized;
 using System.Windows.Threading;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace MyGraph.ViewModels
 {
@@ -270,12 +271,9 @@ namespace MyGraph.ViewModels
     #region Methods
 
     private DispatcherTimer currentPanTimer;
-    private DateTime _lastPanRequest = DateTime.MinValue;
-    private NodeVM _targetNode = null;
 
     // Global animation timer for connection dash offset animation
     private DispatcherTimer globalAnimationTimer;
-    private DateTime animationStartTime;
 
     private void loadObjectsFromDatabase()
     {
@@ -288,25 +286,52 @@ namespace MyGraph.ViewModels
 
         var processUnitsList = _dbConnection.GetProcessUnits(39);
 
-        foreach (ProcessUnit pc in processUnitsList)
-        {
-          new NodeVM(pc.UnitName, pc.UnitId);
-        }
+        //foreach (ProcessUnit pc in processUnitsList)
+        //{
+        //  new NodeVM(pc.UnitName, pc.UnitId * -1);
+        //}
 
         var connectionsList = _dbConnection.GetConnections(39);
 
         foreach (ConnectionDB connection in connectionsList)
         {
-          var sourceUnit = Nodes.FirstOrDefault(n => n.Id == connection.SourceUnitId);
-          var transfer = Nodes.FirstOrDefault(n => n.Id == connection.TransferUnitId);
-          var destinationUnit = Nodes.FirstOrDefault(n => n.Id == connection.DestinationUnitId);
-          if (sourceUnit != null && destinationUnit != null && transfer != null)
+          ProcessUnit sourceUnit = processUnitsList.FirstOrDefault(n => n.UnitId == connection.SourceUnitId);
+          ProcessUnit transfer = processUnitsList.FirstOrDefault(n => n.UnitId == connection.TransferUnitId);
+          ProcessUnit destinationUnit = processUnitsList.FirstOrDefault(n => n.UnitId == connection.DestinationUnitId);
+          TransferUnitVM transferReal = TransferUnits.FirstOrDefault(n => n.Id == transfer.UnitId);
+          if (transferReal == null)
           {
-            sourceUnit.connect(transfer);
-            transfer.IsTransfer = true;
-            transfer.connect(destinationUnit);
+            transferReal = new TransferUnitVM(transfer.UnitName, transfer.UnitId);
           }
+
+          NodeVM sourceNode = Nodes.FirstOrDefault(n => n.Id == sourceUnit.UnitId);
+          if (sourceNode == null)
+          {
+            sourceNode = new NodeVM(sourceUnit.UnitName, sourceUnit.UnitId);
+          }
+
+          NodeVM destinationNode = Nodes.FirstOrDefault(n => n.Id == destinationUnit.UnitId);
+          if (destinationNode == null)
+          {
+            destinationNode = new NodeVM(destinationUnit.UnitName, destinationUnit.UnitId);
+          }
+
+          sourceNode.connect(transferReal);
+          transferReal.connect(destinationNode);
         }
+
+        //foreach (ConnectionDB connection in connectionsList)
+        //{
+        //  var sourceUnit = Nodes.FirstOrDefault(n => n.Id == -connection.SourceUnitId);
+        //  var transfer = Nodes.FirstOrDefault(n => n.Id == -connection.TransferUnitId);
+        //  var destinationUnit = Nodes.FirstOrDefault(n => n.Id == -connection.DestinationUnitId);
+        //  if (sourceUnit != null && destinationUnit != null && transfer != null)
+        //  {
+        //    transfer.IsTransfer = true;
+        //    sourceUnit.connect(transfer);
+        //    transfer.connect(destinationUnit);
+        //  }
+        //}
 
         foreach (NodeVM node in new ObservableCollection<NodeVM>(Nodes))
         {
@@ -331,94 +356,49 @@ namespace MyGraph.ViewModels
       if (node == null)
         return;
 
-      // Debounce rapid requests (ignore calls within 100ms of each other)
-      DateTime now = DateTime.Now;
-      if ((now - _lastPanRequest).TotalMilliseconds < 100)
-      {
-        // Store the target node for deferred processing
-        _targetNode = node;
-        return;
-      }
-
-      _lastPanRequest = now;
-      _targetNode = null;
-
-      // Always stop any existing animation immediately
-      if (currentPanTimer != null && currentPanTimer.IsEnabled)
+      if (currentPanTimer != null)
       {
         currentPanTimer.Stop();
-        currentPanTimer = null;
       }
 
-      double targetPanX = -node.Position.X * Scale;
-      double targetPanY = -node.Position.Y * Scale;
-
-      double offsetX = GridWidth / 2 - (node.Width / 2);
-      double offsetY = GridHeight / 2 - (node.Height / 2);
-
-      Matrix currentMatrix = CanvasTransformMatrix.Matrix;
-      double startOffsetX = currentMatrix.OffsetX;
-      double startOffsetY = currentMatrix.OffsetY;
-      double endOffsetX = targetPanX + offsetX;
-      double endOffsetY = targetPanY + offsetY;
-
-      // Calculate distance to determine animation speed
-      double distance = Math.Sqrt(Math.Pow(endOffsetX - startOffsetX, 2) + Math.Pow(endOffsetY - startOffsetY, 2));
-
-      // Skip animation for very small distances
-      if (distance < 10)
+      var timer = new System.Windows.Threading.DispatcherTimer
       {
-        Matrix finalMatrix = currentMatrix;
-        finalMatrix.OffsetX = endOffsetX;
-        finalMatrix.OffsetY = endOffsetY;
-        CanvasTransformMatrix.Matrix = finalMatrix;
-        return;
-      }
-
-      // Adjust animation speed based on distance (faster for longer distances)
-      int totalSteps = Math.Min(20, Math.Max(5, (int)(distance / 40)));
-      double intervalMs = Math.Min(20, Math.Max(10, distance / 100));
-
-      System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-      timer.Interval = TimeSpan.FromMilliseconds(intervalMs);
-      currentPanTimer = timer;
-
-      int currentStep = 0;
+        Interval = TimeSpan.FromMilliseconds(16) // Roughly 60fps
+      };
 
       timer.Tick += (sender, e) =>
       {
-        currentStep++;
-        if (currentStep > totalSteps)
+        double targetOffsetX = (-node.Position.X * Scale) + (GridWidth / 2) - (node.Width / 2);
+        double targetOffsetY = (-node.Position.Y * Scale) + (GridHeight / 2) - (node.Height / 2);
+
+        Matrix currentMatrix = CanvasTransformMatrix.Matrix;
+        double currentOffsetX = currentMatrix.OffsetX;
+        double currentOffsetY = currentMatrix.OffsetY;
+
+        double distance = Math.Sqrt(Math.Pow(targetOffsetX - currentOffsetX, 2) + Math.Pow(targetOffsetY - currentOffsetY, 2));
+
+        if (distance < 1.0)
         {
-          Matrix finalMatrix = currentMatrix;
-          finalMatrix.OffsetX = endOffsetX;
-          finalMatrix.OffsetY = endOffsetY;
-          CanvasTransformMatrix.Matrix = finalMatrix;
-
+          currentMatrix.OffsetX = targetOffsetX;
+          currentMatrix.OffsetY = targetOffsetY;
+          CanvasTransformMatrix.Matrix = currentMatrix;
           timer.Stop();
-          currentPanTimer = null;
-
-          // Process deferred pan request if one exists
-          if (_targetNode != null)
+          if (currentPanTimer == timer)
           {
-            NodeVM nextNode = _targetNode;
-            _targetNode = null;
-            panToNode(nextNode);
+            currentPanTimer = null;
           }
           return;
         }
 
-        double progress = (double)currentStep / totalSteps;
-        double easedProgress = EaseOutQuad(progress);
+        double easingFactor = 0.30;
+        currentMatrix.OffsetX += (targetOffsetX - currentOffsetX) * easingFactor;
+        currentMatrix.OffsetY += (targetOffsetY - currentOffsetY) * easingFactor;
 
-        Matrix animatedMatrix = currentMatrix;
-        animatedMatrix.OffsetX = startOffsetX + (endOffsetX - startOffsetX) * easedProgress;
-        animatedMatrix.OffsetY = startOffsetY + (endOffsetY - startOffsetY) * easedProgress;
-
-        CanvasTransformMatrix.Matrix = animatedMatrix;
+        CanvasTransformMatrix.Matrix = currentMatrix;
       };
 
-      timer.Start();
+      currentPanTimer = timer;
+      currentPanTimer.Start();
     }
 
     private double EaseOutQuad(double t)
@@ -676,7 +656,7 @@ namespace MyGraph.ViewModels
           double currentY = startY;
 
           // First pass: Position nodes with children
-          foreach (NodeVM node in nodesByLevel[0])
+          foreach (Connectable node in nodesByLevel[0])
           {
             // If node has children, place it based on where those children will likely be
             if (parentToChildren.ContainsKey(node) && parentToChildren[node].Count > 0)
@@ -698,7 +678,7 @@ namespace MyGraph.ViewModels
         {
           if (!nodesByLevel.ContainsKey(level)) continue;
 
-          foreach (NodeVM node in nodesByLevel[level])
+          foreach (Connectable node in nodesByLevel[level])
           {
             if (childToParents.ContainsKey(node) && childToParents[node].Count > 0)
             {
@@ -719,7 +699,7 @@ namespace MyGraph.ViewModels
 
           // Then, place nodes without parents at this level
           double currentY = startY;
-          foreach (NodeVM node in nodesByLevel[level])
+          foreach (Connectable node in nodesByLevel[level])
           {
             if (!nodeYPositions.ContainsKey(node))
             {
@@ -736,7 +716,7 @@ namespace MyGraph.ViewModels
         {
           if (!nodesByLevel.ContainsKey(level)) continue;
 
-          foreach (NodeVM parent in nodesByLevel[level])
+          foreach (Connectable parent in nodesByLevel[level])
           {
             if (parentToChildren.ContainsKey(parent) && parentToChildren[parent].Count > 0)
             {
@@ -781,7 +761,7 @@ namespace MyGraph.ViewModels
           double levelWidth = levelWidths[level];
           currentLevelX = startX + level * (horizontalSpacing + levelWidth);
 
-          foreach (NodeVM node in nodesByLevel[level])
+          foreach (Connectable node in nodesByLevel[level])
           {
             double nodeY = nodeYPositions[node];
             node.moveAbsolute(currentLevelX, nodeY);
@@ -794,7 +774,7 @@ namespace MyGraph.ViewModels
         startY = maxY + groupVerticalSpacing;
       }
 
-      foreach (NodeVM node in Nodes)
+      foreach (Connectable node in Nodes.Concat<Connectable>(TransferUnits))
       {
         node.orderConnections();
       }
@@ -1038,10 +1018,6 @@ namespace MyGraph.ViewModels
 
     }
 
-    #endregion
-
-    #region Constructor 
-
     double newOffset = 0.25;
     Timer timer;
     public void AnimateConnections()
@@ -1058,6 +1034,11 @@ namespace MyGraph.ViewModels
       }, null, 0, 30);
 
     }
+
+    #endregion
+
+    #region Constructor 
+
 
 
     public CanvasVM()
@@ -1076,7 +1057,7 @@ namespace MyGraph.ViewModels
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
 
-      EnableConnectionAnimations = true;
+      EnableConnectionAnimations = false;
       AnimateConnections();
 
       NodeVM node1 = new NodeVM("Node 1", 1);
@@ -1086,7 +1067,8 @@ namespace MyGraph.ViewModels
       TransferUnitVM transferUnit2 = new TransferUnitVM("Transfer Unit 2", 2);
       TransferUnitVM transferUnit3 = new TransferUnitVM("Transfer Unit 3", 3);
 
-      node1.connect(node2, new List<TransferUnitVM> { transferUnit3 });
+      node1.connect(transferUnit1);
+
 
 
 

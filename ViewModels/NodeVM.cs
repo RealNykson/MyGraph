@@ -96,6 +96,7 @@ namespace MyGraph.ViewModels
 
 
 
+
     #endregion
 
     #region Events
@@ -113,8 +114,6 @@ namespace MyGraph.ViewModels
     {
       Id = id;
       Name = name;
-      Outputs = new ObservableCollection<Connection>();
-      Inputs = new ObservableCollection<Connection>();
       createCommands();
       Canvas.Nodes.Add(this);
 

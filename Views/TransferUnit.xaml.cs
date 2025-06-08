@@ -27,6 +27,22 @@ namespace MyGraph.Views
       e.Handled = true;
     }
 
+    private void MouseEnter(object sender, MouseEventArgs e)
+    {
+      ((Connectable)DataContext).MouseEnter();
+      e.Handled = true;
+    }
+
+    private void MouseLeave(object sender, MouseEventArgs e)
+    {
+
+      ((Connectable)DataContext).MouseLeave();
+      e.Handled = true;
+
+    }
+
+
+
 
 
 
