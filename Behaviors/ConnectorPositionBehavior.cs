@@ -34,7 +34,7 @@ namespace MyGraph.Behaviors
                 typeof(ConnectorPositionBehavior),
                 new PropertyMetadata(null, OnConnectionChanged));
 
-        public static MyGraph.Models.Connection GetConnection(DependencyObject obj) => (MyGraph.Models.Connection)obj.GetValue(ConnectionProperty);
+        public static MyGraph.Models.ConnectableConnection GetConnection(DependencyObject obj) => (MyGraph.Models.ConnectableConnection)obj.GetValue(ConnectionProperty);
         public static void SetConnection(DependencyObject obj, MyGraph.Models.Connection value) => obj.SetValue(ConnectionProperty, value);
 
         public static readonly DependencyProperty RoleProperty =
@@ -51,7 +51,7 @@ namespace MyGraph.Behaviors
         {
             if (!(d is FrameworkElement element)) return;
 
-            if (e.NewValue is MyGraph.Models.Connection newConnection)
+            if (e.NewValue is MyGraph.Models.ConnectableConnection newConnection)
             {
                 // Defer the setup until after the current WPF layout/render pass.
                 // This ensures that all properties (like 'Role') have been set from XAML.

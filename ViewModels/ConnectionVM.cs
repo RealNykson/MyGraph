@@ -16,12 +16,12 @@ using System.Windows.Media;
 
 namespace MyGraph.ViewModels
 {
-  public class ConnectionVM : Connection
+  public class ConnectionVM : ConnectableConnection
   {
 
 
 
-    public ConnectionVM(Connectable output, Connectable input, Connection oldConnection = null) : base(output, input, oldConnection)
+    public ConnectionVM(Connectable output, Connectable input, ConnectableConnection oldConnection = null) : base(output, input, oldConnection)
     {
       Canvas.Connections.Add(this);
     }

@@ -52,7 +52,7 @@
                     <BeginStoryboard>
                         <Storyboard RepeatBehavior="Forever">
 
-<!--
+                            <!--
                             <DoubleAnimation
                                 AutoReverse="False"
                                 FillBehavior="Stop"
@@ -61,8 +61,7 @@
                                 Storyboard.TargetProperty="StrokeDashOffset"
                                 From="0"
                                 To="-15"
-                                Duration="0:0:1" />
--->
+                                Duration="0:0:1" />                            -->
 
                         </Storyboard>
                     </BeginStoryboard>
@@ -82,7 +81,7 @@
                         <DataTrigger Binding="{Binding ElementName=HitTestPath, Path=IsMouseOver}" Value="True">
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundHover}" />
                         </DataTrigger>
-                        
+
                         <DataTrigger Binding="{Binding Canvas.EnableConnectionAnimations}" Value="False">
                             <Setter Property="StrokeDashOffset" Value="0" />
                         </DataTrigger>

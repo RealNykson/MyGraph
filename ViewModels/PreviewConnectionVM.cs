@@ -9,15 +9,13 @@ using System.Windows.Input;
 
 namespace MyGraph.ViewModels
 {
-  public class PreviewConnectionVM : Connection
+  public class PreviewConnectionVM : ConnectableConnection
   {
-    public PreviewConnectionVM(Connectable output, Connection oldConnection = null) : base(output, null, oldConnection)
+    public PreviewConnectionVM(Connectable output, ConnectableConnection oldConnection = null) : base(output, null, oldConnection)
     {
-
       CurvePoints[1] = Canvas.MousePositionOnCanvas;
       CurvePoints[2] = Canvas.MousePositionOnCanvas;
       Start.updateOutputs();
-
 
       if (Canvas.GhostConnection != null)
       {

@@ -13,23 +13,23 @@ namespace MyGraph.Models
     {
         public Connectable()
         {
-            Outputs = new ObservableCollection<Connection>();
-            Inputs = new ObservableCollection<Connection>();
+            Outputs = new ObservableCollection<ConnectableConnection>();
+            Inputs = new ObservableCollection<ConnectableConnection>();
         }
 
 
-        public ObservableCollection<Connection> Inputs
+        public ObservableCollection<ConnectableConnection> Inputs
         {
-            get => Get<ObservableCollection<Connection>>();
+            get => Get<ObservableCollection<ConnectableConnection>>();
             //This Collection should never be set outside of the constructor because 
             //each Connector listens to the CollectionChanged event in ConnectorPositionBehavior
             //and setting it will cause the listener to be removed
             private set => Set(value);
         }
 
-        public ObservableCollection<Connection> Outputs
+        public ObservableCollection<ConnectableConnection> Outputs
         {
-            get => Get<ObservableCollection<Connection>>();
+            get => Get<ObservableCollection<ConnectableConnection>>();
             //This Collection should never be set outside of the constructor because 
             //each Connector listens to the CollectionChanged event in ConnectorPositionBehavior
             //and setting it will cause the listener to be removed
@@ -37,28 +37,43 @@ namespace MyGraph.Models
         }
 
         #region Methods
-        public void connect(Connectable connectable, Connection oldConnection = null)
+        public void connect(Connectable connectable, ConnectableConnection oldConnection = null, Connectable nextDestination = null)
         {
+
+
             Debug.Assert(connectable != null);
             if (connectable == null)
             {
                 return;
             }
+
             //Debug.Assert(node != this);
             if (connectable == this)
             {
                 return;
             }
 
-            Connection connection = Outputs.Where(n => n.End == connectable).FirstOrDefault();
-            if (connection != null && connection != Canvas.GhostConnection)
+            ConnectableConnection connection = Outputs.Where(n => n.End == connectable).FirstOrDefault();
+            if (connection != null && connection != Canvas.GhostConnection as ConnectableConnection)
             {
                 return;
             }
             Debug.Assert(Canvas.Connections.Where(c => c.End == connectable && c.Start == this).Count() == 0);
-
-
             ConnectionVM connectionVM = new ConnectionVM(this, connectable, oldConnection);
+            if (connectable is TransferUnitVM transferUnit)
+            {
+                if (nextDestination == null)
+                {
+                    return;
+                }
+                ConnectableConnection nextConnection = transferUnit.Outputs.Where(n => n.End == nextDestination).FirstOrDefault();
+                if (nextConnection == null)
+                {
+                    nextConnection = new ConnectionVM(transferUnit, nextDestination);
+                    transferUnit.Outputs.Add(nextConnection);
+                }
+                transferUnit.addInternConnection(connectionVM, nextConnection);
+            }
 
             connectable.orderConnections();
             this.orderConnections();
@@ -133,23 +148,24 @@ namespace MyGraph.Models
         public void orderConnections()
         {
 
-            List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
+
+            List<ConnectableConnection> orderedOutputs = Outputs.Where(c => c.End != null).OrderBy(c => c.End.Position.Y).ToList();
 
             if (!Outputs.SequenceEqual(orderedOutputs))
             {
                 Outputs.Clear();
-                foreach (Connection connection in orderedOutputs)
+                foreach (ConnectableConnection connection in orderedOutputs)
                 {
                     Outputs.Add(connection);
                 }
                 updateOutputs();
             }
 
-            List<Connection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
+            List<ConnectableConnection> orderedInputs = Inputs.OrderBy(c => c.Start.Position.Y).ToList();
             if (!Inputs.SequenceEqual(orderedInputs))
             {
                 Inputs.Clear();
-                foreach (Connection connection in orderedInputs)
+                foreach (ConnectableConnection connection in orderedInputs)
                 {
                     Inputs.Add(connection);
                 }
@@ -180,7 +196,7 @@ namespace MyGraph.Models
             Debug.Assert(Outputs != null);
             if (Outputs == null)
                 return;
-            foreach (Connection connection in Outputs)
+            foreach (ConnectableConnection connection in Outputs)
             {
                 connection.updateOutput();
             }
@@ -192,7 +208,7 @@ namespace MyGraph.Models
             if (Inputs == null)
                 return;
 
-            foreach (Connection connection in Inputs)
+            foreach (ConnectableConnection connection in Inputs)
             {
                 connection.updateInput();
             }
@@ -200,7 +216,7 @@ namespace MyGraph.Models
 
         #endregion
         //Can be overridden by subclasses to implement custom connection logic
-        public virtual void customConnectionLogic(Connection connection)
+        public virtual void customConnectionLogic(ConnectableConnection connection)
         {
             //Default connection logic
             Connectable start = Canvas.GhostConnection.Start;

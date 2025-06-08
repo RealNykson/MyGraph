@@ -316,8 +316,7 @@ namespace MyGraph.ViewModels
             destinationNode = new NodeVM(destinationUnit.UnitName, destinationUnit.UnitId);
           }
 
-          sourceNode.connect(transferReal);
-          transferReal.connect(destinationNode);
+          sourceNode.connect(transferReal, null, destinationNode);
         }
 
         //foreach (ConnectionDB connection in connectionsList)
@@ -613,9 +612,13 @@ namespace MyGraph.ViewModels
           {
             foreach (Connectable parent in nodesByLevel[level - 1])
             {
-              foreach (Connection output in parent.Outputs)
+              foreach (ConnectableConnection output in parent.Outputs)
               {
                 Connectable child = output.End;
+                if (child == null)
+                {
+                  continue;
+                }
                 if (nodeLevels.ContainsKey(child) && nodeLevels[child] == level)
                 {
                   // Add to parent->children mapping
@@ -849,10 +852,14 @@ namespace MyGraph.ViewModels
           while (queue.Count > 0)
           {
             Connectable current = queue.Dequeue();
+            if (current == null)
+            {
+              continue;
+            }
             component.Add(current);
 
             // Add all unvisited neighbors (both incoming and outgoing connections)
-            foreach (Connection output in current.Outputs)
+            foreach (ConnectableConnection output in current.Outputs)
             {
               if (!visited.Contains(output.End))
               {
@@ -860,7 +867,7 @@ namespace MyGraph.ViewModels
                 queue.Enqueue(output.End);
               }
             }
-            foreach (Connection input in current.Inputs)
+            foreach (ConnectableConnection input in current.Inputs)
             {
               if (!visited.Contains(input.Start))
               {
@@ -903,9 +910,13 @@ namespace MyGraph.ViewModels
         sortedNodes.Add(current);
         visitedCount++;
 
-        foreach (Connection output in current.Outputs)
+        foreach (ConnectableConnection output in current.Outputs)
         {
           Connectable neighbor = output.End;
+          if (neighbor == null)
+          {
+            continue;
+          }
           inDegree[neighbor]--;
           if (inDegree[neighbor] == 0)
           {
@@ -1022,18 +1033,16 @@ namespace MyGraph.ViewModels
     Timer timer;
     public void AnimateConnections()
     {
-      if (!EnableConnectionAnimations)
-        return;
-
       timer = new Timer((o) =>
-      {
-        Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
-        {
-          GlobalAnimationOffset += -newOffset;
-        }));
-      }, null, 0, 30);
-
+  {
+    Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
+    {
+      GlobalAnimationOffset += -newOffset;
+    }));
+  }, null, 0, 30);
     }
+
+
 
     #endregion
 

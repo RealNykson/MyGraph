@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Navigation;
 using MyGraph.Models;
@@ -8,6 +11,11 @@ namespace MyGraph.ViewModels
 {
   public class TransferUnitVM : Connectable
   {
+    public struct internConnection
+    {
+      public ConnectableConnection connection;
+      public ConnectableConnection nextConnections;
+    }
     public int Id { get => Get<int>(); set => Set(value); }
     public string Name { get => Get<string>(); set => Set(value); }
 
@@ -19,9 +27,15 @@ namespace MyGraph.ViewModels
     /// E.g. Node ---Connection 1--> TransferUnit1 ---Connection 3--> Node2
     /// ConnectionToConnection[Connection 1] = [Connection 2, Connection 3]
     /// </summary>
-    public Dictionary<Connection, List<Connection>> ConnectionToConnection { get => Get<Dictionary<Connection, List<Connection>>>(); set => Set(value); }
+    public ObservableCollection<internConnection> InternConnections { get => Get<ObservableCollection<internConnection>>(); set => Set(value); }
 
-    public void customConnectionLogic(Connection connection)
+    public ObservableCollection<Connection> Connections { get => Get<ObservableCollection<Connection>>(); set => Set(value); }
+    public void addInternConnection(ConnectableConnection connection, ConnectableConnection nextDestination)
+    {
+      InternConnections.Add(new internConnection() { connection = connection, nextConnections = nextDestination });
+    }
+
+    public override void customConnectionLogic(ConnectableConnection connection)
     {
       return;
     }
@@ -30,6 +44,10 @@ namespace MyGraph.ViewModels
 
     public TransferUnitVM(string name, int id = -1)
     {
+      InternConnections = new ObservableCollection<internConnection>();
+      Outputs.CollectionChanged += Outputs_CollectionChanged;
+      Inputs.CollectionChanged += Inputs_CollectionChanged;
+      //Minimal Width and Height
       Width = 300;
       Height = 100;
       Canvas.TransferUnits.Add(this);
@@ -37,5 +55,27 @@ namespace MyGraph.ViewModels
       Id = id;
     }
 
+    private void Inputs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      //switch (e.Action)
+      //{
+      //  case NotifyCollectionChangedAction.Remove:
+      //    if (e.OldItems == null) return;
+      //    foreach (ConnectableConnection removedInput in e.OldItems)
+      //    {
+      //      var itemsToRemove = InternConnections.Where(ic => ic.connection == removedInput).ToList();
+      //      foreach (var item in itemsToRemove)
+      //      {
+      //        InternConnections.Remove(item);
+      //      }
+      //    }
+      //    break;
+      //}
+    }
+
+    private void Outputs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      //throw new NotImplementedException();
+    }
   }
 }

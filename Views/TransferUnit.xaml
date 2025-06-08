@@ -85,6 +85,14 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <ItemsControl
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding InternConnections}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate />
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
         </Grid>
     </Grid>
