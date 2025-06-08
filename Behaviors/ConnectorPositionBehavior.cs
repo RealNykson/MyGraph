@@ -121,7 +121,7 @@ namespace MyGraph.Behaviors
 
                     // ******************* DO NOT MOVE THIS CODE ***************************************
                     // If the call is from ObservableCollection.CollectionChanged event we manually need to 
-                    // force a layoutUpdate for the Itemscontrol so that the collection change is visible and 
+                    // force a layoutUpdate for the itemscontrol so that the collection change is visible and 
                     // the calculation will yield the right point. For performance/latency reasons we need to 
                     // update the layout at the last possible moment before calculating the position.
                     // Updating the itemsControl layout too early results in visible flickering. 

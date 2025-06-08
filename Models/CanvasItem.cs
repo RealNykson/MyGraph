@@ -26,13 +26,13 @@ namespace MyGraph.Models
           ZIndex = Canvas.CanvasItems.Max(n => n.ZIndex) + 1;
         }
 
+        Set(value);
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedCanvasItems));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodes));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
         Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
         Canvas.OnPropertyChanged(nameof(Canvas.IsOneSelectedItemLocked));
 
-        Set(value);
       }
     }
 
@@ -57,9 +57,9 @@ namespace MyGraph.Models
         return;
       }
 
-      if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput)
+      if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput && this is Connectable)
       {
-        handleConnection();
+        (this as Connectable).handleConnection();
         return;
       }
 
@@ -73,7 +73,7 @@ namespace MyGraph.Models
 
       if (!Keyboard.IsKeyDown(Key.LeftShift) && !before)
       {
-        foreach (CanvasItem item in Canvas.CanvasItems.Where(n => n != this))
+        foreach (CanvasItem item in Canvas.CanvasItems.Where(n => n != this && n.IsSelected))
         {
           item.IsSelected = false;
         }

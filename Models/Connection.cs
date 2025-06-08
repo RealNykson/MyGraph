@@ -274,11 +274,11 @@ namespace MyGraph.Models
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());
 
-      End = input;
 
       if (oldConnection == null)
       {
         Start = output;
+        End = input;
         return;
       }
 
@@ -293,6 +293,7 @@ namespace MyGraph.Models
           break;
         }
       }
+      End = input;
 
 
     }

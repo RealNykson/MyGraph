@@ -27,7 +27,6 @@
             <Border
                 MinWidth="300"
                 MinHeight="50"
-                Padding="0,15,0,15"
                 behaviors:ActualSizeBehavior.ActualHeight="{Binding Height, Mode=OneWayToSource}"
                 behaviors:ActualSizeBehavior.ActualWidth="{Binding Width, Mode=OneWayToSource}"
                 behaviors:ActualSizeBehavior.ObserveActualSize="True"
@@ -77,7 +76,7 @@
 
                     <!--  Lock Icon  -->
                     <Grid
-                        Margin="0,-15,0,0"
+                        Margin="0,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top">
                         <Grid.Style>
@@ -111,7 +110,7 @@
 
                     <!--  Name  -->
                     <Grid
-                        Margin="20"
+                        Margin="0,35,0,35"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 

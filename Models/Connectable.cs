@@ -64,6 +64,8 @@ namespace MyGraph.Models
                     transferUnit.Connections.Add(connectionVM);
                 }
             }
+            connectable.orderConnections();
+            this.orderConnections();
         }
         public bool isAllreadyConnectedTo(Connectable input)
         {
@@ -133,6 +135,7 @@ namespace MyGraph.Models
 
         public void orderConnections()
         {
+
             List<Connection> orderedOutputs = Outputs.OrderBy(c => c.End.Position.Y).ToList();
 
             if (!Outputs.SequenceEqual(orderedOutputs))
