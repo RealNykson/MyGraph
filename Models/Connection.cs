@@ -1,5 +1,6 @@
 ﻿using MyGraph.Utilities;
 using MyGraph.ViewModels;
+using MyGraph.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,21 +21,9 @@ namespace MyGraph.Models
   public abstract class Connection : NotifyObject
   {
 
-    public CanvasVM Canvas { get; set; }
-
+    public CanvasVM Canvas;
     public double MarginStrength = 125;
 
-    public virtual Point AbsoluteStart
-    {
-      get => Get<Point>();
-      set { Set(value); }
-    }
-
-    public virtual Point AbsoluteEnd
-    {
-      get => Get<Point>();
-      set { Set(value); }
-    }
 
     public Point startPos
     {
@@ -96,7 +85,6 @@ namespace MyGraph.Models
     public Connection()
     {
       Canvas = CanvasVM.currentCanvas;
-
       CurvePoints = new PointCollection();
       CurvePoints.Add(new Point());
       CurvePoints.Add(new Point());

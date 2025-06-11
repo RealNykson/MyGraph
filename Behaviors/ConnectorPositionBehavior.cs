@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using Action = System.Action;
 using MyGraph.Models;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace MyGraph.Behaviors
 {
@@ -68,7 +69,7 @@ namespace MyGraph.Behaviors
                         newConnection.Start.Inputs.CollectionChanged += (s, ee) =>
                             Element_Loaded_Or_LayoutUpdated(element, ee);
                     }
-                    else // Input
+                    else
                     {
                         newConnection.End.Inputs.CollectionChanged += (s, ee) =>
                             Element_Loaded_Or_LayoutUpdated(element, ee);
@@ -79,16 +80,12 @@ namespace MyGraph.Behaviors
                     element.Loaded += Element_Loaded_Or_LayoutUpdated;
                     element.LayoutUpdated += Element_Loaded_Or_LayoutUpdated;
 
-                    if (element.IsLoaded && element.IsVisible)
+                    if (element.IsLoaded)
                     {
                         UpdatePosition(element, newConnection);
                     }
 
                 }), System.Windows.Threading.DispatcherPriority.Loaded);
-            }
-            else
-            {
-
             }
         }
 
@@ -109,7 +106,7 @@ namespace MyGraph.Behaviors
             }
         }
 
-        private static void UpdatePosition(FrameworkElement element, MyGraph.Models.Connection connection)
+        private static void UpdatePosition(FrameworkElement element, MyGraph.Models.ConnectableConnection connection)
         {
             var connectableView = FindAncestor<UserControl>(element);
             if (connectableView != null)

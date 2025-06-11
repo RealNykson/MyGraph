@@ -11,12 +11,10 @@ namespace MyGraph.ViewModels
 {
   public class TransferUnitVM : Connectable
   {
-    public struct internConnection
-    {
-      public ConnectableConnection connection;
-      public ConnectableConnection nextConnections;
-    }
-    public int Id { get => Get<int>(); set => Set(value); }
+
+    public override bool IsDraggable { get => true; }
+    public override bool IsSelectable { get => true; }
+
     public string Name { get => Get<string>(); set => Set(value); }
 
     /// <summary>
@@ -27,16 +25,17 @@ namespace MyGraph.ViewModels
     /// E.g. Node ---Connection 1--> TransferUnit1 ---Connection 3--> Node2
     /// ConnectionToConnection[Connection 1] = [Connection 2, Connection 3]
     /// </summary>
-    public ObservableCollection<internConnection> InternConnections { get => Get<ObservableCollection<internConnection>>(); set => Set(value); }
+    public ObservableCollection<InterConnectionVM> InternConnections { get => Get<ObservableCollection<InterConnectionVM>>(); set => Set(value); }
 
     public ObservableCollection<Connection> Connections { get => Get<ObservableCollection<Connection>>(); set => Set(value); }
     public void addInternConnection(ConnectableConnection connection, ConnectableConnection nextDestination)
     {
-      InternConnections.Add(new internConnection() { connection = connection, nextConnections = nextDestination });
+      InternConnections.Add(new InterConnectionVM(connection, nextDestination));
     }
 
     public override void customConnectionLogic(ConnectableConnection connection)
     {
+
       return;
     }
 
@@ -44,12 +43,9 @@ namespace MyGraph.ViewModels
 
     public TransferUnitVM(string name, int id = -1)
     {
-      InternConnections = new ObservableCollection<internConnection>();
+      InternConnections = new ObservableCollection<InterConnectionVM>();
       Outputs.CollectionChanged += Outputs_CollectionChanged;
       Inputs.CollectionChanged += Inputs_CollectionChanged;
-      //Minimal Width and Height
-      Width = 300;
-      Height = 100;
       Canvas.TransferUnits.Add(this);
       Name = name;
       Id = id;
@@ -57,25 +53,48 @@ namespace MyGraph.ViewModels
 
     private void Inputs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      //switch (e.Action)
-      //{
-      //  case NotifyCollectionChangedAction.Remove:
-      //    if (e.OldItems == null) return;
-      //    foreach (ConnectableConnection removedInput in e.OldItems)
-      //    {
-      //      var itemsToRemove = InternConnections.Where(ic => ic.connection == removedInput).ToList();
-      //      foreach (var item in itemsToRemove)
-      //      {
-      //        InternConnections.Remove(item);
-      //      }
-      //    }
-      //    break;
-      //}
+
+      if (e.Action == NotifyCollectionChangedAction.Remove)
+      {
+        foreach (ConnectableConnection removedConnection in e.OldItems)
+        {
+          var connectionsToRemove = InternConnections.Where(ic => ic.previousConnection == removedConnection).ToList();
+          foreach (var connection in connectionsToRemove)
+          {
+            InternConnections.Remove(connection);
+          }
+        }
+      }
+
     }
 
     private void Outputs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      //throw new NotImplementedException();
+      if (e.Action == NotifyCollectionChangedAction.Replace)
+      {
+        foreach (ConnectableConnection newConnection in e.NewItems)
+        {
+          foreach (ConnectableConnection oldConnection in e.OldItems)
+          {
+            var connectionsToUpdate = InternConnections.Where(ic => ic.nextConnection == oldConnection).ToList();
+            foreach (var connection in connectionsToUpdate)
+            {
+              connection.nextConnection = newConnection;
+            }
+          }
+        }
+      }
+      if (e.Action == NotifyCollectionChangedAction.Remove)
+      {
+        foreach (ConnectableConnection removedConnection in e.OldItems)
+        {
+          var connectionsToRemove = InternConnections.Where(ic => ic.nextConnection == removedConnection).ToList();
+          foreach (var connection in connectionsToRemove)
+          {
+            InternConnections.Remove(connection);
+          }
+        }
+      }
     }
   }
 }

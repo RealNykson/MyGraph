@@ -17,7 +17,9 @@ namespace MyGraph.ViewModels
 {
   public class NodeVM : Connectable
   {
-    public int Id { get; set; }
+
+    public override bool IsDraggable { get => true; }
+    public override bool IsSelectable { get => true; }
 
     public bool IsTransfer
     {
@@ -71,6 +73,7 @@ namespace MyGraph.ViewModels
 
     public IRelayCommand AddGhostOutputCommand { get; private set; }
 
+
     public void createCommands()
     {
       AddGhostOutputCommand = new RelayCommand(addGhostOutput);
@@ -96,7 +99,6 @@ namespace MyGraph.ViewModels
 
 
 
-
     #endregion
 
     #region Events
@@ -112,6 +114,7 @@ namespace MyGraph.ViewModels
 
     public NodeVM(string name = "", int id = -1)
     {
+
       Id = id;
       Name = name;
       createCommands();

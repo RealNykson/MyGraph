@@ -188,7 +188,7 @@ namespace MyGraph.ViewModels
 
     private void sortNodes()
     {
-      Canvas.sortNodes();
+      Canvas.sortConnectables();
     }
 
     public void changeTheme()

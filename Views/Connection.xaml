@@ -47,29 +47,29 @@
                     </PathGeometry.Figures>
                 </PathGeometry>
             </Path.Data>
-            <Path.Triggers>
-                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever">
-
-                            <!--
-                            <DoubleAnimation
-                                AutoReverse="False"
-                                FillBehavior="Stop"
-                                IsCumulative="True"
-                                RepeatBehavior="Forever"
-                                Storyboard.TargetProperty="StrokeDashOffset"
-                                From="0"
-                                To="-15"
-                                Duration="0:0:1" />                            -->
-
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Path.Triggers>
             <Path.Style>
                 <Style TargetType="Path">
                     <Style.Triggers>
+                        <DataTrigger Binding="{Binding Canvas.EnableConnectionAnimations}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard x:Name="Animation">
+                                    <Storyboard RepeatBehavior="Forever" Timeline.DesiredFrameRate="10">
+                                        <DoubleAnimation
+                                            AutoReverse="False"
+                                            FillBehavior="Stop"
+                                            IsCumulative="True"
+                                            RepeatBehavior="Forever"
+                                            Storyboard.TargetProperty="StrokeDashOffset"
+                                            From="0"
+                                            To="-25"
+                                            Duration="0:0:5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="Animation" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding End.IsSelected}" Value="True">
                             <Setter Property="Stroke" Value="{DynamicResource ConnectionBackgroundSelected}" />
                             <Setter Property="StrokeThickness" Value="6" />
@@ -110,7 +110,6 @@
                     <Setter Property="StrokeDashArray" Value="4,1" />
                     <Setter Property="Stroke" Value="{DynamicResource ConnectionBackground}" />
                     <Setter Property="StrokeThickness" Value="4" />
-                    <Setter Property="StrokeDashOffset" Value="{Binding Canvas.GlobalAnimationOffset}" />
                 </Style>
             </Path.Style>
         </Path>

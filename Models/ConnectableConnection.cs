@@ -82,13 +82,13 @@ namespace MyGraph.Models
 
             }
         }
-        public override Point AbsoluteStart
+        public Point AbsoluteStart
         {
             get => Get<Point>();
             set { Set(value); Start.updateOutputs(); Start.updateInputs(); }
         }
 
-        public override Point AbsoluteEnd
+        public Point AbsoluteEnd
         {
             get => Get<Point>();
             set { Set(value); End.updateInputs(); End.updateOutputs(); }

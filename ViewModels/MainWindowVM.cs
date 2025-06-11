@@ -12,7 +12,6 @@ namespace MyGraph.ViewModels
   public class MainWindowVM : NotifyObject
   {
     #region Properties
-    private DatabaseConnection _dbConnection;
 
     public ObservableCollection<ProcessUnit> ProcessUnits
     {

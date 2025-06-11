@@ -47,32 +47,40 @@ namespace MyGraph.Models
                 return;
             }
 
-            //Debug.Assert(node != this);
-            if (connectable == this)
-            {
-                return;
-            }
 
-            ConnectableConnection connection = Outputs.Where(n => n.End == connectable).FirstOrDefault();
-            if (connection != null && connection != Canvas.GhostConnection as ConnectableConnection)
-            {
-                return;
-            }
-            Debug.Assert(Canvas.Connections.Where(c => c.End == connectable && c.Start == this).Count() == 0);
-            ConnectionVM connectionVM = new ConnectionVM(this, connectable, oldConnection);
             if (connectable is TransferUnitVM transferUnit)
             {
+                Debug.Assert(nextDestination != null);
                 if (nextDestination == null)
                 {
                     return;
                 }
+
+                ConnectableConnection connectionVM = this.Outputs.Where(n => n.End == connectable).FirstOrDefault();
+                if (connectionVM == null)
+                {
+                    connectionVM = new ConnectionVM(this, connectable);
+                }
+
+
                 ConnectableConnection nextConnection = transferUnit.Outputs.Where(n => n.End == nextDestination).FirstOrDefault();
                 if (nextConnection == null)
                 {
                     nextConnection = new ConnectionVM(transferUnit, nextDestination);
-                    transferUnit.Outputs.Add(nextConnection);
                 }
+
                 transferUnit.addInternConnection(connectionVM, nextConnection);
+            }
+            else
+            {
+
+                ConnectionVM connectionVM = new ConnectionVM(this, connectable);
+                ConnectableConnection connection = Outputs.Where(n => n.End == connectable).FirstOrDefault();
+                Debug.Assert(Canvas.Connections.Where(c => c.End == connectable && c.Start == this).Count() == 0);
+                if (connection != null && connection != Canvas.GhostConnection as ConnectableConnection)
+                {
+                    return;
+                }
             }
 
             connectable.orderConnections();

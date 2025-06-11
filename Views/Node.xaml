@@ -11,6 +11,15 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
     <Grid>
 
         <Grid.Resources>
@@ -65,7 +74,6 @@
                                 <Setter Property="Background" Value="{DynamicResource NodeBackgroundSearched}" />
                                 <Setter Property="BorderThickness" Value="3" />
                             </DataTrigger>
-
                         </Style.Triggers>
                         <Setter Property="Background" Value="{DynamicResource NodeBackground}" />
                         <Setter Property="BorderThickness" Value="1.5" />
@@ -119,7 +127,7 @@
                             FontSize="18"
                             FontWeight="Medium"
                             Foreground="{DynamicResource NodeText}"
-                            Text="{Binding Name}" />
+                            Text="{Binding Id}" />
                     </Grid>
 
                     <!--  Outputs  -->

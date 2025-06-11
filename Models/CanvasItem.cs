@@ -10,9 +10,22 @@ namespace MyGraph.Models
 {
   public abstract class CanvasItem : NotifyObject
   {
+
+    public int Id { get; set; }
+
     public int ZIndex
     {
       get => Get<int>();
+      set => Set(value);
+    }
+
+    public abstract bool IsDraggable { get; }
+
+    public abstract bool IsSelectable { get; }
+
+    public bool IsInView
+    {
+      get => Get<bool>();
       set => Set(value);
     }
 
@@ -21,17 +34,16 @@ namespace MyGraph.Models
       get => Get<bool>();
       set
       {
+        if (!IsSelectable)
+        {
+          return;
+        }
         if (value)
         {
           ZIndex = Canvas.CanvasItems.Max(n => n.ZIndex) + 1;
         }
 
         Set(value);
-        Canvas.OnPropertyChanged(nameof(Canvas.SelectedCanvasItems));
-        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodes));
-        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesInputs));
-        Canvas.OnPropertyChanged(nameof(Canvas.SelectedNodesOutputs));
-        Canvas.OnPropertyChanged(nameof(Canvas.IsOneSelectedItemLocked));
 
       }
     }
@@ -61,6 +73,12 @@ namespace MyGraph.Models
         return;
       }
 
+      if (!IsLocked && IsDraggable)
+      {
+        startDragPosition = Canvas.LastMousePosition;
+        Canvas.CurrentAction = ViewModels.Action.Dragging;
+      }
+
       if (!IsSelected)
       {
         justSet = true;
@@ -77,11 +95,7 @@ namespace MyGraph.Models
         }
       }
 
-      if (!IsLocked)
-      {
-        startDragPosition = Canvas.LastMousePosition;
-        Canvas.CurrentAction = ViewModels.Action.Dragging;
-      }
+
     }
 
     public void MouseRightDown(MouseButtonEventArgs ev)
@@ -100,8 +114,28 @@ namespace MyGraph.Models
 
       Canvas.CurrentAction = ViewModels.Action.None;
     }
-    public double Width { get => Get<double>(); set => Set(value); }
-    public double Height { get => Get<double>(); set => Set(value); }
+
+    public double Width
+    {
+      get => Get<double>();
+      set => Set(value);
+    }
+    public double Height
+    {
+      get { return Get<double>(); }
+      set { Set(value); }
+    }
+
+    /// <summary>
+    /// This property is true if the TransforMatrix can look at the item.
+    /// In other words: It is false if it is out of the view of the user.
+    /// We collapse all items that are not visible for performance reasons.
+    /// </summary>
+    public bool IsVisible
+    {
+      get => Get<bool>();
+      set => Set(value);
+    }
 
     public CanvasVM Canvas
     {
@@ -122,12 +156,14 @@ namespace MyGraph.Models
 
     public CanvasItem()
     {
+      IsVisible = true;
       Debug.Assert(CanvasVM.currentCanvas != null);
       Canvas = CanvasVM.currentCanvas;
     }
+
     public void move(double deltaX, double deltaY)
     {
-      if (IsLocked)
+      if (IsLocked || !IsDraggable)
       {
         return;
       }

@@ -166,7 +166,10 @@ namespace MyGraph.ViewModels
     public Point StartSelectRangePosition
     {
       get => Get<Point>();
-      set => Set(value);
+      set
+      {
+        Set(value);
+      }
     }
 
     public double SelectRangeWidth
@@ -191,12 +194,6 @@ namespace MyGraph.ViewModels
     public bool IsOneSelectedNodeLocked
     {
       get => SelectedCanvasItems.Where(c => c.IsLocked).Count() != 0;
-    }
-
-    public double GlobalAnimationOffset
-    {
-      get => Get<double>();
-      set => Set(value);
     }
 
     public bool EnableConnectionAnimations
@@ -227,37 +224,11 @@ namespace MyGraph.ViewModels
       set { Set(value); }
     }
 
-    public ObservableCollection<CanvasItem> CanvasItems
-    {
-      get
-      {
-        return new ObservableCollection<CanvasItem>(
-        Nodes.Cast<CanvasItem>().Concat(
-        TransferUnits.Cast<CanvasItem>()
-        ));
-      }
-    }
-
-
-    public ObservableCollection<CanvasItem> SelectedCanvasItems
-    {
-      get { return new ObservableCollection<CanvasItem>(CanvasItems.Where(c => c.IsSelected).ToList()); }
-    }
-
-    public ObservableCollection<NodeVM> SelectedNodes
-    {
-      get { return new ObservableCollection<NodeVM>(Nodes.Where(n => n.IsSelected).ToList()); }
-    }
-
-    public ObservableCollection<Connectable> SelectedNodesOutputs
-    {
-      get { return new ObservableCollection<Connectable>(SelectedNodes.SelectMany(n => n.Outputs.Select(o => o.End)).ToList()); }
-    }
-
-    public ObservableCollection<Connectable> SelectedNodesInputs
-    {
-      get { return new ObservableCollection<Connectable>(SelectedNodes.SelectMany(n => n.Inputs.Select(i => i.Start)).ToList()); }
-    }
+    public ObservableCollection<CanvasItem> CanvasItems { get; }
+    public ObservableCollection<CanvasItem> SelectedCanvasItems { get; }
+    public ObservableCollection<NodeVM> SelectedNodes { get; }
+    public ObservableCollection<Connectable> SelectedNodesOutputs { get; }
+    public ObservableCollection<Connectable> SelectedNodesInputs { get; }
 
     public bool IsOneSelectedItemLocked
     {
@@ -270,10 +241,173 @@ namespace MyGraph.ViewModels
 
     #region Methods
 
-    private DispatcherTimer currentPanTimer;
+    #region Selection Handling
 
-    // Global animation timer for connection dash offset animation
-    private DispatcherTimer globalAnimationTimer;
+    private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.OldItems != null)
+      {
+        foreach (CanvasItem item in e.OldItems)
+        {
+          item.PropertyChanged -= CanvasItem_PropertyChanged;
+          CanvasItems.Remove(item);
+          if (item.IsSelected)
+          {
+            SelectedCanvasItems.Remove(item);
+            if (item is NodeVM node)
+            {
+              SelectedNodes.Remove(node);
+            }
+          }
+        }
+      }
+      if (e.NewItems != null)
+      {
+        foreach (CanvasItem item in e.NewItems)
+        {
+          item.PropertyChanged += CanvasItem_PropertyChanged;
+          CanvasItems.Add(item);
+          if (item.IsSelected)
+          {
+            if (!SelectedCanvasItems.Contains(item))
+            {
+              SelectedCanvasItems.Add(item);
+            }
+            if (item is NodeVM node && !SelectedNodes.Contains(node))
+            {
+              SelectedNodes.Add(node);
+            }
+          }
+        }
+      }
+    }
+
+    private void CanvasItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName != "IsSelected") return;
+
+      var item = (CanvasItem)sender;
+      if (item.IsSelected)
+      {
+        if (!SelectedCanvasItems.Contains(item))
+        {
+          SelectedCanvasItems.Add(item);
+          if (item is NodeVM node && !SelectedNodes.Contains(node))
+          {
+            SelectedNodes.Add(node);
+          }
+        }
+      }
+      else
+      {
+        SelectedCanvasItems.Remove(item);
+        if (item is NodeVM node)
+        {
+          SelectedNodes.Remove(node);
+        }
+      }
+    }
+
+    private void SelectedNodes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems != null)
+      {
+        foreach (NodeVM node in e.NewItems)
+        {
+          foreach (ConnectableConnection output in node.Outputs)
+          {
+            SelectedNodesOutputs.Add(output.End);
+          }
+          foreach (ConnectableConnection input in node.Inputs)
+          {
+            SelectedNodesInputs.Add(input.Start);
+          }
+
+          if (node.Outputs is INotifyCollectionChanged outputs)
+          {
+            outputs.CollectionChanged += OnNodeConnectionsChanged;
+          }
+          if (node.Inputs is INotifyCollectionChanged inputs)
+          {
+            inputs.CollectionChanged += OnNodeConnectionsChanged;
+          }
+        }
+      }
+
+      if (e.OldItems != null)
+      {
+        foreach (NodeVM node in e.OldItems)
+        {
+          foreach (ConnectableConnection output in node.Outputs)
+          {
+            SelectedNodesOutputs.Remove(output.End);
+          }
+
+          foreach (ConnectableConnection input in node.Inputs)
+          {
+            SelectedNodesInputs.Remove(input.Start);
+          }
+
+          if (node.Outputs is INotifyCollectionChanged outputs)
+          {
+            outputs.CollectionChanged -= OnNodeConnectionsChanged;
+          }
+          if (node.Inputs is INotifyCollectionChanged inputs)
+          {
+            inputs.CollectionChanged -= OnNodeConnectionsChanged;
+          }
+        }
+      }
+    }
+
+    private void OnNodeConnectionsChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      SelectedNodesOutputs.Clear();
+      SelectedNodesInputs.Clear();
+
+      foreach (var node in SelectedNodes)
+      {
+        foreach (ConnectableConnection output in node.Outputs)
+        {
+          SelectedNodesOutputs.Add(output.End);
+        }
+
+        foreach (ConnectableConnection input in node.Inputs)
+        {
+          SelectedNodesInputs.Add(input.Start);
+        }
+      }
+    }
+
+    #endregion
+
+    #region Visibility
+    public void UpdateItemVisibility(CanvasItem item)
+    {
+      if (item == null || CanvasTransformMatrix == null)
+      {
+        return;
+      }
+
+      Rect viewRect = new Rect(+100, +100, GridWidth - 200, GridHeight - 200);
+      //Rect viewRect = new Rect(-100, -100, GridWidth + 100, GridHeight + 100);
+      var matrix = CanvasTransformMatrix.Matrix;
+      Point itemPosInView = new Point(matrix.Transform(item.Position).X, matrix.Transform(item.Position).Y);
+      Rect itemRectInView = new Rect(itemPosInView, new Size(item.Width * Scale, item.Height * Scale));
+      item.IsVisible = viewRect.IntersectsWith(itemRectInView);
+    }
+
+    public void UpdateAllItemsVisibility()
+    {
+      foreach (var item in CanvasItems)
+      {
+        UpdateItemVisibility(item);
+      }
+    }
+
+    #endregion
+
+    private DispatcherTimer currentPanTimer;
 
     private void loadObjectsFromDatabase()
     {
@@ -341,6 +475,7 @@ namespace MyGraph.ViewModels
         }
 
 
+
       }
 
       catch (Exception ex)
@@ -348,6 +483,16 @@ namespace MyGraph.ViewModels
         MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
       }
 
+    }
+
+    /// <summary>
+    /// Method is used to convert coordinates from a CanvasItem to Matrix coordinates.
+    /// </summary>
+    /// <param name="point">The point to convert.</param>
+    /// <returns>The converted point.</returns>
+    public Point ConvertCanvasToMatrixCoordinates(Point point)
+    {
+      return new Point(-point.X * Scale, -point.Y * Scale);
     }
 
     public void panToNode(NodeVM node)
@@ -362,13 +507,14 @@ namespace MyGraph.ViewModels
 
       var timer = new System.Windows.Threading.DispatcherTimer
       {
-        Interval = TimeSpan.FromMilliseconds(16) // Roughly 60fps
+        Interval = TimeSpan.FromMilliseconds(8)
       };
 
       timer.Tick += (sender, e) =>
       {
-        double targetOffsetX = (-node.Position.X * Scale) + (GridWidth / 2) - (node.Width / 2);
-        double targetOffsetY = (-node.Position.Y * Scale) + (GridHeight / 2) - (node.Height / 2);
+        Point nodePosition = ConvertCanvasToMatrixCoordinates(node.Position);
+        double targetOffsetX = nodePosition.X + (GridWidth / 2) - (node.Width / 2);
+        double targetOffsetY = nodePosition.Y + (GridHeight / 2) - (node.Height / 2);
 
         Matrix currentMatrix = CanvasTransformMatrix.Matrix;
         double currentOffsetX = currentMatrix.OffsetX;
@@ -386,6 +532,7 @@ namespace MyGraph.ViewModels
           {
             currentPanTimer = null;
           }
+          UpdateAllItemsVisibility();
           return;
         }
 
@@ -394,18 +541,14 @@ namespace MyGraph.ViewModels
         currentMatrix.OffsetY += (targetOffsetY - currentOffsetY) * easingFactor;
 
         CanvasTransformMatrix.Matrix = currentMatrix;
+        UpdateAllItemsVisibility();
       };
 
       currentPanTimer = timer;
       currentPanTimer.Start();
     }
 
-    private double EaseOutQuad(double t)
-    {
-      return t * (2 - t);
-    }
-
-    public void updateDraggingNode(Point delta)
+    public void updateDraggingItems(Point delta)
     {
 
       if (System.Windows.Input.Mouse.LeftButton != MouseButtonState.Pressed)
@@ -414,11 +557,13 @@ namespace MyGraph.ViewModels
         return;
       }
 
-      foreach (CanvasItem item in SelectedCanvasItems)
+      foreach (CanvasItem item in SelectedCanvasItems.Where(i => i.IsDraggable))
       {
         item.move(delta.X / Scale, delta.Y / Scale);
+        UpdateItemVisibility(item);
       }
     }
+
     public Point findNextFreeArea(double widthNeeded, double heightNeeded)
     {
       Point currentCheckingPosition = new Point(CanvasTransformMatrix.Matrix.OffsetX / Scale * -1.1, CanvasTransformMatrix.Matrix.OffsetY / Scale * -1.1);
@@ -462,40 +607,90 @@ namespace MyGraph.ViewModels
         return;
       }
 
-
       var mat = CanvasTransformMatrix.Matrix;
       mat.OffsetX += delta.X;
       mat.OffsetY += delta.Y;
       CanvasTransformMatrix.Matrix = mat;
+      UpdateAllItemsVisibility();
     }
 
 
     public List<CanvasItem> SelectorSelectedItems = new List<CanvasItem>();
 
+    private List<CanvasItem> NotSelectedDown;
+    private List<CanvasItem> NotSelectedUp;
+    private List<CanvasItem> NotSelectedLeft;
+    private List<CanvasItem> NotSelectedRight;
+
     public void addSelectorSelectedItems()
     {
-      foreach (CanvasItem item in CanvasItems)
+      Rect selectionRect = new Rect(StartSelectRangePosition.X, StartSelectRangePosition.Y, SelectRangeWidth, SelectRangeHeight);
+
+      // Handle deselection
+      for (int i = SelectorSelectedItems.Count - 1; i >= 0; i--)
       {
-        if (item.Position.X >= StartSelectRangePosition.X
-          && item.Position.X <= StartSelectRangePosition.X + SelectRangeWidth
-          && item.Position.Y >= StartSelectRangePosition.Y
-          && item.Position.Y <= StartSelectRangePosition.Y + SelectRangeHeight)
-        {
-          if (!item.IsSelected)
-          {
-            SelectorSelectedItems.Add(item);
-            item.IsSelected = true;
-          }
-          continue;
-        }
-        else if (SelectorSelectedItems.Contains(item))
+        var item = SelectorSelectedItems[i];
+        Rect itemRect = new Rect(item.Position.X, item.Position.Y, item.Width, item.Height);
+        if (!selectionRect.IntersectsWith(itemRect))
         {
           item.IsSelected = false;
-          SelectorSelectedItems.Remove(item);
+          SelectorSelectedItems.RemoveAt(i);
         }
-
       }
 
+      var newlySelected = new HashSet<CanvasItem>();
+
+      // Check against sorted lists. Using NotSelectedLeft (sorted by X) is a good primary check.
+      if (NotSelectedLeft != null)
+      {
+        foreach (CanvasItem item in NotSelectedLeft)
+        {
+          if (item.Position.X > selectionRect.Right)
+          {
+            break;
+          }
+
+          if (item.IsSelected)
+          {
+            continue;
+          }
+
+          Rect itemRect = new Rect(item.Position.X, item.Position.Y, item.Width, item.Height);
+          if (selectionRect.IntersectsWith(itemRect))
+          {
+            newlySelected.Add(item);
+          }
+        }
+      }
+
+      // Also check against Y-sorted list to catch items that might be missed
+      if (NotSelectedDown != null)
+      {
+        foreach (CanvasItem item in NotSelectedDown)
+        {
+          if (item.Position.Y > selectionRect.Bottom)
+          {
+            break;
+          }
+          if (item.IsSelected)
+          {
+            continue;
+          }
+          if (newlySelected.Contains(item)) { continue; }
+
+          Rect itemRect = new Rect(item.Position.X, item.Position.Y, item.Width, item.Height);
+          if (selectionRect.IntersectsWith(itemRect))
+          {
+            newlySelected.Add(item);
+          }
+        }
+      }
+
+      foreach (var item in newlySelected)
+      {
+        item.IsSelected = true;
+        SelectorSelectedItems.Add(item);
+      }
     }
 
 
@@ -548,7 +743,7 @@ namespace MyGraph.ViewModels
       switch (CurrentAction)
       {
         case Action.Dragging:
-          updateDraggingNode((Point)delta);
+          updateDraggingItems((Point)delta);
           break;
         case Action.Panning:
           updatePanningCanvas((Point)delta);
@@ -567,312 +762,73 @@ namespace MyGraph.ViewModels
     }
 
     /// <summary>
-    /// This functions tries to find a approximation of an optimal placmenent of the nodes to have the least overlaps.
-    /// Since topological sorting is a NP-hard problem, this function uses a heuristic approach to find a good solution.
-    /// Be careful when modifying this function, since most aspects are dependent on each other and thus can break easily.
-    /// Searching for someone to blame? => Felix Baumueller
+    /// Arranges nodes in the canvas for clarity, minimizing connection overlaps and grouping connected components.
+    /// This method implements a version of the Sugiyama layout algorithm to achieve a hierarchical, left-to-right arrangement.
+    /// It handles complex graphs, including those with cycles, to produce a clean and readable layout.
+    /// Blame: Felix Baumueller.
     /// </summary>
-    public void sortNodes()
+    public void sortConnectables()
     {
-      List<List<Connectable>> sortedGroups = getTopologicallySortedGroups();
+      var allConnectables = Nodes.Cast<Connectable>().Concat(TransferUnits).ToList();
+      if (!allConnectables.Any()) return;
 
-      double initialStartX = 50;
-      double startX = initialStartX;
-      double startY = 50;
+      List<List<Connectable>> components = findConnectedComponents(allConnectables);
+
       double horizontalSpacing = 400;
       double verticalSpacing = 50;
-
       double groupVerticalSpacing = 200;
+      double initialStartX = 50;
+      double currentY = 50;
 
-      foreach (List<Connectable> group in sortedGroups)
+      foreach (List<Connectable> component in components)
       {
-        if (group.Count == 0)
-          continue;
+        if (!component.Any()) continue;
 
-        Dictionary<Connectable, int> nodeLevels = new Dictionary<Connectable, int>();
-        CalculateLevels(group, nodeLevels);
+        // 1. Assign layers (or levels) to each node in the component.
+        var layers = assignLayers(component);
 
-        var nodesByLevel = group.GroupBy(node => nodeLevels[node])
-                               .OrderBy(g => g.Key)
-                               .ToDictionary(g => g.Key, g => g.ToList());
+        // 2. Order nodes within each layer to reduce crossings and assign initial Y positions.
+        var yPositions = positionNodesVertically(layers, verticalSpacing);
 
-        // Two-pass algorithm for better vertical alignment
-        // First pass: Determine positions with a bottom-up approach
-        Dictionary<Connectable, double> nodeYPositions = new Dictionary<Connectable, double>();
-        Dictionary<int, double> levelWidths = new Dictionary<int, double>();
-        Dictionary<int, double> levelHeights = new Dictionary<int, double>();
-        Dictionary<Connectable, List<Connectable>> parentToChildren = new Dictionary<Connectable, List<Connectable>>();
-        Dictionary<Connectable, List<Connectable>> childToParents = new Dictionary<Connectable, List<Connectable>>();
+        // 3. Assign final X and Y coordinates.
+        double maxComponentY = assignCoordinates(layers, yPositions, initialStartX, currentY, horizontalSpacing, verticalSpacing);
 
-        // Build parent-child relationships
-        foreach (var levelGroup in nodesByLevel)
-        {
-          int level = levelGroup.Key;
-          if (level > 0 && nodesByLevel.ContainsKey(level - 1))
-          {
-            foreach (Connectable parent in nodesByLevel[level - 1])
-            {
-              foreach (ConnectableConnection output in parent.Outputs)
-              {
-                Connectable child = output.End;
-                if (child == null)
-                {
-                  continue;
-                }
-                if (nodeLevels.ContainsKey(child) && nodeLevels[child] == level)
-                {
-                  // Add to parent->children mapping
-                  if (!parentToChildren.ContainsKey(parent))
-                    parentToChildren[parent] = new List<Connectable>();
-                  parentToChildren[parent].Add(child);
-
-                  // Add to child->parents mapping
-                  if (!childToParents.ContainsKey(child))
-                    childToParents[child] = new List<Connectable>();
-                  childToParents[child].Add(parent);
-                }
-              }
-            }
-          }
-        }
-
-        // Calculate width and height for each level
-        foreach (var levelGroup in nodesByLevel)
-        {
-          int level = levelGroup.Key;
-          List<Connectable> levelNodes = levelGroup.Value;
-
-          double levelWidth = levelNodes.Max(node => node.Width);
-          levelWidths[level] = levelWidth;
-
-          double levelHeight = levelNodes.Sum(node => node.Height) +
-                              (levelNodes.Count - 1) * verticalSpacing;
-          levelHeights[level] = levelHeight;
-        }
-
-        double currentLevelX = startX;
-        double maxY = startY;
-
-        // Initial placement for level 0
-        if (nodesByLevel.ContainsKey(0))
-        {
-          double currentY = startY;
-
-          // First pass: Position nodes with children
-          foreach (Connectable node in nodesByLevel[0])
-          {
-            // If node has children, place it based on where those children will likely be
-            if (parentToChildren.ContainsKey(node) && parentToChildren[node].Count > 0)
-            {
-              // We'll position it later after we know where the children are
-              continue;
-            }
-
-            // Otherwise place sequentially
-            nodeYPositions[node] = currentY;
-            currentY += node.Height + verticalSpacing;
-            maxY = Math.Max(maxY, nodeYPositions[node] + node.Height);
-          }
-        }
-
-        // For each subsequent level, place nodes based on their parents
-        int maxLevel = nodesByLevel.Keys.Count > 0 ? nodesByLevel.Keys.Max() : 0;
-        for (int level = 1; level <= maxLevel; level++)
-        {
-          if (!nodesByLevel.ContainsKey(level)) continue;
-
-          foreach (Connectable node in nodesByLevel[level])
-          {
-            if (childToParents.ContainsKey(node) && childToParents[node].Count > 0)
-            {
-              // Calculate position based on parents
-              var positionedParents = childToParents[node]
-                .Where(p => nodeYPositions.ContainsKey(p))
-                .ToList();
-
-              if (positionedParents.Any())
-              {
-                double avgParentCenter = positionedParents
-                  .Average(p => nodeYPositions[p] + p.Height / 2);
-
-                nodeYPositions[node] = avgParentCenter - node.Height / 2;
-              }
-            }
-          }
-
-          // Then, place nodes without parents at this level
-          double currentY = startY;
-          foreach (Connectable node in nodesByLevel[level])
-          {
-            if (!nodeYPositions.ContainsKey(node))
-            {
-              nodeYPositions[node] = currentY;
-              currentY += node.Height + verticalSpacing;
-            }
-          }
-
-          ResolveOverlaps(nodesByLevel[level], nodeYPositions, verticalSpacing);
-        }
-
-        // Second pass - adjust parents based on children's positions
-        for (int level = maxLevel - 1; level >= 0; level--)
-        {
-          if (!nodesByLevel.ContainsKey(level)) continue;
-
-          foreach (Connectable parent in nodesByLevel[level])
-          {
-            if (parentToChildren.ContainsKey(parent) && parentToChildren[parent].Count > 0)
-            {
-              // Calculate position based on children
-              var positionedChildren = parentToChildren[parent]
-                .Where(c => nodeYPositions.ContainsKey(c))
-                .ToList();
-
-              if (positionedChildren.Any())
-              {
-                double minChildY = positionedChildren.Min(c => nodeYPositions[c]);
-                double maxChildY = positionedChildren.Max(c => nodeYPositions[c] + c.Height);
-
-                double childrenCenter = (minChildY + maxChildY) / 2;
-                nodeYPositions[parent] = childrenCenter - parent.Height / 2;
-              }
-            }
-
-            // Handle level 0 nodes that didn't get positioned in the first pass
-            else if (level == 0 && !nodeYPositions.ContainsKey(parent))
-            {
-              double currentY = startY;
-              while (nodesByLevel[0].Any(n => nodeYPositions.ContainsKey(n) &&
-                                       nodeYPositions[n] <= currentY &&
-                                       nodeYPositions[n] + n.Height + verticalSpacing > currentY))
-              {
-                currentY += verticalSpacing;
-              }
-              nodeYPositions[parent] = currentY;
-              maxY = Math.Max(maxY, currentY + parent.Height);
-            }
-          }
-
-          ResolveOverlaps(nodesByLevel[level], nodeYPositions, verticalSpacing);
-        }
-
-        // Place the nodes at their final positions
-        for (int level = 0; level <= maxLevel; level++)
-        {
-          if (!nodesByLevel.ContainsKey(level)) continue;
-
-          double levelWidth = levelWidths[level];
-          currentLevelX = startX + level * (horizontalSpacing + levelWidth);
-
-          foreach (Connectable node in nodesByLevel[level])
-          {
-            double nodeY = nodeYPositions[node];
-            node.moveAbsolute(currentLevelX, nodeY);
-            maxY = Math.Max(maxY, nodeY + node.Height);
-          }
-        }
-
-        // Reset X position for next group and move Y position down
-        startX = initialStartX;
-        startY = maxY + groupVerticalSpacing;
+        currentY = maxComponentY + groupVerticalSpacing;
       }
 
-      foreach (Connectable node in Nodes.Concat<Connectable>(TransferUnits))
+      foreach (Connectable node in allConnectables)
       {
         node.orderConnections();
       }
     }
 
-    private void ResolveOverlaps(List<Connectable> nodes, Dictionary<Connectable, double> positions, double spacing)
+    private List<List<Connectable>> findConnectedComponents(List<Connectable> allConnectables)
     {
-      var orderedNodes = nodes.OrderBy(n => positions[n]).ToList();
+      var components = new List<List<Connectable>>();
+      var visited = new HashSet<Connectable>();
 
-      for (int i = 0; i < orderedNodes.Count - 1; i++)
+      foreach (var connectable in allConnectables)
       {
-        Connectable current = orderedNodes[i];
-        Connectable next = orderedNodes[i + 1];
-
-        double currentBottom = positions[current] + current.Height;
-        double nextTop = positions[next];
-
-        if (nextTop < currentBottom + spacing)
+        if (!visited.Contains(connectable))
         {
-          double offset = currentBottom + spacing - nextTop;
+          var component = new List<Connectable>();
+          var queue = new Queue<Connectable>();
 
-          // Push all subsequent nodes down
-          for (int j = i + 1; j < orderedNodes.Count; j++)
-          {
-            positions[orderedNodes[j]] += offset;
-          }
-        }
-      }
-    }
-
-    private void CalculateLevels(List<Connectable> nodes, Dictionary<Connectable, int> levels)
-    {
-      foreach (var node in nodes)
-      {
-        levels[node] = 0;
-      }
-
-      bool changed = true;
-      while (changed)
-      {
-        changed = false;
-        foreach (var node in nodes)
-        {
-          int currentLevel = levels[node];
-          foreach (var connection in node.Outputs)
-          {
-            var targetNode = connection.End;
-            if (nodes.Contains(targetNode) && levels[targetNode] <= currentLevel)
-            {
-              levels[targetNode] = currentLevel + 1;
-              changed = true;
-            }
-          }
-        }
-      }
-    }
-
-    private List<List<Connectable>> findConnectedComponents()
-    {
-      HashSet<Connectable> visited = new HashSet<Connectable>();
-      List<List<Connectable>> components = new List<List<Connectable>>();
-
-      foreach (NodeVM node in Nodes)
-      {
-        if (!visited.Contains(node))
-        {
-          List<Connectable> component = new List<Connectable>();
-          Queue<Connectable> queue = new Queue<Connectable>();
-          queue.Enqueue(node);
-          visited.Add(node);
+          queue.Enqueue(connectable);
+          visited.Add(connectable);
 
           while (queue.Count > 0)
           {
-            Connectable current = queue.Dequeue();
-            if (current == null)
-            {
-              continue;
-            }
+            var current = queue.Dequeue();
             component.Add(current);
 
-            // Add all unvisited neighbors (both incoming and outgoing connections)
-            foreach (ConnectableConnection output in current.Outputs)
+            var neighbors = current.Inputs.Select(c => c.Start).Concat(current.Outputs.Select(c => c.End));
+            foreach (var neighbor in neighbors)
             {
-              if (!visited.Contains(output.End))
+              if (neighbor != null && allConnectables.Contains(neighbor) && !visited.Contains(neighbor))
               {
-                visited.Add(output.End);
-                queue.Enqueue(output.End);
-              }
-            }
-            foreach (ConnectableConnection input in current.Inputs)
-            {
-              if (!visited.Contains(input.Start))
-              {
-                visited.Add(input.Start);
-                queue.Enqueue(input.Start);
+                visited.Add(neighbor);
+                queue.Enqueue(neighbor);
               }
             }
           }
@@ -882,73 +838,205 @@ namespace MyGraph.ViewModels
       return components;
     }
 
-    private List<Connectable> topologicalSortComponent(List<Connectable> component)
+    private Dictionary<int, List<Connectable>> assignLayers(List<Connectable> component)
     {
-      // Calculate in-degrees for each node
-      Dictionary<Connectable, int> inDegree = new Dictionary<Connectable, int>();
-      foreach (Connectable node in component)
+      var levels = new Dictionary<Connectable, int>();
+      foreach (var node in component)
       {
-        inDegree[node] = node.Inputs.Count;
+        levels[node] = 0;
       }
 
-      // Find nodes with no incoming edges
-      Queue<Connectable> queue = new Queue<Connectable>();
-      foreach (Connectable node in component)
+      // Using an iterative approach that is guaranteed to terminate, even with cycles.
+      // This is a simplified longest-path layering.
+      for (int i = 0; i < component.Count + 1; i++)
       {
-        if (inDegree[node] == 0)
+        bool changed = false;
+        foreach (var node in component)
         {
-          queue.Enqueue(node);
-        }
-      }
-
-      List<Connectable> sortedNodes = new List<Connectable>();
-      int visitedCount = 0;
-
-      while (queue.Count > 0)
-      {
-        Connectable current = queue.Dequeue();
-        sortedNodes.Add(current);
-        visitedCount++;
-
-        foreach (ConnectableConnection output in current.Outputs)
-        {
-          Connectable neighbor = output.End;
-          if (neighbor == null)
+          int currentLevel = levels[node];
+          foreach (var connection in node.Outputs)
           {
-            continue;
-          }
-          inDegree[neighbor]--;
-          if (inDegree[neighbor] == 0)
-          {
-            queue.Enqueue(neighbor);
+            var targetNode = connection.End;
+            if (targetNode != null && component.Contains(targetNode) && levels[targetNode] <= currentLevel)
+            {
+              levels[targetNode] = currentLevel + 1;
+              changed = true;
+            }
           }
         }
+        if (!changed) break;
       }
 
-      // If we couldn't visit all nodes, there's a cycle
-      if (visitedCount != component.Count)
+      var layers = levels.GroupBy(kv => kv.Value)
+                         .OrderBy(g => g.Key)
+                         .ToDictionary(g => g.Key, g => g.Select(kv => kv.Key).ToList());
+
+      // Re-index layers to be contiguous from 0
+      var finalLayers = new Dictionary<int, List<Connectable>>();
+      int layerIndex = 0;
+      foreach (var key in layers.Keys.OrderBy(k => k))
       {
-        return null; // Indicates a cycle was found
+        finalLayers[layerIndex++] = layers[key];
       }
 
-      return sortedNodes;
+      return finalLayers;
     }
 
-    public List<List<Connectable>> getTopologicallySortedGroups()
+    private Dictionary<Connectable, double> positionNodesVertically(Dictionary<int, List<Connectable>> layers, double verticalSpacing)
     {
-      List<List<Connectable>> result = new List<List<Connectable>>();
-      List<List<Connectable>> components = findConnectedComponents();
+      var yPositions = new Dictionary<Connectable, double>();
 
-      foreach (List<Connectable> component in components)
+      // Initial placement: center each node between its sources if possible
+      foreach (var layerIndex in layers.Keys.OrderBy(k => k))
       {
-        List<Connectable> sortedComponent = topologicalSortComponent(component);
-        if (sortedComponent != null) // Only add if no cycle was found
+        var layer = layers[layerIndex];
+
+        // For the first layer (nodes with no inputs), distribute them evenly
+        if (layerIndex == 0)
         {
-          result.Add(sortedComponent);
+          double currentY = 0;
+          foreach (var node in layer)
+          {
+            yPositions[node] = currentY;
+            currentY += node.Height + verticalSpacing;
+          }
+        }
+        else
+        {
+          // For subsequent layers, center between input nodes
+          foreach (var node in layer)
+          {
+            var inputNodes = node.Inputs.Select(c => c.Start).Where(n => n != null && yPositions.ContainsKey(n)).ToList();
+            if (inputNodes.Count > 0)
+            {
+              // Center between sources using average
+              var sourceCenters = inputNodes.Select(n => yPositions[n] + n.Height / 2).ToList();
+              double average = sourceCenters.Average();
+              yPositions[node] = average - node.Height / 2;
+            }
+            else
+            {
+              // If no sources, stack as before
+              double currentY = yPositions.Values.DefaultIfEmpty(0).Max();
+              yPositions[node] = currentY;
+            }
+          }
+
+          // After initial placement, resolve overlaps in this layer
+          var ordered = layer.OrderBy(n => yPositions[n]).ToList();
+          for (int i = 1; i < ordered.Count; i++)
+          {
+            var prev = ordered[i - 1];
+            var curr = ordered[i];
+            double minY = yPositions[prev] + prev.Height + verticalSpacing;
+            if (yPositions[curr] < minY)
+              yPositions[curr] = minY;
+          }
         }
       }
 
-      return result;
+      // Iteratively improve positions using barycenter heuristic (up and down passes)
+      for (int i = 0; i < 15; i++)
+      {
+        // Downward pass using median for robustness
+        for (int l = 1; l < layers.Count; l++)
+        {
+          updateLayerPositions(layers[l], yPositions, true);
+        }
+
+        // Upward pass using median
+        for (int l = layers.Count - 2; l >= 0; l--)
+        {
+          updateLayerPositions(layers[l], yPositions, false);
+        }
+      }
+
+      return yPositions;
+    }
+
+    private void updateLayerPositions(List<Connectable> layer, Dictionary<Connectable, double> yPositions, bool isDownwardPass)
+    {
+      foreach (var node in layer)
+      {
+        var connectedNodes = isDownwardPass
+            ? node.Inputs.Select(c => c.Start)
+            : node.Outputs.Select(c => c.End);
+
+        var validConnections = connectedNodes.Where(p => p != null && yPositions.ContainsKey(p)).ToList();
+
+        if (validConnections.Any())
+        {
+          var centerPositions = validConnections.Select(p => yPositions[p] + p.Height / 2).ToList();
+          double averagePosition = centerPositions.Average();
+          yPositions[node] = averagePosition - node.Height / 2;
+        }
+      }
+    }
+
+    private double assignCoordinates(Dictionary<int, List<Connectable>> layers, Dictionary<Connectable, double> yPositions,
+                                   double startX, double componentStartY, double horizontalSpacing, double verticalSpacing)
+    {
+      double currentX = startX;
+      double maxOverallY = componentStartY;
+
+      var levelWidths = new Dictionary<int, double>();
+      foreach (var layer in layers)
+      {
+        levelWidths[layer.Key] = layer.Value.Any() ? layer.Value.Max(n => n.Width) : 0;
+      }
+
+      // Create a mutable copy for adjustments.
+      var finalYPositions = new Dictionary<Connectable, double>(yPositions);
+
+      // Resolve overlaps layer by layer with a robust method.
+      foreach (var layer in layers.Values)
+      {
+        if (layer.Count < 2) continue;
+
+        var orderedNodes = layer.OrderBy(n => finalYPositions[n]).ToList();
+
+        for (int i = 0; i < orderedNodes.Count - 1; i++)
+        {
+          var current = orderedNodes[i];
+          var next = orderedNodes[i + 1];
+
+          double currentBottom = finalYPositions[current] + current.Height;
+          double nextTop = finalYPositions[next];
+
+          if (nextTop < currentBottom + verticalSpacing)
+          {
+            double offset = (currentBottom + verticalSpacing) - nextTop;
+            // Apply offset to all subsequent nodes in the layer to push them down.
+            for (int j = i + 1; j < orderedNodes.Count; j++)
+            {
+              finalYPositions[orderedNodes[j]] += offset;
+            }
+          }
+        }
+      }
+
+      // Find overall min Y to shift entire component to startY
+      double minComponentY = 0;
+      if (layers.Values.SelectMany(l => l).Any())
+      {
+        minComponentY = layers.Values.SelectMany(l => l).Min(n => finalYPositions.ContainsKey(n) ? finalYPositions[n] : 0);
+      }
+
+
+      foreach (var layer in layers.OrderBy(l => l.Key))
+      {
+        double layerWidth = levelWidths[layer.Key];
+        foreach (var node in layer.Value)
+        {
+          double finalY = componentStartY + (finalYPositions.ContainsKey(node) ? finalYPositions[node] : 0) - minComponentY;
+          node.moveAbsolute(currentX, finalY);
+          maxOverallY = Math.Max(maxOverallY, finalY + node.Height);
+        }
+        currentX += layerWidth + horizontalSpacing;
+      }
+
+      UpdateAllItemsVisibility();
+      return maxOverallY;
     }
 
     #endregion Methods
@@ -957,7 +1045,6 @@ namespace MyGraph.ViewModels
 
     public void MouseDown(MouseButtonEventArgs ev)
     {
-
       if (Keyboard.IsKeyDown(Key.LeftCtrl))
       {
         CurrentAction = Action.Panning;
@@ -973,6 +1060,11 @@ namespace MyGraph.ViewModels
       StartSelectRangePosition = MousePositionOnCanvas;
       CurrentAction = Action.DrawingSelect;
 
+      var unselected = CanvasItems.Where(i => !i.IsSelected).ToList();
+      NotSelectedDown = unselected.OrderBy(c => c.Position.Y).ToList();
+      NotSelectedUp = unselected.OrderByDescending(c => c.Position.Y).ToList();
+      NotSelectedLeft = unselected.OrderBy(c => c.Position.X).ToList();
+      NotSelectedRight = unselected.OrderByDescending(c => c.Position.X).ToList();
     }
 
     public void MouseLeave()
@@ -995,6 +1087,10 @@ namespace MyGraph.ViewModels
           break;
         case Action.DrawingSelect:
           CurrentAction = Action.None;
+          NotSelectedDown = null;
+          NotSelectedUp = null;
+          NotSelectedLeft = null;
+          NotSelectedRight = null;
           break;
         default:
           CurrentAction = Action.None;
@@ -1010,7 +1106,6 @@ namespace MyGraph.ViewModels
     public void MouseWheelZoom(double delta)
     {
       Point pos1 = LastMousePosition;
-      double deltaScale = delta > 0 ? 1.1 : 1 / 1.1;
       if (delta > 0 && CleanScale >= 150)
       {
         return;
@@ -1019,30 +1114,24 @@ namespace MyGraph.ViewModels
       {
         return;
       }
-      Matrix mat = CanvasTransformMatrix.Matrix;
-      mat.ScaleAt(deltaScale, deltaScale, pos1.X, pos1.Y);
-      CanvasTransformMatrix.Matrix = mat;
-      Scale *= deltaScale;
+
+      double oldScale = Scale;
       CleanScale += delta < 0 ? -5 : +5;
 
+      double newScale = Math.Pow(ScaleRate, (CleanScale - 100.0) / 5.0);
 
+      if (oldScale <= 0)
+      {
+        return;
+      }
+      double scaleCorrectionFactor = newScale / oldScale;
 
+      Matrix mat = CanvasTransformMatrix.Matrix;
+      mat.ScaleAt(scaleCorrectionFactor, scaleCorrectionFactor, pos1.X, pos1.Y);
+      CanvasTransformMatrix.Matrix = mat;
+      Scale = newScale;
+      UpdateAllItemsVisibility();
     }
-
-    double newOffset = 0.25;
-    Timer timer;
-    public void AnimateConnections()
-    {
-      timer = new Timer((o) =>
-  {
-    Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
-    {
-      GlobalAnimationOffset += -newOffset;
-    }));
-  }, null, 0, 30);
-    }
-
-
 
     #endregion
 
@@ -1066,8 +1155,18 @@ namespace MyGraph.ViewModels
       Connections = new ObservableCollection<ConnectionVM>();
       TransferUnits = new ObservableCollection<TransferUnitVM>();
 
+      CanvasItems = new ObservableCollection<CanvasItem>();
+      SelectedCanvasItems = new ObservableCollection<CanvasItem>();
+      SelectedNodes = new ObservableCollection<NodeVM>();
+      SelectedNodesOutputs = new ObservableCollection<Connectable>();
+      SelectedNodesInputs = new ObservableCollection<Connectable>();
+
+      Nodes.CollectionChanged += Items_CollectionChanged;
+      TransferUnits.CollectionChanged += Items_CollectionChanged;
+      SelectedNodes.CollectionChanged += SelectedNodes_CollectionChanged;
+
       EnableConnectionAnimations = false;
-      AnimateConnections();
+
 
       NodeVM node1 = new NodeVM("Node 1", 1);
       NodeVM node2 = new NodeVM("Node 2", 2);
@@ -1075,11 +1174,6 @@ namespace MyGraph.ViewModels
       TransferUnitVM transferUnit1 = new TransferUnitVM("Transfer Unit 1", 1);
       TransferUnitVM transferUnit2 = new TransferUnitVM("Transfer Unit 2", 2);
       TransferUnitVM transferUnit3 = new TransferUnitVM("Transfer Unit 3", 3);
-
-      node1.connect(transferUnit1);
-
-
-
 
       CanvasTransformMatrix = new MatrixTransform();
 
