@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyGraph.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:MyGraph.Models"
     xmlns:vm="clr-namespace:MyGraph.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -46,10 +47,51 @@
                     <Style TargetType="Border">
                         <Style.Triggers>
 
+                            <!--  IsPartOfSelection Trigger  -->
+                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfSelection}">
+                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSelected}" />
+                                <Setter Property="Opacity" Value="0.8" />
+                            </DataTrigger>-->
+
+                            <!--  IsPartOfHover Trigger  -->
+                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfHover}">
+                                <Setter Property="Background" Value="{DynamicResource NodeBackgroundHover}" />
+                                <Setter Property="Opacity" Value="0.8" />
+                            </DataTrigger>-->
+
+                            <!--  IsFaded Trigger  -->
+                            <DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.Faded}">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                FillBehavior="HoldEnd"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="0.35"
+                                                Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                FillBehavior="HoldEnd"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="1"
+                                                Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+
                             <!--  Mouse Hover Trigger  -->
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderHover}" />
                             </Trigger>
+
+
+
 
                             <!--  IsSelected Trigger  -->
                             <DataTrigger Binding="{Binding IsSelected}" Value="true">
@@ -58,9 +100,7 @@
                                 <Setter Property="BorderThickness" Value="2.5" />
                             </DataTrigger>
 
-                            <DataTrigger Binding="{Binding IsTransfer}" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource TransferUnitBackground}" />
-                            </DataTrigger>
+
 
                             <!--  Searched Node Trigger  -->
                             <DataTrigger Value="True">
@@ -74,6 +114,9 @@
                                 <Setter Property="Background" Value="{DynamicResource NodeBackgroundSearched}" />
                                 <Setter Property="BorderThickness" Value="3" />
                             </DataTrigger>
+
+
+
                         </Style.Triggers>
                         <Setter Property="Background" Value="{DynamicResource NodeBackground}" />
                         <Setter Property="BorderThickness" Value="1.5" />

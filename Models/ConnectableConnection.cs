@@ -9,6 +9,7 @@ namespace MyGraph.Models
     {
 
         #region Constructor
+
         public ConnectableConnection(Connectable output, Connectable input, ConnectableConnection oldConnection = null)
         {
             if (oldConnection == null)
@@ -35,6 +36,7 @@ namespace MyGraph.Models
         #endregion
 
         #region Properties
+        public VisableState VisableState { get => Get<VisableState>(); set => Set(value); }
 
         private Connectable _Start;
         public Connectable Start

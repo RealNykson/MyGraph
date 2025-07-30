@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyGraph.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:MyGraph.Models"
     xmlns:vm="clr-namespace:MyGraph.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -28,6 +29,36 @@
         behaviors:ActualSizeBehavior.ObserveActualSize="True"
         MouseEnter="MouseEnter"
         MouseLeave="MouseLeave">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.Faded}">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        FillBehavior="HoldEnd"
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="0.35"
+                                        Duration="0:0:0.1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        FillBehavior="HoldEnd"
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="1"
+                                        Duration="0:0:0.1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
 
 
         <Rectangle RadiusX="3" RadiusY="3">
@@ -38,6 +69,8 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Stroke" Value="{DynamicResource TransferUnitBorderHover}" />
                         </Trigger>
+
+
 
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
                             <Setter Property="Stroke" Value="{DynamicResource TransferUnitBorderSelected}" />

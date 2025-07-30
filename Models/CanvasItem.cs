@@ -34,6 +34,7 @@ namespace MyGraph.Models
       get => Get<bool>();
       set
       {
+
         if (!IsSelectable)
         {
           return;
@@ -44,6 +45,8 @@ namespace MyGraph.Models
         }
 
         Set(value);
+
+
 
       }
     }

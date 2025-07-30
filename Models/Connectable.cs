@@ -4,19 +4,31 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using MyGraph.Utilities;
 using MyGraph.ViewModels;
 
 namespace MyGraph.Models
 {
+    public enum VisableState
+    {
+        Normal, // This is the default state which does not affect the Connectable
+        PartOfSelection, // This state is used to indicate that the Connectable is part of the connection that is currently selected 
+        PartOfHover, // This state is used to indicate that the Connectable is part of the connection that is currently hovered over
+        Faded // This state is used to indicate that the is not part of Hover/Selection and thus should be faded out 
+    }
     public abstract class Connectable : CanvasItem
     {
+
+
+
         public Connectable()
         {
             Outputs = new ObservableCollection<ConnectableConnection>();
             Inputs = new ObservableCollection<ConnectableConnection>();
         }
 
+        public VisableState VisableState { get => Get<VisableState>(); set => Set(value); }
 
         public ObservableCollection<ConnectableConnection> Inputs
         {
@@ -223,6 +235,124 @@ namespace MyGraph.Models
         }
 
         #endregion
+
+        /// <summary>
+        /// Marks the whole reachable connection path starting from this Connectable.
+        /// Two traversals are executed:
+        ///  1. Forward  – following only outputs (or <c>nextConnection</c> for transfer units).
+        ///  2. Backward – following only inputs  (or <c>previousConnection</c> for transfer units).
+        /// The union of both reachable sets (including the starting element) is shown while every
+        /// other connectable is faded.
+        /// </summary>
+        public void markWholeConnectionPath()
+        {
+            // All connectables that exist on the canvas right now.
+            var allConnectables = Canvas.CanvasItems.OfType<Connectable>().ToList();
+
+            var visited = new HashSet<Connectable>();
+
+            // Traverse forward (outputs → … → outputs)
+            TraverseDirectional(this, GetForwardNeighbours, visited);
+            // Traverse backward (inputs  → … → inputs)
+            TraverseDirectional(this, GetBackwardNeighbours, visited);
+
+            // Ensure the start element itself is always part of the visible set.
+            visited.Add(this);
+
+            // Apply visibility.
+            foreach (var c in allConnectables)
+            {
+                c.VisableState = visited.Contains(c) ? VisableState.Normal : VisableState.Faded;
+            }
+
+            // Apply visibility to connections as well.
+            foreach (var connection in Canvas.Connections)
+            {
+                // Default: fade all connections
+                connection.VisableState = VisableState.Faded;
+
+                // If both endpoints are within the visible set, mark as normal
+                if (connection.Start != null && connection.End != null &&
+                    visited.Contains(connection.Start) && visited.Contains(connection.End))
+                {
+                    connection.VisableState = VisableState.Normal;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generic breadth-first traversal where the <paramref name="neighbourSelector"/> defines
+        /// the one-way direction (forward or backward).
+        /// </summary>
+        private static void TraverseDirectional(Connectable start,
+                                               Func<Connectable, IEnumerable<Connectable>> neighbourSelector,
+                                               HashSet<Connectable> visited)
+        {
+            if (!visited.Contains(start))
+                visited.Add(start);
+
+            var queue = new Queue<Connectable>();
+            queue.Enqueue(start);
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                foreach (var next in neighbourSelector(current))
+                {
+                    if (next != null && visited.Add(next))
+                    {
+                        queue.Enqueue(next);
+                    }
+                }
+            }
+        }
+
+        /// <summary>Immediate neighbours when traversing *forward* (outputs only).</summary>
+        private static IEnumerable<Connectable> GetForwardNeighbours(Connectable c)
+        {
+            if (c is TransferUnitVM tu)
+            {
+                foreach (var ic in tu.InternConnections)
+                {
+                    var target = ic?.nextConnection?.End;
+                    if (target != null)
+                        yield return target;
+                }
+            }
+            else
+            {
+                foreach (var conn in c.Outputs)
+                {
+                    var target = conn?.End;
+                    if (target != null)
+                        yield return target;
+                }
+            }
+        }
+
+        /// <summary>Immediate neighbours when traversing *backward* (inputs only).</summary>
+        private static IEnumerable<Connectable> GetBackwardNeighbours(Connectable c)
+        {
+            if (c is TransferUnitVM tu)
+            {
+                foreach (var ic in tu.InternConnections)
+                {
+                    var source = ic?.previousConnection?.Start;
+                    if (source != null)
+                        yield return source;
+                }
+            }
+            else
+            {
+                foreach (var conn in c.Inputs)
+                {
+                    var source = conn?.Start;
+                    if (source != null)
+                        yield return source;
+                }
+            }
+        }
+
         //Can be overridden by subclasses to implement custom connection logic
         public virtual void customConnectionLogic(ConnectableConnection connection)
         {
@@ -246,6 +376,7 @@ namespace MyGraph.Models
         #region Events
         public void MouseEnter()
         {
+            markWholeConnectionPath();
             if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput
                      && Canvas.GhostConnection.Start != this
                      && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
@@ -259,6 +390,19 @@ namespace MyGraph.Models
 
         public void MouseLeave()
         {
+            foreach (var item in Canvas.CanvasItems.Where(s => typeof(Connectable).IsAssignableFrom(s.GetType())))
+            {
+                if (item is Connectable connectable)
+                {
+                    connectable.VisableState = VisableState.Normal;
+                }
+            }
+            foreach (var item in Canvas.Connections)
+            {
+                item.VisableState = VisableState.Normal;
+            }
+
+
             if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput
               && Canvas.GhostConnection.End == this)
             {
