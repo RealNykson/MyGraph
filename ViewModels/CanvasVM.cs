@@ -389,8 +389,8 @@ namespace MyGraph.ViewModels
         return;
       }
 
-      Rect viewRect = new Rect(+100, +100, GridWidth - 200, GridHeight - 200);
-      //Rect viewRect = new Rect(-100, -100, GridWidth + 100, GridHeight + 100);
+      //Rect viewRect = new Rect(+100, +100, GridWidth - 200, GridHeight - 200);
+      Rect viewRect = new Rect(-100, -100, GridWidth + 100, GridHeight + 100);
       var matrix = CanvasTransformMatrix.Matrix;
       Point itemPosInView = new Point(matrix.Transform(item.Position).X, matrix.Transform(item.Position).Y);
       Rect itemRectInView = new Rect(itemPosInView, new Size(item.Width * Scale, item.Height * Scale));

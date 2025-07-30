@@ -265,20 +265,37 @@ namespace MyGraph.Models
                 c.VisableState = visited.Contains(c) ? VisableState.Normal : VisableState.Faded;
             }
 
-            // Apply visibility to connections as well.
+            // Apply visibility to normal graph connections.
             foreach (var connection in Canvas.Connections)
             {
-                // Default: fade all connections
                 connection.VisableState = VisableState.Faded;
 
-                // If both endpoints are within the visible set, mark as normal
                 if (connection.Start != null && connection.End != null &&
                     visited.Contains(connection.Start) && visited.Contains(connection.End))
                 {
                     connection.VisableState = VisableState.Normal;
                 }
             }
+
+            // Apply visibility to internal transfer-unit connections (InterConnectionVM).
+            foreach (var tu in Canvas.TransferUnits)
+            {
+                foreach (var inter in tu.InternConnections)
+                {
+                    inter.VisableState = VisableState.Faded;
+
+                    var prevConnectable = inter.previousConnection?.Start;
+                    var nextConnectable = inter.nextConnection?.End;
+
+                    if (prevConnectable != null && nextConnectable != null &&
+                        visited.Contains(prevConnectable) && visited.Contains(nextConnectable))
+                    {
+                        inter.VisableState = VisableState.Normal;
+                    }
+                }
+            }
         }
+
 
         /// <summary>
         /// Generic breadth-first traversal where the <paramref name="neighbourSelector"/> defines
@@ -376,7 +393,11 @@ namespace MyGraph.Models
         #region Events
         public void MouseEnter()
         {
-            markWholeConnectionPath();
+            if (Canvas.CurrentAction == ViewModels.Action.None)
+            {
+                markWholeConnectionPath();
+            }
+
             if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput
                      && Canvas.GhostConnection.Start != this
                      && !Canvas.GhostConnection.Start.isAllreadyConnectedTo(this))
@@ -394,6 +415,13 @@ namespace MyGraph.Models
             {
                 if (item is Connectable connectable)
                 {
+                    if (item is TransferUnitVM transferUnit)
+                    {
+                        foreach (var inter in transferUnit.InternConnections)
+                        {
+                            inter.VisableState = VisableState.Normal;
+                        }
+                    }
                     connectable.VisableState = VisableState.Normal;
                 }
             }
@@ -401,6 +429,7 @@ namespace MyGraph.Models
             {
                 item.VisableState = VisableState.Normal;
             }
+
 
 
             if (Canvas.CurrentAction == ViewModels.Action.ConnectingOutput

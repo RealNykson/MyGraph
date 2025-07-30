@@ -36,7 +36,6 @@ namespace MyGraph.Models
         #endregion
 
         #region Properties
-        public VisableState VisableState { get => Get<VisableState>(); set => Set(value); }
 
         private Connectable _Start;
         public Connectable Start

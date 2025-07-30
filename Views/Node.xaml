@@ -45,21 +45,8 @@
                 MouseRightButtonDown="Border_MouseRightButtonDown">
                 <Border.Style>
                     <Style TargetType="Border">
+
                         <Style.Triggers>
-
-                            <!--  IsPartOfSelection Trigger  -->
-                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfSelection}">
-                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSelected}" />
-                                <Setter Property="Opacity" Value="0.8" />
-                            </DataTrigger>-->
-
-                            <!--  IsPartOfHover Trigger  -->
-                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfHover}">
-                                <Setter Property="Background" Value="{DynamicResource NodeBackgroundHover}" />
-                                <Setter Property="Opacity" Value="0.8" />
-                            </DataTrigger>-->
-
-                            <!--  IsFaded Trigger  -->
                             <DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.Faded}">
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard>
@@ -67,7 +54,7 @@
                                             <DoubleAnimation
                                                 FillBehavior="HoldEnd"
                                                 Storyboard.TargetProperty="Opacity"
-                                                To="0.35"
+                                                To="0.25"
                                                 Duration="0:0:0.1" />
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -84,6 +71,19 @@
                                     </BeginStoryboard>
                                 </DataTrigger.ExitActions>
                             </DataTrigger>
+
+                            <!--  IsPartOfSelection Trigger  -->
+                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfSelection}">
+                                <Setter Property="BorderBrush" Value="{DynamicResource NodeBorderSelected}" />
+                                <Setter Property="Opacity" Value="0.8" />
+                            </DataTrigger>-->
+
+                            <!--  IsPartOfHover Trigger  -->
+                            <!--<DataTrigger Binding="{Binding VisableState}" Value="{x:Static models:VisableState.PartOfHover}">
+                                <Setter Property="Background" Value="{DynamicResource NodeBackgroundHover}" />
+                                <Setter Property="Opacity" Value="0.8" />
+                            </DataTrigger>-->
+
 
                             <!--  Mouse Hover Trigger  -->
                             <Trigger Property="IsMouseOver" Value="true">
@@ -170,7 +170,7 @@
                             FontSize="18"
                             FontWeight="Medium"
                             Foreground="{DynamicResource NodeText}"
-                            Text="{Binding Id}" />
+                            Text="{Binding Name}" />
                     </Grid>
 
                     <!--  Outputs  -->

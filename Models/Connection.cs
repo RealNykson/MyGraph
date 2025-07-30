@@ -24,6 +24,7 @@ namespace MyGraph.Models
     public CanvasVM Canvas;
     public double MarginStrength = 125;
 
+    public VisableState VisableState { get => Get<VisableState>(); set => Set(value); }
 
     public Point startPos
     {

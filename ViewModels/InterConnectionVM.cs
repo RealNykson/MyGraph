@@ -8,6 +8,7 @@ namespace MyGraph.ViewModels
         public ConnectableConnection previousConnection { get; set; }
         public ConnectableConnection nextConnection { get; set; }
 
+
         public InterConnectionVM(ConnectableConnection previous, ConnectableConnection next)
         {
             previousConnection = previous;
@@ -25,7 +26,7 @@ namespace MyGraph.ViewModels
                 if (e.PropertyName == nameof(ConnectableConnection.AbsoluteStart))
                     updateEndPos();
             };
-      
+
         }
         public void updateStartPos()
         {

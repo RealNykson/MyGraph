@@ -58,7 +58,7 @@
                                         <DoubleAnimation
                                             FillBehavior="HoldEnd"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="0.35"
+                                            To="0.25"
                                             Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
