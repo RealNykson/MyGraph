@@ -1,0 +1,3 @@
+- Add new Sidebar
+- Implement styling for new ui
+- Complete figma layout

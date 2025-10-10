@@ -16,10 +16,19 @@ namespace MyGraph.ViewModels
 {
   public class MenuVM : NotifyObject
   {
+
+
+
+
+
     #region Properties
     private static ResourceDictionary lightTheme;
     private static ResourceDictionary darkTheme;
     private ResourceDictionary currentTheme;
+
+
+
+
 
     public CanvasVM Canvas
     {
@@ -31,7 +40,7 @@ namespace MyGraph.ViewModels
       get => Get<bool>();
       set
       {
-        Set(value);
+        Set(value); // Rework search this is really slow
         SearchedNodes = new ObservableCollection<NodeVM>(Canvas.Nodes.OrderBy(n => n.Name));
         if (!value)
         {

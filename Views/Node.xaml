@@ -43,6 +43,7 @@
                 CornerRadius="3"
                 MouseDown="Grid_MouseDown"
                 MouseRightButtonDown="Border_MouseRightButtonDown">
+		//Do no longer use the old border it will not work
                 <Border.Style>
                     <Style TargetType="Border">
 
